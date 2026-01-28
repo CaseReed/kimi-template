@@ -226,6 +226,30 @@ If you discover the project uses a different version than documented:
 
 ---
 
+## ⚠️ Critical Rules
+
+### NEVER Commit or Push Without User Permission
+
+> **🛑 BEFORE ANY `git commit` or `git push`:**
+> 
+> **ALWAYS ask user for explicit confirmation**
+> 
+> Example: *"I'm ready to commit these changes. Should I proceed with committing and pushing?"*
+
+This rule protects against:
+- Unintended commits with errors or debug code
+- Pushing breaking changes to production
+- Committing sensitive data accidentally
+- Force pushes that could lose work
+
+**Applies to ALL git operations:**
+- `git commit`
+- `git push` (including `--force`, `--force-with-lease`)
+- `git rebase` that modifies shared history
+- Any automated commit/push via scripts
+
+---
+
 ## 🎯 Checklist for AI Assistant
 
 Before implementing a feature:

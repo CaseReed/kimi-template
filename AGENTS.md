@@ -18,6 +18,29 @@ This is a **Next.js 16** web application using the **App Router** architecture. 
 > 
 > Never sign commits as AI. Use the user's git identity.
 
+### Critical Rules
+
+#### 🛑 NEVER Commit or Push Without Explicit User Permission
+
+**ALWAYS ask for user confirmation before:**
+- `git commit` — Any commit operation
+- `git push` — Any push operation (including `--force`, `--force-with-lease`)
+- `git rebase` — When modifying shared history
+- Automated commits via scripts or hooks
+
+**Required confirmation format:**
+```
+"I'm ready to commit these changes. Should I proceed with committing and pushing?"
+```
+
+**Why this rule matters:**
+- Prevents unintended commits with errors or debug code
+- Protects against pushing breaking changes
+- Avoids accidental commits of sensitive data
+- Respects user's control over their repository
+
+**Exception:** None. Always ask first.
+
 ### Technology Stack
 
 | Technology | Version | Purpose |
