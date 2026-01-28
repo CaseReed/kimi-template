@@ -283,7 +283,7 @@ export async function GET() {
 
 ## Kimi Skills Reference
 
-This project has **16 specialized skills** in `.agents/skills/` to help with development tasks:
+This project has **17 specialized skills** in `.agents/skills/` to help with development tasks:
 
 ### Planning & Coordination
 
@@ -310,6 +310,7 @@ This project has **16 specialized skills** in `.agents/skills/` to help with dev
 | `/skill:component-generator` | Component boilerplate | Generating new components |
 | `/skill:migration-refactor` | Safe refactoring patterns | Refactoring existing code |
 | `/skill:git-workflow` | Git best practices: commits, branches, PRs | Any git operations |
+| `/skill:source-of-truth` | **Official documentation reference** | When stuck, in doubt, or adding deps |
 | `/skill:post-review` | **Post-implementation code review** | **After EVERY feature implementation** |
 
 ### Development Workflow

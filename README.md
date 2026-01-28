@@ -10,7 +10,7 @@ This project is a **demo/template specifically designed for Kimi k2.5**, showcas
 
 - 🤖 **Optimal integration with Kimi k2.5** via a structured skill system
 - 🏗️ **A modern tech stack** (Next.js 16, React 19, Tailwind CSS 4)
-- 📚 **16 specialized skills** to accelerate development
+- 📚 **17 specialized skills** to accelerate development
 - 🎯 **Patterns and best practices** validated for React 19 and Next.js App Router
 
 ---
@@ -39,7 +39,7 @@ This project is a **demo/template specifically designed for Kimi k2.5**, showcas
 
 ## 🎓 Kimi Skills (15 Specializations)
 
-The project includes **16 specialized skills** in `.agents/skills/` to guide Kimi k2.5:
+The project includes **17 specialized skills** in `.agents/skills/` to guide Kimi k2.5:
 
 ### 🎯 Planning & Architecture
 | Skill | Description |
@@ -76,6 +76,7 @@ The project includes **16 specialized skills** in `.agents/skills/` to guide Kim
 | [`accessibility-a11y`](.agents/skills/accessibility-a11y/SKILL.md) | Web accessibility (a11y) |
 | [`security-best-practices`](.agents/skills/security-best-practices/SKILL.md) | Security best practices |
 | [`git-workflow`](.agents/skills/git-workflow/SKILL.md) | Git best practices (commits, branches, PRs) |
+| [`source-of-truth`](.agents/skills/source-of-truth/SKILL.md) | Official documentation reference |
 | [`migration-refactor`](.agents/skills/migration-refactor/SKILL.md) | Refactoring and migrations |
 
 ---
