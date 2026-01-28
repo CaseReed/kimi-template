@@ -1,90 +1,90 @@
 # 🚀 Kimi k2.5 Template
 
-> **Template de démonstration pour Kimi k2.5** — Un projet Next.js 16 moderne optimisé pour le développement assisté par IA avec une collection complète de skills spécialisés.
+> **Demo template for Kimi k2.5** — A modern Next.js 16 project optimized for AI-assisted development with a comprehensive collection of specialized skills.
 
 ---
 
-## ✨ À propos
+## ✨ About
 
-Ce projet est une **démo/template conçue spécifiquement pour Kimi k2.5**, mettant en avant :
+This project is a **demo/template specifically designed for Kimi k2.5**, showcasing:
 
-- 🤖 **L'intégration optimale avec Kimi k2.5** via un système de skills structuré
-- 🏗️ **Une stack technique moderne** (Next.js 16, React 19, Tailwind CSS 4)
-- 📚 **15 skills spécialisés** pour accélérer le développement
-- 🎯 **Des patterns et bonnes pratiques** validés pour React 19 et Next.js App Router
-
----
-
-## 🛠️ Stack Technique
-
-| Technologie | Version | Description |
-|-------------|---------|-------------|
-| **Next.js** | 16.1.6 | Framework React avec App Router |
-| **React** | 19.2.3 | UI library avec Server Components |
-| **TypeScript** | 5.9.3 | Typage strict et sécurisé |
-| **Tailwind CSS** | 4.1.18 | Utility-first CSS avec `@theme` |
-| **Geist Font** | latest | Police Vercel (Sans + Mono) |
-| **pnpm** | - | Package manager rapide |
-
-### Librairies UI & Data
-
-- **[shadcn/ui](https://ui.shadcn.com)** — Composants Radix UI + Tailwind
-- **[TanStack Query](https://tanstack.com/query)** — Data fetching et caching
-- **[Motion (Framer Motion)](https://motion.dev)** — Animations React
-- **[Zustand](https://github.com/pmndrs/zustand)** — State management léger
-- **[Recharts](https://recharts.org)** — Visualisation de données
-- **[Zod](https://zod.dev)** — Validation de schémas TypeScript
+- 🤖 **Optimal integration with Kimi k2.5** via a structured skill system
+- 🏗️ **A modern tech stack** (Next.js 16, React 19, Tailwind CSS 4)
+- 📚 **15 specialized skills** to accelerate development
+- 🎯 **Patterns and best practices** validated for React 19 and Next.js App Router
 
 ---
 
-## 🎓 Skills Kimi (15 spécialisations)
+## 🛠️ Tech Stack
 
-Le projet inclut **15 skills spécialisés** dans `.agents/skills/` pour guider Kimi k2.5 :
+| Technology | Version | Description |
+|------------|---------|-------------|
+| **Next.js** | 16.1.6 | React framework with App Router |
+| **React** | 19.2.3 | UI library with Server Components |
+| **TypeScript** | 5.9.3 | Strict type safety |
+| **Tailwind CSS** | 4.1.18 | Utility-first CSS with `@theme` |
+| **Geist Font** | latest | Vercel font family (Sans + Mono) |
+| **pnpm** | - | Fast package manager |
 
-### 🎯 Planification & Architecture
+### UI & Data Libraries
+
+- **[shadcn/ui](https://ui.shadcn.com)** — Radix UI components + Tailwind
+- **[TanStack Query](https://tanstack.com/query)** — Data fetching and caching
+- **[Motion (Framer Motion)](https://motion.dev)** — React animations
+- **[Zustand](https://github.com/pmndrs/zustand)** — Lightweight state management
+- **[Recharts](https://recharts.org)** — Data visualization
+- **[Zod](https://zod.dev)** — TypeScript schema validation
+
+---
+
+## 🎓 Kimi Skills (15 Specializations)
+
+The project includes **15 specialized skills** in `.agents/skills/` to guide Kimi k2.5:
+
+### 🎯 Planning & Architecture
 | Skill | Description |
 |-------|-------------|
-| [`plan-master`](.agents/skills/plan-master/SKILL.md) | Méthodologie de planification systématique |
-| [`subagent-tasker`](.agents/skills/subagent-tasker/SKILL.md) | Best practices pour les tâches parallèles |
-| [`post-review`](.agents/skills/post-review/SKILL.md) | Revue de code systématique post-implémentation |
+| [`plan-master`](.agents/skills/plan-master/SKILL.md) | Systematic planning methodology |
+| [`subagent-tasker`](.agents/skills/subagent-tasker/SKILL.md) | Best practices for parallel tasks |
+| [`post-review`](.agents/skills/post-review/SKILL.md) | Systematic post-implementation code review |
 
-### 🏗️ Développement Frontend
+### 🏗️ Frontend Development
 | Skill | Description |
 |-------|-------------|
-| [`nextjs-16-tailwind-4`](.agents/skills/nextjs-16-tailwind-4/SKILL.md) | Patterns Next.js 16 + Tailwind 4 + React 19 |
-| [`shadcn-ui`](.agents/skills/shadcn-ui/SKILL.md) | Composants shadcn/ui et Charts |
-| [`motion-animations`](.agents/skills/motion-animations/SKILL.md) | Animations Motion (Framer Motion) |
-| [`component-generator`](.agents/skills/component-generator/SKILL.md) | Générateur de composants React |
+| [`nextjs-16-tailwind-4`](.agents/skills/nextjs-16-tailwind-4/SKILL.md) | Next.js 16 + Tailwind 4 + React 19 patterns |
+| [`shadcn-ui`](.agents/skills/shadcn-ui/SKILL.md) | shadcn/ui components and Charts |
+| [`motion-animations`](.agents/skills/motion-animations/SKILL.md) | Motion (Framer Motion) animations |
+| [`component-generator`](.agents/skills/component-generator/SKILL.md) | React component generator |
 
 ### 🔄 Data & State Management
 | Skill | Description |
 |-------|-------------|
-| [`tanstack-query`](.agents/skills/tanstack-query/SKILL.md) | Data fetching avec TanStack Query |
-| [`zustand-state`](.agents/skills/zustand-state/SKILL.md) | State management avec Zustand |
-| [`forms-master`](.agents/skills/forms-master/SKILL.md) | Formulaires React 19 + Zod + Server Actions |
-| [`react-custom-hooks`](.agents/skills/react-custom-hooks/SKILL.md) | Custom hooks React |
+| [`tanstack-query`](.agents/skills/tanstack-query/SKILL.md) | Data fetching with TanStack Query |
+| [`zustand-state`](.agents/skills/zustand-state/SKILL.md) | State management with Zustand |
+| [`forms-master`](.agents/skills/forms-master/SKILL.md) | React 19 forms + Zod + Server Actions |
+| [`react-custom-hooks`](.agents/skills/react-custom-hooks/SKILL.md) | Custom React hooks |
 
 ### 🔧 Backend & API
 | Skill | Description |
 |-------|-------------|
 | [`next-api-routes`](.agents/skills/next-api-routes/SKILL.md) | API Routes & Server Actions |
 
-### ✅ Qualité & Sécurité
+### ✅ Quality & Security
 | Skill | Description |
 |-------|-------------|
-| [`testing-vitest`](.agents/skills/testing-vitest/SKILL.md) | Tests avec Vitest + React Testing Library |
-| [`accessibility-a11y`](.agents/skills/accessibility-a11y/SKILL.md) | Accessibilité web (a11y) |
-| [`security-best-practices`](.agents/skills/security-best-practices/SKILL.md) | Bonnes pratiques de sécurité |
-| [`migration-refactor`](.agents/skills/migration-refactor/SKILL.md) | Refactoring et migrations |
+| [`testing-vitest`](.agents/skills/testing-vitest/SKILL.md) | Testing with Vitest + React Testing Library |
+| [`accessibility-a11y`](.agents/skills/accessibility-a11y/SKILL.md) | Web accessibility (a11y) |
+| [`security-best-practices`](.agents/skills/security-best-practices/SKILL.md) | Security best practices |
+| [`migration-refactor`](.agents/skills/migration-refactor/SKILL.md) | Refactoring and migrations |
 
 ---
 
-## 📁 Structure du Projet
+## 📁 Project Structure
 
 ```
 my-app/
 ├── .agents/
-│   └── skills/                 # 🎓 Skills Kimi (15 spécialisations)
+│   └── skills/                 # 🎓 Kimi Skills (15 specializations)
 │       ├── SKILL_AUDIT_MASTER.md
 │       ├── plan-master/
 │       ├── nextjs-16-tailwind-4/
@@ -95,141 +95,141 @@ my-app/
 │
 ├── src/
 │   ├── app/                    # 📱 Next.js App Router
-│   │   ├── layout.tsx          # Root layout avec fonts & metadata
-│   │   ├── page.tsx            # Page d'accueil
-│   │   ├── dashboard/          # Exemple: Dashboard page
+│   │   ├── layout.tsx          # Root layout with fonts & metadata
+│   │   ├── page.tsx            # Home page
+│   │   ├── dashboard/          # Example: Dashboard page
 │   │   │   └── page.tsx
-│   │   ├── globals.css         # Styles globaux + Tailwind theme
+│   │   ├── globals.css         # Global styles + Tailwind theme
 │   │   └── favicon.ico
 │   │
-│   ├── components/             # 🧩 Composants React
-│   │   ├── ui/                 # Composants shadcn/ui
+│   ├── components/             # 🧩 React Components
+│   │   ├── ui/                 # shadcn/ui components
 │   │   │   ├── button.tsx
 │   │   │   ├── card.tsx
 │   │   │   ├── chart.tsx
 │   │   │   └── ...
-│   │   ├── animations/         # Composants d'animation Motion
+│   │   ├── animations/         # Motion animation components
 │   │   │   ├── fade-in.tsx
 │   │   │   ├── card-hover.tsx
 │   │   │   └── ...
-│   │   ├── dashboard/          # Composants métier Dashboard
+│   │   ├── dashboard/          # Dashboard business components
 │   │   │   ├── stats-grid.tsx
 │   │   │   ├── revenue-chart.tsx
 │   │   │   └── ...
-│   │   └── providers/          # Providers React
+│   │   └── providers/          # React Providers
 │   │       └── query-provider.tsx
 │   │
 │   ├── hooks/                  # 🎣 Custom hooks
 │   │   └── use-dashboard.ts
 │   │
-│   └── lib/                    # 📚 Utilitaires et config
-│       ├── utils.ts            # Fonctions utilitaires (cn, etc.)
-│       ├── query-client.ts     # Config TanStack Query
-│       ├── query-keys.ts       # Clés de requête
+│   └── lib/                    # 📚 Utilities and config
+│       ├── utils.ts            # Utility functions (cn, etc.)
+│       ├── query-client.ts     # TanStack Query config
+│       ├── query-keys.ts       # Query keys
 │       ├── api/                # API clients
 │       │   └── dashboard.ts
-│       └── types/              # Types TypeScript
+│       └── types/              # TypeScript types
 │           └── dashboard.ts
 │
-├── public/                     # 📦 Assets statiques
-├── package.json                # Dépendances
-├── next.config.ts              # Config Next.js
-├── tsconfig.json               # Config TypeScript
-├── eslint.config.mjs           # Config ESLint
-└── AGENTS.md                   # 📖 Documentation agent complète
+├── public/                     # 📦 Static assets
+├── package.json                # Dependencies
+├── next.config.ts              # Next.js config
+├── tsconfig.json               # TypeScript config
+├── eslint.config.mjs           # ESLint config
+└── AGENTS.md                   # 📖 Complete agent documentation
 ```
 
 ---
 
-## 🚀 Démarrage Rapide
+## 🚀 Quick Start
 
-### Prérequis
+### Prerequisites
 
 - Node.js 20+
-- pnpm (recommandé)
+- pnpm (recommended)
 
 ### Installation
 
 ```bash
-# Cloner le repo
+# Clone the repo
 git clone https://github.com/CaseReed/kimi-template.git
 cd kimi-template
 
-# Installer les dépendances
+# Install dependencies
 pnpm install
 
-# Lancer le serveur de développement
+# Start the development server
 pnpm dev
 ```
 
-Ouvrir [http://localhost:3000](http://localhost:3000) pour voir le résultat.
+Open [http://localhost:3000](http://localhost:3000) to see the result.
 
-### Scripts disponibles
+### Available Scripts
 
 ```bash
-pnpm dev          # Serveur de développement
-pnpm build        # Build de production
-pnpm start        # Démarrer le serveur de production
-pnpm lint         # Linter ESLint
-pnpm clean        # Nettoyage complet (node_modules, .next, etc.)
+pnpm dev          # Development server
+pnpm build        # Production build
+pnpm start        # Start production server
+pnpm lint         # ESLint
+pnpm clean        # Full cleanup (node_modules, .next, etc.)
 ```
 
 ---
 
-## 🎨 Exemple : Dashboard Inclus
+## 🎨 Example: Included Dashboard
 
-Le projet inclut une **page Dashboard complète** (`/dashboard`) démontrant :
+The project includes a **complete Dashboard page** (`/dashboard`) demonstrating:
 
-- 📊 **Graphiques** avec Recharts (revenus, catégories)
-- 📈 **Statistiques** avec animations Motion
-- 📋 **Tableau de transactions** avec pagination
-- 🔄 **Data fetching** avec TanStack Query
-- 🎯 **Optimistic UI** avec React 19
+- 📊 **Charts** with Recharts (revenue, categories)
+- 📈 **Statistics** with Motion animations
+- 📋 **Transaction table** with pagination
+- 🔄 **Data fetching** with TanStack Query
+- 🎯 **Optimistic UI** with React 19
 
-Parfait pour comprendre comment les skills s'intègrent dans un cas réel !
+Perfect for understanding how skills integrate in a real-world case!
 
 ---
 
-## 📝 Comment utiliser les Skills
+## 📝 How to Use Skills
 
-Dans Kimi k2.5, utilise les skills avec la syntaxe `/skill:nom-du-skill` :
+In Kimi k2.5, use skills with the `/skill:skill-name` syntax:
 
 ```
-# Exemples:
-/skill:plan-master          # Pour planifier une feature complexe
-/skill:component-generator  # Pour générer un nouveau composant
-/skill:shadcn-ui           # Pour ajouter des composants UI
-/skill:tanstack-query      # Pour implémenter du data fetching
-/skill:forms-master        # Pour créer un formulaire
-/skill:post-review         # Pour revoir le code après implémentation
+# Examples:
+/skill:plan-master          # To plan a complex feature
+/skill:component-generator  # To generate a new component
+/skill:shadcn-ui           # To add UI components
+/skill:tanstack-query      # To implement data fetching
+/skill:forms-master        # To create a form
+/skill:post-review         # To review code after implementation
 ```
 
-> 💡 **Golden Rule** : Toujours finir par `/skill:post-review` avant de marquer une feature comme terminée !
+> 💡 **Golden Rule**: Always end with `/skill:post-review` before marking a feature as complete!
 
 ---
 
 ## 📖 Documentation
 
-- **[AGENTS.md](AGENTS.md)** — Documentation complète du projet pour les agents
-- **[SKILL_AUDIT_MASTER.md](.agents/skills/SKILL_AUDIT_MASTER.md)** — Audit et statut des skills
-- **Skills individuels** — Voir `.agents/skills/<skill-name>/SKILL.md`
+- **[AGENTS.md](AGENTS.md)** — Complete project documentation for agents
+- **[SKILL_AUDIT_MASTER.md](.agents/skills/SKILL_AUDIT_MASTER.md)** — Skills audit and status
+- **Individual skills** — See `.agents/skills/<skill-name>/SKILL.md`
 
 ---
 
-## 🔐 Sécurité
+## 🔐 Security
 
-- Environment variables : utiliser `.env.local` (jamais commité)
-- Seules les variables `NEXT_PUBLIC_*` sont exposées au client
-- ESLint inclut les règles de sécurité React et Next.js
+- Environment variables: use `.env.local` (never committed)
+- Only `NEXT_PUBLIC_*` variables are exposed to the client
+- ESLint includes React and Next.js security rules
 
 ---
 
 ## 📄 License
 
-MIT — Libre d'utilisation pour vos propres projets.
+MIT — Free to use for your own projects.
 
 ---
 
 <p align="center">
-  Conçu avec ❤️ pour <strong>Kimi k2.5</strong>
+  Built with ❤️ for <strong>Kimi k2.5</strong>
 </p>

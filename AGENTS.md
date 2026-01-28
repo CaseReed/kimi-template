@@ -2,7 +2,21 @@
 
 ## Project Overview
 
-This is a **Next.js 16** web application using the **App Router** architecture. It's a modern React application with TypeScript and Tailwind CSS v4, created using `create-next-app`. The project uses French as the primary language for UI content and documentation.
+This is a **Next.js 16** web application using the **App Router** architecture. It's a modern React application with TypeScript and Tailwind CSS v4, created using `create-next-app`.
+
+### Language Convention
+
+> ⚠️ **Important Language Rule**:
+> - **CLI Conversations**: French only (between you and me via Kimi CLI)
+> - **All Other Content**: English only
+>   - Code comments
+>   - Documentation (README, AGENTS.md, etc.)
+>   - Commit messages
+>   - UI content and labels
+>   - Skills documentation
+>   - Any text in the codebase
+> 
+> Never sign commits as AI. Use the user's git identity.
 
 ### Technology Stack
 
@@ -236,9 +250,10 @@ CMD ["pnpm", "start"]
 
 ### Language Convention
 
-- **UI Content**: French (e.g., "Installation réussie !")
-- **Code Comments**: Mixed English/French
-- **Documentation**: English (this file)
+See [Language Convention](#language-convention) in Project Overview above.
+
+- **CLI Conversations**: French only
+- **Everything else**: English only (UI, docs, comments, commits)
 
 ### Common Tasks
 
@@ -246,7 +261,7 @@ CMD ["pnpm", "start"]
 ```bash
 # Create src/app/about/page.tsx
 export default function AboutPage() {
-  return <div>À propos</div>;
+  return <div>About</div>;
 }
 ```
 
@@ -260,7 +275,7 @@ export default function AboutPage() {
 ```bash
 # Create src/app/api/hello/route.ts
 export async function GET() {
-  return Response.json({ message: "Bonjour!" });
+  return Response.json({ message: "Hello!" });
 }
 ```
 
