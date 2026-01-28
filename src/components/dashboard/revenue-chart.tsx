@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { useLocale, useTranslations } from "next-intl";
 import {
   Area,
   AreaChart,
@@ -26,30 +27,32 @@ import { FadeIn } from "@/components/animations/fade-in";
 import { fetchRevenue } from "@/lib/api/dashboard";
 import { queryKeys } from "@/lib/query-keys";
 
-const chartConfig = {
-  revenue: {
-    label: "Revenus",
-    color: "hsl(var(--chart-1))",
-  },
-  target: {
-    label: "Objectif",
-    color: "hsl(var(--chart-2))",
-  },
-} satisfies ChartConfig;
-
-function formatCurrency(value: number): string {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: "EUR",
-    maximumFractionDigits: 0,
-  }).format(value);
-}
-
 export function RevenueChart() {
+  const t = useTranslations("dashboard.charts.revenue");
+  const locale = useLocale();
   const { data, isLoading, error } = useQuery({
     queryKey: queryKeys.dashboard.revenue(),
     queryFn: fetchRevenue,
   });
+
+  const chartConfig = {
+    revenue: {
+      label: t("title"),
+      color: "hsl(var(--chart-1))",
+    },
+    target: {
+      label: t("target"),
+      color: "hsl(var(--chart-2))",
+    },
+  } satisfies ChartConfig;
+
+  function formatCurrency(value: number): string {
+    return new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US", {
+      style: "currency",
+      currency: "EUR",
+      maximumFractionDigits: 0,
+    }).format(value);
+  }
 
   if (isLoading) {
     return (
@@ -72,14 +75,14 @@ export function RevenueChart() {
       <FadeIn delay={0.1}>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle>Revenus</CardTitle>
+            <CardTitle>{t("title")}</CardTitle>
             <CardDescription>
-              Évolution mensuelle des revenus vs objectifs
+              {t("description")}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex min-h-[200px] items-center justify-center text-sm text-muted-foreground">
-              Une erreur est survenue lors du chargement des données.
+              {t("loadingError")}
             </div>
           </CardContent>
         </Card>
@@ -91,9 +94,9 @@ export function RevenueChart() {
     <FadeIn delay={0.1}>
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle>Revenus</CardTitle>
+          <CardTitle>{t("title")}</CardTitle>
           <CardDescription>
-            Évolution mensuelle des revenus vs objectifs
+            {t("description")}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -119,7 +122,7 @@ export function RevenueChart() {
                 axisLine={false}
                 tickMargin={8}
                 tickFormatter={(value) =>
-                  new Intl.NumberFormat("fr-FR", {
+                  new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US", {
                     notation: "compact",
                     compactDisplay: "short",
                     style: "currency",

@@ -58,7 +58,7 @@ const generateMockTransactions = (count: number): Transaction[] => {
 };
 
 // Transactions stockées en mémoire pour permettre les mutations
-let mockTransactionsStore: Transaction[] = generateMockTransactions(50);
+const mockTransactionsStore: Transaction[] = generateMockTransactions(50);
 
 /**
  * Récupère les statistiques du dashboard

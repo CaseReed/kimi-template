@@ -48,6 +48,12 @@ This skill serves as the **single source of truth** for all official documentati
 | **TanStack Query** | https://tanstack.com/query/latest/docs | v5 | React Query, caching |
 | **Zustand** | https://docs.pmnd.rs/zustand | v5 | Lightweight state |
 
+### Internationalization (i18n)
+
+| Technology | Official Docs | Version | Notes |
+|------------|--------------|---------|-------|
+| **next-intl** | https://next-intl.dev | v4 | Next.js i18n with App Router (ICU syntax: `{var}` not `{{var}}`)
+
 ### Animation
 
 | Technology | Official Docs | Version | Notes |
@@ -223,6 +229,8 @@ If you discover the project uses a different version than documented:
 | git-workflow | `.agents/skills/git-workflow/SKILL.md` |
 | post-review | `.agents/skills/post-review/SKILL.md` |
 | **source-of-truth** | `.agents/skills/source-of-truth/SKILL.md` |
+| **next-intl-i18n** | `.agents/skills/next-intl-i18n/SKILL.md` |
+| **skill-creator** | `.agents/skills/skill-creator/SKILL.md` |
 
 ---
 

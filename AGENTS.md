@@ -306,7 +306,7 @@ export async function GET() {
 
 ## Kimi Skills Reference
 
-This project has **17 specialized skills** in `.agents/skills/` to help with development tasks:
+This project has **19 specialized skills** in `.agents/skills/` to help with development tasks:
 
 ### Planning & Coordination
 
@@ -314,6 +314,7 @@ This project has **17 specialized skills** in `.agents/skills/` to help with dev
 |-------|---------|-------------|
 | `/skill:plan-master` | Systematic planning methodology | Before starting complex features |
 | `/skill:subagent-tasker` | Best practices for subagent tasks | When decomposing work into parallel tasks |
+| `/skill:skill-creator` | **Mandatory process for creating skills** | **ALWAYS use before creating any skill** |
 
 ### Technical Skills
 
@@ -321,6 +322,7 @@ This project has **17 specialized skills** in `.agents/skills/` to help with dev
 |-------|---------|-------------|
 | `/skill:nextjs-16-tailwind-4` | Next.js 16 + Tailwind 4 + React 19 patterns | Any UI/component work |
 | `/skill:shadcn-ui` | shadcn/ui components + Charts (recharts) | UI components, dashboards, data viz |
+| `/skill:next-intl-i18n` | next-intl internationalization (i18n) | Multi-language apps, translations |
 | `/skill:motion-animations` | Motion (Framer Motion) animations | Page transitions, gestures, scroll effects |
 | `/skill:tanstack-query` | TanStack Query for data fetching | Client-side data, caching, mutations |
 | `/skill:next-api-routes` | API Routes & Server Actions | Creating endpoints or actions |
@@ -444,6 +446,168 @@ Always provide a `key` prop when using AnimatePresence:
     </motion.div>
   )}
 </AnimatePresence>
+```
+
+---
+
+## Lessons Learned from i18n Implementation
+
+### next-intl ICU MessageFormat Syntax
+
+**⚠️ CRITICAL**: next-intl uses ICU MessageFormat with **single braces**, NOT double braces:
+
+```json
+// ❌ WRONG - Double braces
+{
+  "greeting": "Hello {{name}}",
+  "stats": "Page {{current}} of {{total}}"
+}
+
+// ✅ CORRECT - Single braces  
+{
+  "greeting": "Hello {name}",
+  "stats": "Page {current} of {total}"
+}
+```
+
+**Common Error:**
+```
+INVALID_MESSAGE: MALFORMED_ARGUMENT (Positive trend of {{value}}%)
+```
+
+**Usage in components:**
+```tsx
+const t = useTranslations('dashboard');
+
+// ❌ Won't work with double braces in JSON
+t('trendPositive', { value: formattedChange });
+
+// ✅ Works with single braces in JSON
+// JSON: "trendPositive": "Positive trend of {value}%"
+```
+
+### next-intl Hook Rules
+
+Always use the correct hooks from next-intl:
+- **`useLocale()`** - To get current locale (not `useTranslations('language')`)
+- **`useTranslations(namespace)`** - For translations
+- **`useRouter()` from `@/i18n/routing`** - For locale-aware navigation
+
+```tsx
+// ❌ WRONG - Hacky way to detect locale
+const locale = useTranslations('language.switcher');
+const currentLocale = locale('en') === 'Anglais' ? 'fr' : 'en';
+
+// ✅ CORRECT - Use dedicated hook
+const currentLocale = useLocale();
+```
+
+### Locale-Aware Formatting
+
+Always use dynamic locale for `Intl` formatters to avoid hydration mismatches:
+
+```tsx
+// ❌ WRONG - Hardcoded locale
+new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' })
+
+// ✅ CORRECT - Dynamic locale
+const locale = useLocale();
+new Intl.NumberFormat(locale === 'fr' ? 'fr-FR' : 'en-US', { 
+  style: 'currency', 
+  currency: 'EUR' 
+})
+```
+
+### Next.js 16: Use `proxy.ts` not `middleware.ts`
+
+Starting with Next.js 16, the i18n routing file must be named **`proxy.ts`** (previously `middleware.ts`):
+
+```typescript
+// proxy.ts (root of project)
+import createMiddleware from "next-intl/middleware";
+import { routing } from "./i18n/routing";
+
+export default createMiddleware(routing);
+
+export const config = {
+  matcher: ["/", "/(en|fr)/:path*"],
+};
+```
+
+### Static Message Imports for Client-Side Navigation
+
+When using `router.push(pathname, { locale })` to change language **without page refresh**, avoid dynamic imports in the layout. Use static imports instead:
+
+```tsx
+// ✅ CORRECT - Static imports work with client-side navigation
+import enMessages from "../../../i18n/messages/en.json";
+import frMessages from "../../../i18n/messages/fr.json";
+
+const messagesByLocale = { en: enMessages, fr: frMessages };
+
+export default async function LocaleLayout({ children, params }) {
+  const { locale } = await params;
+  
+  // Enable static rendering
+  setRequestLocale(locale);
+  
+  // Load messages statically (not via dynamic import)
+  const messages = messagesByLocale[locale];
+  
+  return (
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      {children}
+    </NextIntlClientProvider>
+  );
+}
+```
+
+### Server Components: Use Explicit Locale
+
+Server Components using `useTranslations()` without async/await may get wrong locale. Use `getTranslations({ locale, namespace })`:
+
+```tsx
+// ❌ WRONG - May get wrong locale in Server Components
+export default function Page() {
+  const t = useTranslations("home");  // Uses context, may be undefined
+  return <h1>{t("title")}</h1>;
+}
+
+// ✅ CORRECT - Explicit locale ensures correct translations
+export default async function Page({ params }) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "home" });
+  return <h1>{t("title")}</h1>;
+}
+```
+
+### Language Switcher Without Page Refresh
+
+Use `router.push(pathname, { locale })` from `@/i18n/routing` for seamless locale switching:
+
+```tsx
+"use client";
+
+import { useLocale } from "next-intl";
+import { usePathname, useRouter } from "@/i18n/routing";
+
+export function LanguageSwitcher() {
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleLocaleChange = (newLocale: string) => {
+    // ✅ Navigate without full page reload
+    router.push(pathname, { locale: newLocale });
+  };
+
+  return (
+    <select value={locale} onChange={(e) => handleLocaleChange(e.target.value)}>
+      <option value="en">English</option>
+      <option value="fr">Français</option>
+    </select>
+  );
+}
 ```
 
 ---

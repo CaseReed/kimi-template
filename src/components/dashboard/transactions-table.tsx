@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useOptimistic, useTransition, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslations, useLocale } from "next-intl";
 import { motion, useReducedMotion } from "motion/react";
 import {
   fetchTransactions,
@@ -32,17 +33,17 @@ import { Card, CardContent } from "@/components/ui/card";
 const ITEMS_PER_PAGE = 10;
 
 // Format amount in euros
-function formatAmount(amount: number): string {
-  return new Intl.NumberFormat("fr-FR", {
+function formatAmount(amount: number, locale: string): string {
+  return new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US", {
     style: "currency",
     currency: "EUR",
   }).format(amount);
 }
 
 // Format date
-function formatDate(dateString: string): string {
+function formatDate(dateString: string, locale: string): string {
   const date = new Date(dateString);
-  return new Intl.DateTimeFormat("fr-FR", {
+  return new Intl.DateTimeFormat(locale === "fr" ? "fr-FR" : "en-US", {
     day: "2-digit",
     month: "short",
     year: "numeric",
@@ -52,9 +53,9 @@ function formatDate(dateString: string): string {
 }
 
 // Format date short (mobile)
-function formatDateShort(dateString: string): string {
+function formatDateShort(dateString: string, locale: string): string {
   const date = new Date(dateString);
-  return new Intl.DateTimeFormat("fr-FR", {
+  return new Intl.DateTimeFormat(locale === "fr" ? "fr-FR" : "en-US", {
     day: "2-digit",
     month: "short",
   }).format(date);
@@ -73,20 +74,6 @@ function getStatusBadgeVariant(
       return "destructive";
     default:
       return "outline";
-  }
-}
-
-// Get status label in French
-function getStatusLabel(status: Transaction["status"]): string {
-  switch (status) {
-    case "completed":
-      return "Complété";
-    case "pending":
-      return "En attente";
-    case "failed":
-      return "Échoué";
-    default:
-      return status;
   }
 }
 
@@ -177,6 +164,7 @@ interface TransactionCardProps {
   isPending: boolean;
   onStatusUpdate: (id: string, status: Transaction["status"]) => void;
   shouldReduceMotion: boolean | null;
+  locale: string;
 }
 
 function TransactionCard({
@@ -185,8 +173,19 @@ function TransactionCard({
   isPending,
   onStatusUpdate,
   shouldReduceMotion,
+  locale,
 }: TransactionCardProps) {
+  const t = useTranslations("dashboard.transactions");
   const nextStatus = getNextStatus(transaction.status);
+
+  const statusLabel = (status: Transaction["status"]) => {
+    switch (status) {
+      case "completed": return t("statusLabels.completed");
+      case "pending": return t("statusLabels.pending");
+      case "failed": return t("statusLabels.failed");
+      default: return status;
+    }
+  };
 
   return (
     <motion.div
@@ -206,7 +205,7 @@ function TransactionCard({
                 {transaction.avatar && (
                   <AvatarImage
                     src={transaction.avatar}
-                    alt={`Avatar de ${transaction.customer}`}
+                    alt={t("ariaLabels.avatar", { name: transaction.customer })}
                   />
                 )}
                 <AvatarFallback className="text-sm">
@@ -227,15 +226,15 @@ function TransactionCard({
               {isPending && (
                 <Loader2 className="h-3 w-3 mr-1 animate-spin" />
               )}
-              {getStatusLabel(transaction.status)}
+              {statusLabel(transaction.status)}
             </Badge>
           </div>
           
           <div className="mt-3 flex items-center justify-between">
             <div className="text-sm">
-              <span className="font-medium">{formatAmount(transaction.amount)}</span>
+              <span className="font-medium">{formatAmount(transaction.amount, locale)}</span>
               <span className="text-muted-foreground ml-2">
-                {formatDateShort(transaction.date)}
+                {formatDateShort(transaction.date, locale)}
               </span>
             </div>
             <Button
@@ -244,12 +243,15 @@ function TransactionCard({
               onClick={() => onStatusUpdate(transaction.id, nextStatus)}
               disabled={isPending}
               className="h-8 text-xs"
-              aria-label={`Changer le statut de ${getStatusLabel(transaction.status)} à ${getStatusLabel(nextStatus)}`}
+              aria-label={t("ariaLabels.changeStatus", { 
+                from: statusLabel(transaction.status), 
+                to: statusLabel(nextStatus) 
+              })}
             >
               {isPending ? (
                 <Loader2 className="h-3 w-3 animate-spin" />
               ) : (
-                "Modifier"
+                t("buttonLabels.edit")
               )}
             </Button>
           </div>
@@ -260,6 +262,9 @@ function TransactionCard({
 }
 
 export function TransactionsTable() {
+  const t = useTranslations("dashboard.transactions");
+  const currentLocale = useLocale();
+  
   const [currentPage, setCurrentPage] = useState(1);
   const [updateError, setUpdateError] = useState<string | null>(null);
   const [pendingIds, setPendingIds] = useState<Set<string>>(new Set());
@@ -316,7 +321,7 @@ export function TransactionsTable() {
         queryKey: queryKeys.dashboard.transactionsAll(),
       });
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Erreur lors de la mise à jour";
+      const errorMessage = error instanceof Error ? error.message : t("errors.update");
       setUpdateError(errorMessage);
     } finally {
       setPendingIds((prev) => {
@@ -325,7 +330,7 @@ export function TransactionsTable() {
         return next;
       });
     }
-  }, [addOptimisticUpdate, pendingIds, queryClient]);
+  }, [addOptimisticUpdate, pendingIds, queryClient, t]);
 
   const handlePreviousPage = useCallback(() => {
     if (currentPage > 1) {
@@ -349,6 +354,15 @@ export function TransactionsTable() {
   
   const totalPages = data?.totalPages ?? 1;
   const hasTransactions = displayTransactions.length > 0;
+
+  const statusLabel = (status: Transaction["status"]) => {
+    switch (status) {
+      case "completed": return t("statusLabels.completed");
+      case "pending": return t("statusLabels.pending");
+      case "failed": return t("statusLabels.failed");
+      default: return status;
+    }
+  };
 
   return (
     <FadeIn>
@@ -374,12 +388,13 @@ export function TransactionsTable() {
                 isPending={pendingIds.has(transaction.id)}
                 onStatusUpdate={handleStatusUpdate}
                 shouldReduceMotion={shouldReduceMotion}
+                locale={currentLocale}
               />
             ))
           ) : (
             <Card>
               <CardContent className="p-6 text-center text-muted-foreground">
-                Aucune transaction trouvée.
+                {t("empty")}
               </CardContent>
             </Card>
           )}
@@ -390,11 +405,11 @@ export function TransactionsTable() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead scope="col">Client</TableHead>
-                <TableHead scope="col">Montant</TableHead>
-                <TableHead scope="col">Statut</TableHead>
-                <TableHead scope="col">Date</TableHead>
-                <TableHead scope="col" className="w-32">Actions</TableHead>
+                <TableHead scope="col">{t("customer")}</TableHead>
+                <TableHead scope="col">{t("amount")}</TableHead>
+                <TableHead scope="col">{t("status")}</TableHead>
+                <TableHead scope="col">{t("date")}</TableHead>
+                <TableHead scope="col" className="w-32">{t("actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -423,7 +438,7 @@ export function TransactionsTable() {
                             {transaction.avatar && (
                               <AvatarImage
                                 src={transaction.avatar}
-                                alt={`Avatar de ${transaction.customer}`}
+                                alt={t("ariaLabels.avatar", { name: transaction.customer })}
                               />
                             )}
                             <AvatarFallback>
@@ -441,7 +456,7 @@ export function TransactionsTable() {
                         </div>
                       </TableCell>
                       <TableCell className="font-medium">
-                        {formatAmount(transaction.amount)}
+                        {formatAmount(transaction.amount, currentLocale)}
                       </TableCell>
                       <TableCell>
                         <Badge
@@ -451,11 +466,11 @@ export function TransactionsTable() {
                           {isPending && (
                             <Loader2 className="h-3 w-3 mr-1 animate-spin" />
                           )}
-                          {getStatusLabel(transaction.status)}
+                          {statusLabel(transaction.status)}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-muted-foreground">
-                        {formatDate(transaction.date)}
+                        {formatDate(transaction.date, currentLocale)}
                       </TableCell>
                       <TableCell>
                         <Button
@@ -465,12 +480,15 @@ export function TransactionsTable() {
                             handleStatusUpdate(transaction.id, nextStatus)
                           }
                           disabled={isPending}
-                          aria-label={`Changer le statut de ${getStatusLabel(transaction.status)} à ${getStatusLabel(nextStatus)}`}
+                          aria-label={t("ariaLabels.changeStatus", {
+                            from: statusLabel(transaction.status),
+                            to: statusLabel(nextStatus),
+                          })}
                         >
                           {isPending ? (
                             <Loader2 className="h-4 w-4 animate-spin" />
                           ) : (
-                            "Changer"
+                            t("buttonLabels.change")
                           )}
                         </Button>
                       </TableCell>
@@ -483,7 +501,7 @@ export function TransactionsTable() {
                     colSpan={5}
                     className="h-24 text-center text-muted-foreground"
                   >
-                    Aucune transaction trouvée.
+                    {t("empty")}
                   </TableCell>
                 </TableRow>
               )}
@@ -494,10 +512,10 @@ export function TransactionsTable() {
         {/* Pagination */}
         <div className="flex items-center justify-between px-2">
           <div className="text-muted-foreground text-sm" aria-live="polite">
-            Page {currentPage} sur {totalPages}
+            {t("pagination.page", { current: currentPage, total: totalPages })}
             {(isFetching || isNavigating) && !isLoading && (
               <span className="ml-2 text-muted-foreground">
-                Chargement...
+                {t("pagination.loading")}
               </span>
             )}
           </div>
@@ -507,23 +525,23 @@ export function TransactionsTable() {
               size="sm"
               onClick={handlePreviousPage}
               disabled={currentPage <= 1 || isLoading || isNavigating}
-              aria-label="Page précédente"
+              aria-label={t("ariaLabels.previousPage")}
             >
               {isNavigating ? (
                 <Loader2 className="h-4 w-4 mr-1 animate-spin" />
               ) : (
                 <ChevronLeft className="h-4 w-4 mr-1" aria-hidden="true" />
               )}
-              <span className="hidden sm:inline">Précédent</span>
+              <span className="hidden sm:inline">{t("pagination.previous")}</span>
             </Button>
             <Button
               variant="outline"
               size="sm"
               onClick={handleNextPage}
               disabled={currentPage >= totalPages || isLoading || isNavigating}
-              aria-label="Page suivante"
+              aria-label={t("ariaLabels.nextPage")}
             >
-              <span className="hidden sm:inline">Suivant</span>
+              <span className="hidden sm:inline">{t("pagination.next")}</span>
               {isNavigating ? (
                 <Loader2 className="h-4 w-4 ml-1 animate-spin" />
               ) : (

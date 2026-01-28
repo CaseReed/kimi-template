@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { useReducedMotion } from "motion/react";
 import { queryKeys } from "@/lib/query-keys";
 import { fetchStats } from "@/lib/api/dashboard";
@@ -28,43 +29,12 @@ import type { LucideIcon } from "lucide-react";
 interface StatCardConfig {
   key: keyof DashboardStats;
   changeKey: keyof DashboardStats;
-  title: string;
+  translationKey: string;
   icon: LucideIcon;
   prefix?: string;
   suffix?: string;
   decimals?: boolean;
 }
-
-const statCardsConfig: StatCardConfig[] = [
-  {
-    key: "revenue",
-    changeKey: "revenueChange",
-    title: "Revenus",
-    icon: TrendingUp,
-    prefix: "€",
-    decimals: true,
-  },
-  {
-    key: "users",
-    changeKey: "usersChange",
-    title: "Utilisateurs",
-    icon: Users,
-  },
-  {
-    key: "conversion",
-    changeKey: "conversionChange",
-    title: "Conversion",
-    icon: Percent,
-    suffix: "%",
-    decimals: true,
-  },
-  {
-    key: "activeSessions",
-    changeKey: "sessionsChange",
-    title: "Sessions",
-    icon: Activity,
-  },
-];
 
 function formatValue(value: number | unknown, decimals?: boolean): number {
   if (typeof value !== 'number' || isNaN(value)) {
@@ -94,11 +64,13 @@ function StatCardSkeleton() {
 function StatCardError({ 
   title, 
   icon: Icon, 
-  onRetry 
+  onRetry,
+  retryLabel,
 }: { 
   title: string; 
   icon: LucideIcon;
   onRetry?: () => void;
+  retryLabel: string;
 }) {
   return (
     <Card className="border-destructive/50">
@@ -111,7 +83,7 @@ function StatCardError({
         {onRetry && (
           <Button variant="ghost" size="sm" onClick={onRetry}>
             <RefreshCw className="h-3 w-3 mr-1" />
-            Réessayer
+            {retryLabel}
           </Button>
         )}
       </CardContent>
@@ -122,9 +94,11 @@ function StatCardError({
 interface StatCardProps {
   config: StatCardConfig;
   data: DashboardStats;
+  vsLastMonth: string;
 }
 
-function StatCard({ config, data }: StatCardProps) {
+function StatCard({ config, data, vsLastMonth }: StatCardProps) {
+  const t = useTranslations("dashboard.stats");
   const value = data[config.key];
   const change = data[config.changeKey];
   const isPositive = typeof change === 'number' && change >= 0;
@@ -137,7 +111,7 @@ function StatCard({ config, data }: StatCardProps) {
     <CardHover>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">{config.title}</CardTitle>
+          <CardTitle className="text-sm font-medium">{config.translationKey}</CardTitle>
           <Icon className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
         </CardHeader>
         <CardContent>
@@ -159,7 +133,10 @@ function StatCard({ config, data }: StatCardProps) {
             <Badge
               variant={isPositive ? "default" : "destructive"}
               className="text-xs"
-              aria-label={`Tendance ${isPositive ? 'positive' : 'négative'} de ${formattedChange}%`}
+              aria-label={isPositive 
+                ? t("trendPositive", { value: formattedChange }) 
+                : t("trendNegative", { value: formattedChange })
+              }
             >
               {isPositive ? (
                 <TrendingUp className="h-3 w-3 mr-1" aria-hidden="true" />
@@ -169,7 +146,7 @@ function StatCard({ config, data }: StatCardProps) {
               {isPositive ? "+" : ""}
               {formattedChange}%
             </Badge>
-            <span className="text-xs text-muted-foreground">vs mois dernier</span>
+            <span className="text-xs text-muted-foreground">{vsLastMonth}</span>
           </div>
         </CardContent>
       </Card>
@@ -178,11 +155,43 @@ function StatCard({ config, data }: StatCardProps) {
 }
 
 export function StatsGrid() {
+  const t = useTranslations("dashboard");
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: queryKeys.dashboard.stats(),
     queryFn: fetchStats,
     staleTime: 60 * 1000, // 1 minute
   });
+
+  const statCardsConfig: StatCardConfig[] = [
+    {
+      key: "revenue",
+      changeKey: "revenueChange",
+      translationKey: t("stats.revenue"),
+      icon: TrendingUp,
+      prefix: "€",
+      decimals: true,
+    },
+    {
+      key: "users",
+      changeKey: "usersChange",
+      translationKey: t("stats.users"),
+      icon: Users,
+    },
+    {
+      key: "conversion",
+      changeKey: "conversionChange",
+      translationKey: t("stats.conversion"),
+      icon: Percent,
+      suffix: "%",
+      decimals: true,
+    },
+    {
+      key: "activeSessions",
+      changeKey: "sessionsChange",
+      translationKey: t("stats.sessions"),
+      icon: Activity,
+    },
+  ];
 
   if (isLoading) {
     return (
@@ -200,9 +209,10 @@ export function StatsGrid() {
         {statCardsConfig.map((config) => (
           <StatCardError
             key={String(config.key)}
-            title={config.title}
+            title={config.translationKey}
             icon={config.icon}
             onRetry={() => refetch()}
+            retryLabel={t("stats.retry")}
           />
         ))}
       </div>
@@ -216,7 +226,11 @@ export function StatsGrid() {
     >
       {statCardsConfig.map((config) => (
         <StaggerItem key={String(config.key)}>
-          <StatCard config={config} data={data} />
+          <StatCard 
+            config={config} 
+            data={data} 
+            vsLastMonth={t("stats.vsLastMonth")}
+          />
         </StaggerItem>
       ))}
     </StaggerContainer>

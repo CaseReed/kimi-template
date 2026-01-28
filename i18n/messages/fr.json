@@ -1,0 +1,101 @@
+{
+  "metadata": {
+    "home": {
+      "title": "Next.js 16 + Tailwind 4",
+      "description": "Application web moderne avec Next.js 16, Tailwind CSS v4 et React 19"
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "description": "Vue d'ensemble de vos métriques et analyses"
+    }
+  },
+  "navigation": {
+    "dashboard": "Tableau de bord",
+    "home": "Accueil"
+  },
+  "home": {
+    "title": "Next.js 16 + Tailwind 4",
+    "subtitle": "Installation réussie ! 🎉",
+    "primaryButton": "Bouton Principal",
+    "secondaryButton": "Bouton Secondaire",
+    "gridItem1": "Élément 1",
+    "gridItem2": "Élément 2",
+    "gridItem3": "Élément 3"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "subtitle": "Vue d'ensemble de vos métriques",
+    "actions": {
+      "refresh": "Actualiser",
+      "refreshAriaLabel": "Rafraîchir les données"
+    },
+    "stats": {
+      "revenue": "Revenus",
+      "users": "Utilisateurs",
+      "conversion": "Conversion",
+      "sessions": "Sessions",
+      "vsLastMonth": "vs mois dernier",
+      "trendPositive": "Tendance positive de {value}%",
+      "trendNegative": "Tendance négative de {value}%",
+      "loadingError": "Erreur de chargement",
+      "retry": "Réessayer"
+    },
+    "charts": {
+      "revenue": {
+        "title": "Revenus",
+        "description": "Évolution mensuelle des revenus vs objectifs",
+        "target": "Objectif",
+        "loadingError": "Une erreur est survenue lors du chargement des données."
+      },
+      "category": {
+        "title": "Ventes par catégorie",
+        "description": "Répartition des ventes",
+        "sales": "Ventes",
+        "share": "Part des ventes",
+        "noData": "Aucune donnée disponible",
+        "loadingError": "Erreur lors du chargement"
+      }
+    },
+    "transactions": {
+      "title": "Transactions",
+      "customer": "Client",
+      "amount": "Montant",
+      "status": "Statut",
+      "date": "Date",
+      "actions": "Actions",
+      "statusLabels": {
+        "completed": "Complété",
+        "pending": "En attente",
+        "failed": "Échoué"
+      },
+      "buttonLabels": {
+        "change": "Changer",
+        "edit": "Modifier"
+      },
+      "ariaLabels": {
+        "avatar": "Avatar de {name}",
+        "changeStatus": "Changer le statut de {from} à {to}",
+        "previousPage": "Page précédente",
+        "nextPage": "Page suivante"
+      },
+      "pagination": {
+        "page": "Page {current} sur {total}",
+        "loading": "Chargement...",
+        "previous": "Précédent",
+        "next": "Suivant"
+      },
+      "errors": {
+        "update": "Erreur lors de la mise à jour",
+        "loading": "Erreur lors du chargement des données"
+      },
+      "empty": "Aucune transaction trouvée."
+    }
+  },
+  "language": {
+    "switcher": {
+      "label": "Langue",
+      "en": "Anglais",
+      "fr": "Français"
+    }
+  }
+}

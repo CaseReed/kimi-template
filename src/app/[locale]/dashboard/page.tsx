@@ -8,11 +8,21 @@ import { StatsGrid } from "@/components/dashboard/stats-grid";
 import { RevenueChart } from "@/components/dashboard/revenue-chart";
 import { CategoryChart } from "@/components/dashboard/category-chart";
 import { TransactionsTable } from "@/components/dashboard/transactions-table";
+import { getTranslations } from "next-intl/server";
 
-export const metadata = {
-  title: "Dashboard",
-  description: "Vue d'ensemble de vos métriques",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "metadata.dashboard" });
+
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
 export default async function DashboardPage() {
   // Prefetch toutes les données du dashboard en parallèle

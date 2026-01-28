@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import {
   Bar,
   BarChart,
@@ -30,13 +31,6 @@ import { FadeIn } from "@/components/animations/fade-in";
 import { fetchCategories } from "@/lib/api/dashboard";
 import { queryKeys } from "@/lib/query-keys";
 
-const chartConfig = {
-  value: {
-    label: "Ventes",
-    color: "hsl(var(--chart-1))",
-  },
-} satisfies ChartConfig;
-
 const categoryColors = [
   "hsl(var(--chart-1))",
   "hsl(var(--chart-2))",
@@ -46,11 +40,19 @@ const categoryColors = [
 ];
 
 export function CategoryChart() {
+  const t = useTranslations("dashboard.charts.category");
   const { data: categories, isLoading, isError, error } = useQuery({
     queryKey: queryKeys.dashboard.categories(),
     queryFn: fetchCategories,
     staleTime: 60 * 1000,
   });
+
+  const chartConfig = {
+    value: {
+      label: t("sales"),
+      color: "hsl(var(--chart-1))",
+    },
+  } satisfies ChartConfig;
 
   if (isLoading) {
     return (
@@ -71,14 +73,14 @@ export function CategoryChart() {
       <FadeIn delay={0.1}>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle>Ventes par catégorie</CardTitle>
-            <CardDescription>Répartition des ventes</CardDescription>
+            <CardTitle>{t("title")}</CardTitle>
+            <CardDescription>{t("description")}</CardDescription>
           </CardHeader>
           <CardContent>
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>
-                {error instanceof Error ? error.message : "Erreur lors du chargement"}
+                {error instanceof Error ? error.message : t("loadingError")}
               </AlertDescription>
             </Alert>
           </CardContent>
@@ -92,11 +94,11 @@ export function CategoryChart() {
       <FadeIn delay={0.1}>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle>Ventes par catégorie</CardTitle>
-            <CardDescription>Répartition des ventes</CardDescription>
+            <CardTitle>{t("title")}</CardTitle>
+            <CardDescription>{t("description")}</CardDescription>
           </CardHeader>
           <CardContent className="min-h-[200px] flex items-center justify-center text-sm text-muted-foreground">
-            Aucune donnée disponible
+            {t("noData")}
           </CardContent>
         </Card>
       </FadeIn>
@@ -107,8 +109,8 @@ export function CategoryChart() {
     <FadeIn delay={0.1}>
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle>Ventes par catégorie</CardTitle>
-          <CardDescription>Répartition des ventes</CardDescription>
+          <CardTitle>{t("title")}</CardTitle>
+          <CardDescription>{t("description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
@@ -139,7 +141,7 @@ export function CategoryChart() {
                 cursor={false}
                 content={
                   <ChartTooltipContent
-                    formatter={(value) => [`${value}%`, "Part des ventes"]}
+                    formatter={(value) => [`${value}%`, t("share")]}
                     hideLabel
                   />
                 }

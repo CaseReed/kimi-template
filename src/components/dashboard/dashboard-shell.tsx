@@ -1,4 +1,7 @@
+"use client";
+
 import { ReactNode } from "react";
+import { useTranslations } from "next-intl";
 import { FadeIn } from "@/components/animations/fade-in";
 
 interface DashboardShellProps {
@@ -7,6 +10,8 @@ interface DashboardShellProps {
 }
 
 export function DashboardShell({ children, header }: DashboardShellProps) {
+  const t = useTranslations("dashboard");
+
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b bg-card">
@@ -15,10 +20,10 @@ export function DashboardShell({ children, header }: DashboardShellProps) {
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-                  Dashboard
+                  {t("title")}
                 </h1>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Vue d&apos;ensemble de vos métriques
+                  {t("subtitle")}
                 </p>
               </div>
               {header && (

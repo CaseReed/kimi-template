@@ -1,0 +1,101 @@
+{
+  "metadata": {
+    "home": {
+      "title": "Next.js 16 + Tailwind 4",
+      "description": "Modern web application with Next.js 16, Tailwind CSS v4, and React 19"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Overview of your metrics and analytics"
+    }
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "home": "Home"
+  },
+  "home": {
+    "title": "Next.js 16 + Tailwind 4",
+    "subtitle": "Installation successful! 🎉",
+    "primaryButton": "Primary Button",
+    "secondaryButton": "Secondary Button",
+    "gridItem1": "Grid Item 1",
+    "gridItem2": "Grid Item 2",
+    "gridItem3": "Grid Item 3"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview of your metrics",
+    "actions": {
+      "refresh": "Refresh",
+      "refreshAriaLabel": "Refresh data"
+    },
+    "stats": {
+      "revenue": "Revenue",
+      "users": "Users",
+      "conversion": "Conversion",
+      "sessions": "Sessions",
+      "vsLastMonth": "vs last month",
+      "trendPositive": "Positive trend of {value}%",
+      "trendNegative": "Negative trend of {value}%",
+      "loadingError": "Loading error",
+      "retry": "Retry"
+    },
+    "charts": {
+      "revenue": {
+        "title": "Revenue",
+        "description": "Monthly revenue evolution vs targets",
+        "target": "Target",
+        "loadingError": "An error occurred while loading data."
+      },
+      "category": {
+        "title": "Sales by Category",
+        "description": "Sales distribution",
+        "sales": "Sales",
+        "share": "Market share",
+        "noData": "No data available",
+        "loadingError": "Error loading data"
+      }
+    },
+    "transactions": {
+      "title": "Transactions",
+      "customer": "Customer",
+      "amount": "Amount",
+      "status": "Status",
+      "date": "Date",
+      "actions": "Actions",
+      "statusLabels": {
+        "completed": "Completed",
+        "pending": "Pending",
+        "failed": "Failed"
+      },
+      "buttonLabels": {
+        "change": "Change",
+        "edit": "Edit"
+      },
+      "ariaLabels": {
+        "avatar": "Avatar of {name}",
+        "changeStatus": "Change status from {from} to {to}",
+        "previousPage": "Previous page",
+        "nextPage": "Next page"
+      },
+      "pagination": {
+        "page": "Page {current} of {total}",
+        "loading": "Loading...",
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "errors": {
+        "update": "Error during update",
+        "loading": "Error loading data"
+      },
+      "empty": "No transactions found."
+    }
+  },
+  "language": {
+    "switcher": {
+      "label": "Language",
+      "en": "English",
+      "fr": "French"
+    }
+  }
+}

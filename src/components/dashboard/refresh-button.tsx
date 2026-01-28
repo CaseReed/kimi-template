@@ -2,6 +2,7 @@
 
 import { useTransition } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { motion, useReducedMotion } from "motion/react";
 import { RefreshCw } from "lucide-react";
 
@@ -20,6 +21,7 @@ export function RefreshButton({
   variant = "outline",
   size = "sm",
 }: RefreshButtonProps) {
+  const t = useTranslations("dashboard.actions");
   const queryClient = useQueryClient();
   const [isPending, startTransition] = useTransition();
   const shouldReduceMotion = useReducedMotion();
@@ -38,7 +40,7 @@ export function RefreshButton({
       size={size}
       onClick={handleRefresh}
       disabled={isPending}
-      aria-label="Rafraîchir les données"
+      aria-label={t("refreshAriaLabel")}
       aria-busy={isPending}
     >
       <motion.div
@@ -51,7 +53,7 @@ export function RefreshButton({
       >
         <RefreshCw className="h-4 w-4" />
       </motion.div>
-      <span className="ml-2">Actualiser</span>
+      <span className="ml-2">{t("refresh")}</span>
     </Button>
   );
 }
