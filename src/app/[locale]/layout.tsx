@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { routing } from "../../../i18n/routing";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { Header } from "@/components/layout/header";
+import { OrganizationJsonLd, WebSiteJsonLd } from "@/components/seo";
 import enMessages from "../../../i18n/messages/en.json";
 import frMessages from "../../../i18n/messages/fr.json";
 import "../globals.css";
@@ -48,6 +49,10 @@ export default async function LocaleLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* Structured Data for SEO */}
+        <OrganizationJsonLd />
+        <WebSiteJsonLd />
+
         <NextIntlClientProvider locale={locale} messages={messages}>
           <QueryProvider>
             <Header />
