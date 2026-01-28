@@ -306,7 +306,7 @@ export async function GET() {
 
 ## Kimi Skills Reference
 
-This project has **19 specialized skills** in `.agents/skills/` to help with development tasks:
+This project has **20 specialized skills** in `.agents/skills/` to help with development tasks:
 
 ### Planning & Coordination
 
@@ -321,6 +321,7 @@ This project has **19 specialized skills** in `.agents/skills/` to help with dev
 | Skill | Purpose | When to Use |
 |-------|---------|-------------|
 | `/skill:nextjs-16-tailwind-4` | Next.js 16 + Tailwind 4 + React 19 patterns | Any UI/component work |
+| `/skill:nextjs-seo` | SEO optimization - metadata, OG, sitemap, JSON-LD | Adding SEO, social sharing, structured data |
 | `/skill:shadcn-ui` | shadcn/ui components + Charts (recharts) | UI components, dashboards, data viz |
 | `/skill:next-intl-i18n` | next-intl internationalization (i18n) | Multi-language apps, translations |
 | `/skill:motion-animations` | Motion (Framer Motion) animations | Page transitions, gestures, scroll effects |

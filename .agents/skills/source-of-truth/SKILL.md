@@ -54,6 +54,14 @@ This skill serves as the **single source of truth** for all official documentati
 |------------|--------------|---------|-------|
 | **next-intl** | https://next-intl.dev | v4 | Next.js i18n with App Router (ICU syntax: `{var}` not `{{var}}`)
 
+### SEO
+
+| Technology | Official Docs | Version | Notes |
+|------------|--------------|---------|-------|
+| **Next.js Metadata** | https://nextjs.org/docs/app/building-your-application/optimizing/metadata | 16+ | File-based metadata, OG images, sitemap |
+| **Schema.org** | https://schema.org/ | latest | JSON-LD structured data |
+| **Open Graph** | https://ogp.me/ | latest | Social sharing protocol |
+
 ### Animation
 
 | Technology | Official Docs | Version | Notes |
