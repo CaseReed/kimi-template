@@ -236,15 +236,26 @@ The project uses `eslint-config-next` which includes:
 
 ### Vercel (Recommended)
 
-This project is optimized for Vercel deployment:
+This project is optimized for Vercel deployment.
 
+**Quick deploy:**
 ```bash
 # Install Vercel CLI
 pnpm add -g vercel
 
-# Deploy
+# Deploy (preview)
 vercel
+
+# Deploy to production
+vercel --prod
 ```
+
+**For detailed configuration**, see `/skill:deployment-vercel`:
+- Environment variables (`NEXT_PUBLIC_*` vs secrets)
+- `vercel.json` configuration
+- Edge Functions & Middleware
+- Analytics & Speed Insights
+- Preview deployments workflow
 
 ### Docker Deployment
 
@@ -306,7 +317,7 @@ export async function GET() {
 
 ## Kimi Skills Reference
 
-This project has **20 specialized skills** in `.agents/skills/` to help with development tasks:
+This project has **22 specialized skills** in `.agents/skills/` to help with development tasks:
 
 ### Planning & Coordination
 
@@ -336,6 +347,8 @@ This project has **20 specialized skills** in `.agents/skills/` to help with dev
 | `/skill:component-generator` | Component boilerplate | Generating new components |
 | `/skill:migration-refactor` | Safe refactoring patterns | Refactoring existing code |
 | `/skill:git-workflow` | Git best practices: commits, branches, PRs | Any git operations |
+| `/skill:performance-optimization` | Next.js 16 + React 19 performance patterns | CWV, PPR, React Compiler, lazy loading |
+| `/skill:deployment-vercel` | Vercel deployment, CI/CD, Edge Functions | Deploying to production, env vars, preview |
 | `/skill:source-of-truth` | **Official documentation reference** | When stuck, in doubt, or adding deps |
 | `/skill:post-review` | **Post-implementation code review** | **After EVERY feature implementation** |
 
@@ -665,3 +678,25 @@ To maintain skill quality, run this audit process:
 ```
 Request: "Audit all skills against official documentation"
 ```
+
+---
+
+### Skill Creation Maintenance
+
+When creating a new skill, update the following files **if applicable**:
+
+| File | When to Update | What to Update |
+|------|---------------|----------------|
+| `AGENTS.md` | **Always** | Skill count, skill list table, relevant sections |
+| `source-of-truth/SKILL.md` | **Always** | Official documentation links for new technologies |
+| `README.md` | **If needed** | If the skill introduces major features users should know about |
+
+**Example:** Creating `deployment-vercel` skill
+- ✅ `AGENTS.md` — Updated skill count (21→22) and added to table
+- ✅ `source-of-truth/SKILL.md` — Added Vercel docs links
+- ❌ `README.md` — Not needed (deployment is internal tooling)
+
+**Example:** Creating `stripe-payments` skill  
+- ✅ `AGENTS.md` — Updated count and table
+- ✅ `source-of-truth/SKILL.md` — Added Stripe docs
+- ✅ `README.md` — **Updated** if Stripe integration is a core project feature

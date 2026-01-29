@@ -68,6 +68,14 @@ This skill serves as the **single source of truth** for all official documentati
 |------------|--------------|---------|-------|
 | **Motion** | https://motion.dev | latest | Framer Motion successor |
 
+### Performance
+
+| Technology | Official Docs | Version | Notes |
+|------------|--------------|---------|-------|
+| **Next.js Cache Components/PPR** | https://nextjs.org/docs/app/getting-started/cache-components | 16+ | Partial Prerendering, `use cache` directive |
+| **React Compiler** | https://react.dev/learn/react-compiler | 19+ | Automatic memoization |
+| **Web Vitals** | https://web.dev/vitals/ | latest | LCP, INP, CLS metrics |
+
 ### Forms & Validation
 
 | Technology | Official Docs | Version | Notes |
@@ -94,6 +102,15 @@ This skill serves as the **single source of truth** for all official documentati
 |------------|--------------|-------|
 | **pnpm** | https://pnpm.io/installation | Package manager |
 | **ESLint** | https://eslint.org/docs/latest | Linting |
+
+### Deployment
+
+| Technology | Official Docs | Version | Notes |
+|------------|--------------|---------|-------|
+| **Vercel** | https://vercel.com/docs | latest | Edge Functions, Analytics, Preview Deployments |
+| **Vercel Edge Config** | https://vercel.com/docs/edge-config | latest | Feature flags, A/B testing, low-latency config |
+| **@vercel/analytics** | https://vercel.com/docs/analytics/quickstart | latest | Web Analytics for Next.js |
+| **@vercel/speed-insights** | https://vercel.com/docs/speed-insights/quickstart | latest | Core Web Vitals tracking |
 
 ---
 
@@ -238,6 +255,8 @@ If you discover the project uses a different version than documented:
 | post-review | `.agents/skills/post-review/SKILL.md` |
 | **source-of-truth** | `.agents/skills/source-of-truth/SKILL.md` |
 | **next-intl-i18n** | `.agents/skills/next-intl-i18n/SKILL.md` |
+| **performance-optimization** | `.agents/skills/performance-optimization/SKILL.md` |
+| **deployment-vercel** | `.agents/skills/deployment-vercel/SKILL.md` |
 | **skill-creator** | `.agents/skills/skill-creator/SKILL.md` |
 
 ---
