@@ -3,14 +3,45 @@
 import { ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { FadeIn } from "@/components/animations/fade-in";
+import { LogoutButton } from "@/components/auth/logout-button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+
+// User type compatible with Better Auth session.user
+interface DashboardUser {
+  id: string;
+  email: string;
+  name?: string | null;
+  image?: string | null;
+}
 
 interface DashboardShellProps {
   children: ReactNode;
   header?: ReactNode;
+  user: DashboardUser;
+  locale: string;
 }
 
-export function DashboardShell({ children, header }: DashboardShellProps) {
+export function DashboardShell({
+  children,
+  header,
+  user,
+  locale,
+}: DashboardShellProps) {
   const t = useTranslations("dashboard");
+
+  // Get initials from user name or email
+  const getInitials = () => {
+    if (user.name) {
+      return user.name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2);
+    }
+    return user.email.slice(0, 2).toUpperCase();
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -26,9 +57,31 @@ export function DashboardShell({ children, header }: DashboardShellProps) {
                   {t("subtitle")}
                 </p>
               </div>
-              {header && (
-                <div className="flex items-center gap-2">{header}</div>
-              )}
+              <div className="flex items-center gap-4">
+                {header && (
+                  <div className="flex items-center gap-2">{header}</div>
+                )}
+                <Separator orientation="vertical" className="h-8" />
+                {/* User Info */}
+                <div className="flex items-center gap-3">
+                  <Avatar className="h-8 w-8">
+                    <AvatarFallback className="bg-primary text-primary-foreground text-sm">
+                      {getInitials()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="hidden sm:block">
+                    <p className="text-sm font-medium">
+                      {user.name || user.email}
+                    </p>
+                    {user.name && (
+                      <p className="text-xs text-muted-foreground">
+                        {user.email}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <LogoutButton locale={locale} variant="outline" size="sm" />
+              </div>
             </div>
           </FadeIn>
         </div>

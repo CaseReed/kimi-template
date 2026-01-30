@@ -1,7 +1,10 @@
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { queryClient } from "@/lib/query-client";
 import { queryKeys } from "@/lib/query-keys";
 import { fetchStats, fetchRevenue, fetchCategories } from "@/lib/api/dashboard";
+import { auth } from "@/lib/auth";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 import { RefreshButton } from "@/components/dashboard/refresh-button";
 import { StatsGrid } from "@/components/dashboard/stats-grid";
@@ -68,7 +71,17 @@ export default async function DashboardPage({
 }) {
   const { locale } = await params;
 
-  // Prefetch toutes les données du dashboard en parallèle
+  // Check authentication - protect the dashboard
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  // Redirect to login if not authenticated
+  if (!session) {
+    redirect(`/${locale}/login`);
+  }
+
+  // Prefetch all dashboard data in parallel
   await Promise.all([
     queryClient.prefetchQuery({
       queryKey: queryKeys.dashboard.stats(),
@@ -100,7 +113,11 @@ export default async function DashboardPage({
       <JsonLd data={pageJsonLd} />
 
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <DashboardShell header={<RefreshButton />}>
+        <DashboardShell 
+          header={<RefreshButton />}
+          user={session.user}
+          locale={locale}
+        >
           <div className="space-y-6">
             <StatsGrid />
             <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">

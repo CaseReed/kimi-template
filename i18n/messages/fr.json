@@ -7,6 +7,14 @@
     "dashboard": {
       "title": "Tableau de bord",
       "description": "Vue d'ensemble de vos métriques et analyses"
+    },
+    "login": {
+      "title": "Connexion",
+      "description": "Connectez-vous pour accéder au tableau de bord"
+    },
+    "register": {
+      "title": "Inscription",
+      "description": "Créez un compte pour commencer"
     }
   },
   "navigation": {
@@ -21,6 +29,48 @@
     "gridItem1": "Élément 1",
     "gridItem2": "Élément 2",
     "gridItem3": "Élément 3"
+  },
+  "auth": {
+    "login": {
+      "title": "Bon retour",
+      "description": "Connectez-vous à votre compte pour accéder au tableau de bord",
+      "submit": "Se connecter",
+      "loading": "Connexion en cours...",
+      "noAccount": "Vous n'avez pas de compte ?",
+      "signUp": "S'inscrire"
+    },
+    "register": {
+      "title": "Créer un compte",
+      "description": "Inscrivez-vous pour commencer à utiliser notre plateforme",
+      "submit": "Créer un compte",
+      "loading": "Création du compte...",
+      "hasAccount": "Vous avez déjà un compte ?",
+      "signIn": "Se connecter"
+    },
+    "fields": {
+      "name": "Nom complet",
+      "namePlaceholder": "Jean Dupont",
+      "email": "Email",
+      "emailPlaceholder": "nom@exemple.com",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Entrez votre mot de passe",
+      "createPasswordPlaceholder": "Créez un mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "Confirmez votre mot de passe",
+      "forgotPassword": "Mot de passe oublié ?"
+    },
+    "social": {
+      "github": "GitHub",
+      "google": "Google",
+      "divider": "Ou continuer avec"
+    },
+    "errors": {
+      "generic": "Une erreur inattendue s'est produite",
+      "invalidCredentials": "Identifiants invalides",
+      "failedSocial": "Échec de la connexion avec {provider}",
+      "logoutFailed": "Échec de la déconnexion. Veuillez réessayer."
+    },
+    "logout": "Se déconnecter"
   },
   "dashboard": {
     "title": "Tableau de bord",

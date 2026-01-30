@@ -7,6 +7,14 @@
     "dashboard": {
       "title": "Dashboard",
       "description": "Overview of your metrics and analytics"
+    },
+    "login": {
+      "title": "Sign In",
+      "description": "Sign in to your account to access the dashboard"
+    },
+    "register": {
+      "title": "Sign Up",
+      "description": "Create an account to get started"
     }
   },
   "navigation": {
@@ -21,6 +29,48 @@
     "gridItem1": "Grid Item 1",
     "gridItem2": "Grid Item 2",
     "gridItem3": "Grid Item 3"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "description": "Sign in to your account to access the dashboard",
+      "submit": "Sign In",
+      "loading": "Signing in...",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up"
+    },
+    "register": {
+      "title": "Create an account",
+      "description": "Sign up to get started with our platform",
+      "submit": "Create Account",
+      "loading": "Creating account...",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in"
+    },
+    "fields": {
+      "name": "Full Name",
+      "namePlaceholder": "John Doe",
+      "email": "Email",
+      "emailPlaceholder": "name@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "createPasswordPlaceholder": "Create a password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "forgotPassword": "Forgot password?"
+    },
+    "social": {
+      "github": "GitHub",
+      "google": "Google",
+      "divider": "Or continue with"
+    },
+    "errors": {
+      "generic": "An unexpected error occurred",
+      "invalidCredentials": "Invalid credentials",
+      "failedSocial": "Failed to sign in with {provider}",
+      "logoutFailed": "Failed to sign out. Please try again."
+    },
+    "logout": "Sign Out"
   },
   "dashboard": {
     "title": "Dashboard",
