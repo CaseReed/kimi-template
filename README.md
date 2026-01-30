@@ -92,7 +92,7 @@ The project includes **27 specialized skills** in `.agents/skills/` to guide Kim
 ## 📁 Project Structure
 
 ```
-my-app/
+kimi-template/
 ├── .agents/
 │   └── skills/                 # 🎓 Kimi Skills (27 specializations)
 │       ├── SKILL_AUDIT_MASTER.md
