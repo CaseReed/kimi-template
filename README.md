@@ -10,7 +10,7 @@ This project is a **demo/template specifically designed for Kimi k2.5**, showcas
 
 - 🤖 **Optimal integration with Kimi k2.5** via a structured skill system
 - 🏗️ **A modern tech stack** (Next.js 16, React 19, Tailwind CSS 4)
-- 📚 **27 specialized skills** to accelerate development
+- 📚 **28 specialized skills** to accelerate development
 - 🎯 **Patterns and best practices** validated for React 19 and Next.js App Router
 
 ---
@@ -37,9 +37,9 @@ This project is a **demo/template specifically designed for Kimi k2.5**, showcas
 
 ---
 
-## 🎓 Kimi Skills (27 Specializations)
+## 🎓 Kimi Skills (28 Specializations)
 
-The project includes **27 specialized skills** in `.agents/skills/` to guide Kimi k2.5:
+The project includes **28 specialized skills** in `.agents/skills/` to guide Kimi k2.5:
 
 ### 🎯 Planning & Architecture
 | Skill | Description |
@@ -53,6 +53,7 @@ The project includes **27 specialized skills** in `.agents/skills/` to guide Kim
 |-------|-------------|
 | [`nextjs-16-tailwind-4`](.agents/skills/nextjs-16-tailwind-4/SKILL.md) | Next.js 16 + Tailwind 4 + React 19 patterns |
 | [`shadcn-ui`](.agents/skills/shadcn-ui/SKILL.md) | shadcn/ui components and Charts |
+| [`frontend-design`](.agents/skills/frontend-design/SKILL.md) | Distinctive, production-grade UI design |
 | [`motion-animations`](.agents/skills/motion-animations/SKILL.md) | Motion (Framer Motion) animations |
 | [`component-generator`](.agents/skills/component-generator/SKILL.md) | React component generator |
 | [`next-intl-i18n`](.agents/skills/next-intl-i18n/SKILL.md) | Internationalization (i18n) |
@@ -94,7 +95,7 @@ The project includes **27 specialized skills** in `.agents/skills/` to guide Kim
 ```
 kimi-template/
 ├── .agents/
-│   └── skills/                 # 🎓 Kimi Skills (27 specializations)
+│   └── skills/                 # 🎓 Kimi Skills (28 specializations)
 │       ├── SKILL_AUDIT_MASTER.md
 │       ├── plan-master/
 │       ├── nextjs-16-tailwind-4/
