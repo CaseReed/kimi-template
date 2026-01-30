@@ -24,11 +24,54 @@
   "home": {
     "title": "Next.js 16 + Tailwind 4",
     "subtitle": "Installation successful! 🎉",
-    "primaryButton": "Primary Button",
-    "secondaryButton": "Secondary Button",
-    "gridItem1": "Grid Item 1",
-    "gridItem2": "Grid Item 2",
-    "gridItem3": "Grid Item 3"
+    "login": "Sign In",
+    "hero": {
+      "title": "Build faster with",
+      "highlight": "Modern Stack",
+      "badge": "Now with React 19",
+      "description": "A production-ready starter template built with Next.js 16, Tailwind CSS v4, and React 19. Features authentication, i18n, and beautiful UI components.",
+      "cta": "Get Started",
+      "secondaryCta": "View on GitHub",
+      "techStack": "Built with modern technologies"
+    },
+    "features": {
+      "title": "Everything you need",
+      "description": "A complete starter kit with all the features you need to build modern web applications.",
+      "items": {
+        "performance": {
+          "title": "Lightning Fast",
+          "description": "Optimized for performance with Next.js App Router, React Server Components, and edge functions."
+        },
+        "security": {
+          "title": "Secure by Default",
+          "description": "Authentication with Better Auth, protected routes, and security best practices built-in."
+        },
+        "i18n": {
+          "title": "Multi-language",
+          "description": "Full internationalization support with next-intl. Ready for global audiences."
+        },
+        "analytics": {
+          "title": "Analytics Dashboard",
+          "description": "Beautiful dashboard with real-time data visualization using Recharts and TanStack Query."
+        },
+        "ui": {
+          "title": "Beautiful UI",
+          "description": "Modern UI components with shadcn/ui, Tailwind CSS v4, and smooth Motion animations."
+        },
+        "code": {
+          "title": "Type Safe",
+          "description": "Full TypeScript support with strict type checking for a robust development experience."
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to get started?",
+      "description": "Start building your next project with this production-ready template today.",
+      "button": "Start Building"
+    },
+    "footer": {
+      "copyright": "© 2025 Demo. Built with Next.js 16 + Tailwind CSS v4."
+    }
   },
   "auth": {
     "login": {
@@ -147,5 +190,11 @@
       "en": "English",
       "fr": "French"
     }
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
   }
 }

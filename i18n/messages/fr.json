@@ -24,11 +24,54 @@
   "home": {
     "title": "Next.js 16 + Tailwind 4",
     "subtitle": "Installation réussie ! 🎉",
-    "primaryButton": "Bouton Principal",
-    "secondaryButton": "Bouton Secondaire",
-    "gridItem1": "Élément 1",
-    "gridItem2": "Élément 2",
-    "gridItem3": "Élément 3"
+    "login": "Connexion",
+    "hero": {
+      "title": "Développez plus vite avec",
+      "highlight": "Modern Stack",
+      "badge": "Maintenant avec React 19",
+      "description": "Un template de démarrage production-ready construit avec Next.js 16, Tailwind CSS v4 et React 19. Inclut l'authentification, l'i18n et de magnifiques composants UI.",
+      "cta": "Commencer",
+      "secondaryCta": "Voir sur GitHub",
+      "techStack": "Construit avec des technologies modernes"
+    },
+    "features": {
+      "title": "Tout ce dont vous avez besoin",
+      "description": "Un kit de démarrage complet avec toutes les fonctionnalités nécessaires pour construire des applications web modernes.",
+      "items": {
+        "performance": {
+          "title": "Ultra Rapide",
+          "description": "Optimisé pour la performance avec Next.js App Router, React Server Components et les fonctions edge."
+        },
+        "security": {
+          "title": "Sécurisé par défaut",
+          "description": "Authentification avec Better Auth, routes protégées et meilleures pratiques de sécurité intégrées."
+        },
+        "i18n": {
+          "title": "Multi-langue",
+          "description": "Support complet de l'internationalisation avec next-intl. Prêt pour un public mondial."
+        },
+        "analytics": {
+          "title": "Tableau de bord Analytics",
+          "description": "Magnifique tableau de bord avec visualisation de données en temps réel utilisant Recharts et TanStack Query."
+        },
+        "ui": {
+          "title": "Interface moderne",
+          "description": "Composants UI modernes avec shadcn/ui, Tailwind CSS v4 et des animations Motion fluides."
+        },
+        "code": {
+          "title": "Type Safe",
+          "description": "Support complet de TypeScript avec vérification stricte des types pour une expérience de développement robuste."
+        }
+      }
+    },
+    "cta": {
+      "title": "Prêt à commencer ?",
+      "description": "Lancez votre prochain projet avec ce template production-ready dès aujourd'hui.",
+      "button": "Commencer à construire"
+    },
+    "footer": {
+      "copyright": "© 2025 Demo. Construit avec Next.js 16 + Tailwind CSS v4."
+    }
   },
   "auth": {
     "login": {
@@ -147,5 +190,11 @@
       "en": "Anglais",
       "fr": "Français"
     }
+  },
+  "theme": {
+    "toggle": "Changer de thème",
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système"
   }
 }

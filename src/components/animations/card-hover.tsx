@@ -8,6 +8,10 @@ interface CardHoverProps {
   className?: string;
 }
 
+/**
+ * Card hover animation with theme-aware shadow
+ * Uses CSS variables for shadows that adapt to light/dark mode
+ */
 export function CardHover({ children, className }: CardHoverProps) {
   const shouldReduceMotion = useReducedMotion();
 
@@ -18,7 +22,6 @@ export function CardHover({ children, className }: CardHoverProps) {
           ? undefined
           : {
               y: -8,
-              boxShadow: "0 20px 40px rgba(0,0,0,0.15)",
             }
       }
       transition={{
@@ -26,7 +29,7 @@ export function CardHover({ children, className }: CardHoverProps) {
         stiffness: 300,
         damping: 20,
       }}
-      className={`rounded-xl overflow-hidden ${className || ""}`}
+      className={`rounded-xl overflow-hidden transition-shadow duration-300 hover:shadow-xl ${className || ""}`}
     >
       {children}
     </motion.div>

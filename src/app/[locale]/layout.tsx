@@ -4,8 +4,8 @@ import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "../../../i18n/routing";
 import { QueryProvider } from "@/components/providers/query-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import { HydrationSuppressor } from "@/components/providers/hydration-suppressor";
-import { Header } from "@/components/layout/header";
 import { OrganizationJsonLd, WebSiteJsonLd } from "@/components/seo";
 import { Analytics } from "@vercel/analytics/next";
 import enMessages from "../../../i18n/messages/en.json";
@@ -58,11 +58,18 @@ export default async function LocaleLayout({
         <OrganizationJsonLd />
         <WebSiteJsonLd />
 
+        {/* 
+          Provider order is critical:
+          1. NextIntlClientProvider - i18n context (must be first for translations)
+          2. ThemeProvider - theme context (needs to wrap children for theme access)
+          3. QueryProvider - TanStack Query (can be innermost)
+        */}
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <QueryProvider>
-            <Header />
-            {children}
-          </QueryProvider>
+          <ThemeProvider>
+            <QueryProvider>
+              {children}
+            </QueryProvider>
+          </ThemeProvider>
         </NextIntlClientProvider>
         <Analytics />
       </body>

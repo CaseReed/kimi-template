@@ -19,6 +19,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Github, Chrome, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { FadeIn } from "@/components/animations/fade-in";
 
 // Validation schema
 const loginSchema = z.object({
@@ -85,11 +86,16 @@ export function LoginForm({ locale }: LoginFormProps) {
   const errorId = "login-form-error";
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold">{t("login.title")}</CardTitle>
-        <CardDescription>{t("login.description")}</CardDescription>
-      </CardHeader>
+    <FadeIn direction="up" duration={0.5} className="w-full max-w-md">
+      <Card className="border shadow-sm">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl font-bold tracking-tight text-foreground">
+            {t("login.title")}
+          </CardTitle>
+          <CardDescription className="text-muted-foreground">
+            {t("login.description")}
+          </CardDescription>
+        </CardHeader>
       <CardContent className="space-y-4">
         {/* Social Login Buttons */}
         <div className="grid grid-cols-2 gap-4">
@@ -191,17 +197,18 @@ export function LoginForm({ locale }: LoginFormProps) {
           </Button>
         </form>
       </CardContent>
-      <CardFooter className="flex flex-col space-y-2">
+      <CardFooter className="flex flex-col space-y-2 pt-2">
         <div className="text-sm text-muted-foreground">
           {t("login.noAccount")}{" "}
           <Link
             href={`/${locale}/register`}
-            className="text-primary underline-offset-4 hover:underline"
+            className="text-primary font-medium underline-offset-4 hover:underline transition-colors"
           >
             {t("login.signUp")}
           </Link>
         </div>
       </CardFooter>
     </Card>
+    </FadeIn>
   );
 }

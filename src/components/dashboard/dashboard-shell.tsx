@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { FadeIn } from "@/components/animations/fade-in";
 import { LogoutButton } from "@/components/auth/logout-button";
+import { ThemeToggle } from "@/components/theme";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 
@@ -57,11 +58,11 @@ export function DashboardShell({
                   {t("subtitle")}
                 </p>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 sm:gap-4">
                 {header && (
                   <div className="flex items-center gap-2">{header}</div>
                 )}
-                <Separator orientation="vertical" className="h-8" />
+                <Separator orientation="vertical" className="h-8 hidden sm:block" />
                 {/* User Info */}
                 <div className="flex items-center gap-3">
                   <Avatar className="h-8 w-8">
@@ -80,6 +81,10 @@ export function DashboardShell({
                     )}
                   </div>
                 </div>
+                <Separator orientation="vertical" className="h-8" />
+                {/* Settings Group */}
+                <ThemeToggle />
+                <Separator orientation="vertical" className="h-8" />
                 <LogoutButton locale={locale} variant="outline" size="sm" />
               </div>
             </div>
