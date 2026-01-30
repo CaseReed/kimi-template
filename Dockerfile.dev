@@ -1,0 +1,32 @@
+# ==========================================
+# kimi-template - Development Dockerfile
+# Next.js 16 + React 19 + pnpm
+# ==========================================
+
+FROM node:20-alpine
+
+# Install system dependencies
+RUN apk add --no-cache libc6-compat
+
+WORKDIR /app
+
+# Enable pnpm via corepack (faster than npm install -g)
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+
+# Copy package files
+COPY package.json pnpm-lock.yaml* ./
+
+# Install all dependencies (including dev)
+RUN pnpm install
+
+# Copy source (will be overridden by volume mount in compose)
+COPY . .
+
+EXPOSE 3000
+
+ENV NODE_ENV=development
+ENV NEXT_TELEMETRY_DISABLED=1
+
+CMD ["pnpm", "dev"]
