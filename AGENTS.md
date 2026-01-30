@@ -458,7 +458,7 @@ export async function GET() {
 
 ## Kimi Skills Reference
 
-This project has **28 specialized skills** in `.agents/skills/` to help with development tasks:
+This project has **29 specialized skills** in `.agents/skills/` to help with development tasks:
 
 ### Planning & Coordination
 
@@ -493,6 +493,7 @@ This project has **28 specialized skills** in `.agents/skills/` to help with dev
 | `/skill:migration-refactor` | Safe refactoring patterns | Refactoring existing code |
 | `/skill:git-workflow` | Git best practices: commits, branches, PRs | Any git operations |
 | `/skill:performance-optimization` | Next.js 16 + React 19 performance patterns | CWV, PPR, React Compiler, lazy loading |
+| `/skill:vercel-react-best-practices` | React & Next.js performance best practices (Vercel) | Code review, refactoring, optimization patterns |
 | `/skill:deployment-vercel` | Vercel deployment, CI/CD, Edge Functions | Deploying to production, env vars, preview |
 | `/skill:docker-deployment` | Docker containerization, multi-platform deployment | AWS, GCP, Railway, self-hosting with Docker |
 | `/skill:source-of-truth` | **Official documentation reference** | When stuck, in doubt, or adding deps |
