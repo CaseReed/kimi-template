@@ -3,31 +3,163 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ============================================
+   Tech Noir Design System
+   Dark mode dominant, cyan electric accent
+   ============================================ */
+
+/* Light Mode (Default) - Gray Scale */
+:root {
+  /* Base radius */
+  --radius: 0.5rem;
+
+  /* Gray Scale */
+  --gray-100: #F2F2F2;
+  --gray-200: #EBEBEB;
+  --gray-300: #E6E6E6;
+  --gray-400: #EBEBEB;
+  --gray-500: #C9C9C9;
+  --gray-600: #A8A8A8;
+  --gray-700: #8F8F8F;
+  --gray-800: #7D7D7D;
+  --gray-900: #666666;
+  --gray-1000: #171717;
+
+  /* Primary Scale (Cyan) */
+  --primary-100: #E6FCFF;
+  --primary-200: #B3F5FF;
+  --primary-300: #80EEFF;
+  --primary-400: #4DE7FF;
+  --primary-500: #00D9FF;
+  --primary-600: #00B8D9;
+  --primary-700: #0096B3;
+  --primary-800: #007A8C;
+  --primary-900: #005C6B;
+  --primary-1000: #003D47;
+
+  /* Red Scale (Error) */
+  --red-100: #FFE6E6;
+  --red-500: #FF4444;
+  --red-1000: #470000;
+
+  /* Green Scale (Success) */
+  --green-100: #DCFCE7;
+  --green-500: #22C55E;
+  --green-1000: #052E16;
+
+  /* Amber Scale (Warning) */
+  --amber-100: #FEF3C7;
+  --amber-500: #F59E0B;
+  --amber-1000: #451A03;
+
+  /* Semantic Tokens - Light Mode */
+  --background: #FFFFFF;
+  --background-2: #FAFAFA;
+  --foreground: #171717;
+  --foreground-muted: #666666;
+  --border: #E6E6E6;
+  --border-hover: #C9C9C9;
+  --primary: #00B8D9;
+  --primary-foreground: #FFFFFF;
+  --secondary: #EBEBEB;
+  --secondary-foreground: #171717;
+  --muted: #F2F2F2;
+  --muted-foreground: #666666;
+  --accent: #F2F2F2;
+  --accent-foreground: #171717;
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  --ring: #00B8D9;
+  --popover: #FFFFFF;
+  --popover-foreground: #171717;
+
+  /* Chart Colors - Light Mode */
+  --chart-1: #00B8D9;
+  --chart-2: #22C55E;
+  --chart-3: #F59E0B;
+  --chart-4: #8B5CF6;
+  --chart-5: #EC4899;
+}
+
+/* Dark Mode (Tech Noir Default) */
+.dark {
+  /* Gray Scale - Dark */
+  --gray-100: #1A1A1A;
+  --gray-200: #1F1F1F;
+  --gray-300: #292929;
+  --gray-400: #2E2E2E;
+  --gray-500: #454545;
+  --gray-600: #878787;
+  --gray-700: #8F8F8F;
+  --gray-800: #7D7D7D;
+  --gray-900: #A1A1A1;
+  --gray-1000: #EDEDED;
+
+  /* Primary Scale (Cyan) - Same for both themes */
+  --primary-100: #E6FCFF;
+  --primary-200: #B3F5FF;
+  --primary-300: #80EEFF;
+  --primary-400: #4DE7FF;
+  --primary-500: #00D9FF;
+  --primary-600: #00B8D9;
+  --primary-700: #0096B3;
+  --primary-800: #007A8C;
+  --primary-900: #005C6B;
+  --primary-1000: #003D47;
+
+  /* Red Scale (Error) - Same for both themes */
+  --red-100: #FFE6E6;
+  --red-500: #FF4444;
+  --red-1000: #470000;
+
+  /* Green Scale (Success) - Same for both themes */
+  --green-100: #DCFCE7;
+  --green-500: #22C55E;
+  --green-1000: #052E16;
+
+  /* Amber Scale (Warning) - Same for both themes */
+  --amber-100: #FEF3C7;
+  --amber-500: #F59E0B;
+  --amber-1000: #451A03;
+
+  /* Semantic Tokens - Dark Mode */
+  --background: #0A0A0A;
+  --background-2: #000000;
+  --foreground: #EDEDED;
+  --foreground-muted: #878787;
+  --border: #292929;
+  --border-hover: #454545;
+  --primary: #00D9FF;
+  --primary-foreground: #FFFFFF;
+  --secondary: #1F1F1F;
+  --secondary-foreground: #EDEDED;
+  --muted: #1F1F1F;
+  --muted-foreground: #878787;
+  --accent: #1F1F1F;
+  --accent-foreground: #EDEDED;
+  --destructive: #FF4444;
+  --destructive-foreground: #FFFFFF;
+  --ring: #00D9FF;
+  --popover: #1A1A1A;
+  --popover-foreground: #EDEDED;
+
+  /* Chart Colors - Dark Mode (Tech Noir) */
+  --chart-1: #00D9FF;
+  --chart-2: #4DE7FF;
+  --chart-3: #00B8D9;
+  --chart-4: #22C55E;
+  --chart-5: #FF4444;
+}
+
+/* ============================================
+   Tailwind v4 Theme Configuration
+   ============================================ */
 @theme {
-  /* Personnalisez votre thème ici */
-  --color-primary: #3b82f6;
-  --color-secondary: #8b5cf6;
-}
-
-/* Styles de base */
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-@theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  /* Semantic Colors */
   --color-background: var(--background);
+  --color-background-2: var(--background-2);
   --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
+  --color-foreground-muted: var(--foreground-muted);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
@@ -37,100 +169,150 @@ body {
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
-  --color-input: var(--input);
+  --color-border-hover: var(--border-hover);
   --color-ring: var(--ring);
+  --color-input: var(--border);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  /* Gray Scale */
+  --color-gray-100: var(--gray-100);
+  --color-gray-200: var(--gray-200);
+  --color-gray-300: var(--gray-300);
+  --color-gray-400: var(--gray-400);
+  --color-gray-500: var(--gray-500);
+  --color-gray-600: var(--gray-600);
+  --color-gray-700: var(--gray-700);
+  --color-gray-800: var(--gray-800);
+  --color-gray-900: var(--gray-900);
+  --color-gray-1000: var(--gray-1000);
+
+  /* Primary Scale */
+  --color-primary-100: var(--primary-100);
+  --color-primary-200: var(--primary-200);
+  --color-primary-300: var(--primary-300);
+  --color-primary-400: var(--primary-400);
+  --color-primary-500: var(--primary-500);
+  --color-primary-600: var(--primary-600);
+  --color-primary-700: var(--primary-700);
+  --color-primary-800: var(--primary-800);
+  --color-primary-900: var(--primary-900);
+  --color-primary-1000: var(--primary-1000);
+
+  /* Red Scale */
+  --color-red-100: var(--red-100);
+  --color-red-500: var(--red-500);
+  --color-red-1000: var(--red-1000);
+
+  /* Green Scale */
+  --color-green-100: var(--green-100);
+  --color-green-500: var(--green-500);
+  --color-green-1000: var(--green-1000);
+
+  /* Amber Scale */
+  --color-amber-100: var(--amber-100);
+  --color-amber-500: var(--amber-500);
+  --color-amber-1000: var(--amber-1000);
+
+  /* Chart Colors */
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  /* Font Family - Geist */
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 }
 
-:root {
-  --radius: 0.625rem;
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --chart-6: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --chart-6: oklch(0.646 0.222 41.116);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
-}
-
+/* ============================================
+   Base Layer Styles
+   ============================================ */
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
+
+  html {
+    @apply antialiased;
+  }
+
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+  }
+
+  /* Cursor pointer for interactive elements (Tailwind v4 fix) */
+  button:not([disabled]),
+  [role="button"]:not([disabled]) {
+    cursor: pointer;
+  }
+}
+
+/* ============================================
+   Tech Noir Button Glow Effects
+   ============================================ */
+@layer components {
+  .btn-glow {
+    transition: all 0.15s ease;
+  }
+  .btn-glow:hover {
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.3), 0 0 40px rgba(0, 217, 255, 0.1);
+  }
+
+  .btn-glow-red {
+    transition: all 0.15s ease;
+  }
+  .btn-glow-red:hover {
+    box-shadow: 0 0 20px rgba(255, 68, 68, 0.3), 0 0 40px rgba(255, 68, 68, 0.1);
+  }
+}
+
+/* ============================================
+   Tech Noir Glow & Animation Keyframes
+   ============================================ */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(0, 217, 255, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(0, 217, 255, 0.5); }
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@layer utilities {
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .animate-gradient {
+    animation: gradient 3s ease infinite;
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(90deg, var(--gray-100) 25%, var(--gray-200) 50%, var(--gray-100) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  .dark .animate-shimmer {
+    background: linear-gradient(90deg, var(--gray-800) 25%, var(--gray-700) 50%, var(--gray-800) 75%);
   }
 }

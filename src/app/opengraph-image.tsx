@@ -4,7 +4,7 @@ import { ImageResponse } from "next/og";
 export const runtime = "edge";
 
 // Image metadata
-export const alt = "My App - Modern Dashboard Application";
+export const alt = "kimi-template - Production-Ready Next.js 16 Starter";
 export const size = {
   width: 1200,
   height: 630,
@@ -55,7 +55,7 @@ export default async function Image() {
               color: "white",
             }}
           >
-            M
+            K
           </div>
           <span
             style={{
@@ -65,14 +65,14 @@ export default async function Image() {
               letterSpacing: "-0.02em",
             }}
           >
-            My App
+            kimi-template
           </span>
         </div>
 
         {/* Main title */}
         <h1
           style={{
-            fontSize: "64px",
+            fontSize: "56px",
             fontWeight: "bold",
             color: "white",
             textAlign: "center",
@@ -81,7 +81,7 @@ export default async function Image() {
             letterSpacing: "-0.02em",
           }}
         >
-          Modern Dashboard
+          Production-Ready Starter
         </h1>
 
         {/* Subtitle */}
@@ -95,7 +95,7 @@ export default async function Image() {
             maxWidth: "800px",
           }}
         >
-          Built with Next.js 16, Tailwind CSS v4 & React 19
+          Next.js 16 · Tailwind CSS v4 · React 19 · Better Auth · Drizzle ORM
         </p>
 
         {/* Feature badges */}
@@ -106,7 +106,7 @@ export default async function Image() {
             marginTop: "40px",
           }}
         >
-          {["Real-time", "Analytics", "Responsive"].map((badge) => (
+          {["Authentication", "Dashboard", "i18n", "Type-Safe"].map((badge) => (
             <span
               key={badge}
               style={{

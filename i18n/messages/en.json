@@ -1,8 +1,8 @@
 {
   "metadata": {
     "home": {
-      "title": "Next.js 16 + Tailwind 4",
-      "description": "Modern web application with Next.js 16, Tailwind CSS v4, and React 19"
+      "title": "kimi-template - Production-Ready Next.js 16 Starter",
+      "description": "A production-ready starter template with Next.js 16, Tailwind CSS v4, React 19, Better Auth, Drizzle ORM, PostgreSQL, shadcn/ui, and more."
     },
     "dashboard": {
       "title": "Dashboard",
@@ -22,14 +22,14 @@
     "home": "Home"
   },
   "home": {
-    "title": "Next.js 16 + Tailwind 4",
+    "title": "kimi-template",
     "subtitle": "Installation successful! 🎉",
     "login": "Sign In",
     "hero": {
       "title": "Build faster with",
-      "highlight": "Modern Stack",
+      "highlight": "kimi-template",
       "badge": "Now with React 19",
-      "description": "A production-ready starter template built with Next.js 16, Tailwind CSS v4, and React 19. Features authentication, i18n, and beautiful UI components.",
+      "description": "A production-ready starter template built with Next.js 16, Tailwind CSS v4, React 19, Better Auth, Drizzle ORM, and PostgreSQL. Features authentication, i18n, dashboard, and beautiful UI components.",
       "cta": "Get Started",
       "secondaryCta": "View on GitHub",
       "techStack": "Built with modern technologies"
@@ -70,10 +70,21 @@
       "button": "Start Building"
     },
     "footer": {
-      "copyright": "© 2025 Demo. Built with Next.js 16 + Tailwind CSS v4."
+      "copyright": "© 2025 kimi-template. Built with Next.js 16 + Tailwind CSS v4.",
+      "tagline": "Production-ready Next.js 16 starter template",
+      "links": {
+        "product": "Product",
+        "features": "Features",
+        "dashboard": "Dashboard",
+        "resources": "Resources",
+        "github": "GitHub",
+        "docs": "Documentation"
+      },
+      "builtWith": "Built with"
     }
   },
   "auth": {
+    "backToHome": "Back to home",
     "login": {
       "title": "Welcome back",
       "description": "Sign in to your account to access the dashboard",
@@ -118,6 +129,7 @@
   "dashboard": {
     "title": "Dashboard",
     "subtitle": "Overview of your metrics",
+    "backToHome": "Home",
     "actions": {
       "refresh": "Refresh",
       "refreshAriaLabel": "Refresh data"

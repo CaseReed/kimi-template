@@ -6,23 +6,28 @@ import type { Metadata, Viewport } from "next";
 export const metadata: Metadata = {
   // Title template - %s will be replaced by page-specific titles
   title: {
-    template: "%s | My App",
-    default: "My App - Modern Dashboard Application",
+    template: "%s | kimi-template",
+    default: "kimi-template - Production-Ready Next.js 16 Starter",
   },
   description:
-    "A modern web application built with Next.js 16, Tailwind CSS v4, React 19, and shadcn/ui. Features interactive dashboards, real-time data visualization, and seamless user experience.",
+    "A production-ready starter template built with Next.js 16, Tailwind CSS v4, React 19, Better Auth, Drizzle ORM, and PostgreSQL. Features authentication, i18n, dashboard, and beautiful UI components.",
   keywords: [
-    "Next.js",
-    "React",
-    "Tailwind CSS",
-    "Dashboard",
-    "Analytics",
+    "Next.js 16",
+    "React 19",
+    "Tailwind CSS v4",
+    "Better Auth",
+    "Drizzle ORM",
+    "PostgreSQL",
     "TypeScript",
-    "Modern Web App",
+    "shadcn/ui",
+    "TanStack Query",
+    "Starter Template",
+    "Dashboard",
+    "i18n",
   ],
-  authors: [{ name: "My App Team" }],
-  creator: "My App Team",
-  publisher: "My App",
+  authors: [{ name: "kimi-template" }],
+  creator: "kimi-template",
+  publisher: "kimi-template",
   // Canonical URL base - update this when you have a production domain
   metadataBase: new URL(
     process.env.VERCEL_URL
@@ -42,19 +47,19 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     alternateLocale: ["fr_FR"],
-    siteName: "My App",
+    siteName: "kimi-template",
     url: "/",
-    title: "My App - Modern Dashboard Application",
+    title: "kimi-template - Production-Ready Next.js 16 Starter",
     description:
-      "A modern web application built with Next.js 16, Tailwind CSS v4, and React 19.",
+      "A production-ready starter template built with Next.js 16, Tailwind CSS v4, React 19, Better Auth, Drizzle ORM, and PostgreSQL.",
   },
   // Twitter Card defaults
   twitter: {
     card: "summary_large_image",
-    title: "My App - Modern Dashboard Application",
+    title: "kimi-template - Production-Ready Next.js 16 Starter",
     description:
-      "A modern web application built with Next.js 16, Tailwind CSS v4, and React 19.",
-    creator: "@myapp",
+      "A production-ready starter template built with Next.js 16, Tailwind CSS v4, React 19, Better Auth, Drizzle ORM, and PostgreSQL.",
+    creator: "@kimitemplate",
   },
   // Robots meta
   robots: {

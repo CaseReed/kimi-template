@@ -15,6 +15,7 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo";
 import { generateWebPageJsonLd } from "@/lib/seo";
+import { FadeIn } from "@/components/animations/fade-in";
 
 export async function generateMetadata({
   params,
@@ -70,6 +71,7 @@ export default async function DashboardPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "dashboard" });
 
   // Check authentication - protect the dashboard
   const session = await auth.api.getSession({
@@ -113,22 +115,36 @@ export default async function DashboardPage({
       <JsonLd data={pageJsonLd} />
 
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <DashboardShell 
-          header={<RefreshButton />}
-          user={session.user}
-          locale={locale}
-        >
-          <div className="space-y-6">
-            <StatsGrid />
-            <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
-              <div className="min-w-0 overflow-hidden">
-                <RevenueChart />
+        <DashboardShell>
+          <div className="space-y-8">
+            {/* Page Header */}
+            <FadeIn direction="up" duration={0.5}>
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+                    {t("title")}
+                  </h1>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {t("subtitle")}
+                  </p>
+                </div>
+                <RefreshButton />
               </div>
-              <div className="min-w-0 overflow-hidden">
-                <CategoryChart />
+            </FadeIn>
+
+            {/* Dashboard Content */}
+            <div className="space-y-6">
+              <StatsGrid />
+              <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
+                <div className="min-w-0 overflow-hidden">
+                  <RevenueChart />
+                </div>
+                <div className="min-w-0 overflow-hidden">
+                  <CategoryChart />
+                </div>
               </div>
+              <TransactionsTable />
             </div>
-            <TransactionsTable />
           </div>
         </DashboardShell>
       </HydrationBoundary>

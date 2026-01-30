@@ -1,8 +1,8 @@
 {
   "metadata": {
     "home": {
-      "title": "Next.js 16 + Tailwind 4",
-      "description": "Application web moderne avec Next.js 16, Tailwind CSS v4 et React 19"
+      "title": "kimi-template - Starter Next.js 16 Production-Ready",
+      "description": "Un template de démarrage production-ready avec Next.js 16, Tailwind CSS v4, React 19, Better Auth, Drizzle ORM, PostgreSQL, shadcn/ui, et plus."
     },
     "dashboard": {
       "title": "Tableau de bord",
@@ -22,14 +22,14 @@
     "home": "Accueil"
   },
   "home": {
-    "title": "Next.js 16 + Tailwind 4",
+    "title": "kimi-template",
     "subtitle": "Installation réussie ! 🎉",
     "login": "Connexion",
     "hero": {
       "title": "Développez plus vite avec",
-      "highlight": "Modern Stack",
+      "highlight": "kimi-template",
       "badge": "Maintenant avec React 19",
-      "description": "Un template de démarrage production-ready construit avec Next.js 16, Tailwind CSS v4 et React 19. Inclut l'authentification, l'i18n et de magnifiques composants UI.",
+      "description": "Un template de démarrage production-ready construit avec Next.js 16, Tailwind CSS v4, React 19, Better Auth, Drizzle ORM et PostgreSQL. Inclut l'authentification, l'i18n, un dashboard et de magnifiques composants UI.",
       "cta": "Commencer",
       "secondaryCta": "Voir sur GitHub",
       "techStack": "Construit avec des technologies modernes"
@@ -70,10 +70,21 @@
       "button": "Commencer à construire"
     },
     "footer": {
-      "copyright": "© 2025 Demo. Construit avec Next.js 16 + Tailwind CSS v4."
+      "copyright": "© 2025 kimi-template. Construit avec Next.js 16 + Tailwind CSS v4.",
+      "tagline": "Template de démarrage Next.js 16 production-ready",
+      "links": {
+        "product": "Produit",
+        "features": "Fonctionnalités",
+        "dashboard": "Dashboard",
+        "resources": "Ressources",
+        "github": "GitHub",
+        "docs": "Documentation"
+      },
+      "builtWith": "Construit avec"
     }
   },
   "auth": {
+    "backToHome": "Retour à l'accueil",
     "login": {
       "title": "Bon retour",
       "description": "Connectez-vous à votre compte pour accéder au tableau de bord",
@@ -118,6 +129,7 @@
   "dashboard": {
     "title": "Tableau de bord",
     "subtitle": "Vue d'ensemble de vos métriques",
+    "backToHome": "Accueil",
     "actions": {
       "refresh": "Actualiser",
       "refreshAriaLabel": "Rafraîchir les données"
