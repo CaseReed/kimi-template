@@ -163,11 +163,13 @@
     },
     "transactions": {
       "title": "Transactions",
+      "description": "Transactions et paiements récents",
       "customer": "Client",
       "amount": "Montant",
       "status": "Statut",
       "date": "Date",
       "actions": "Actions",
+      "searchPlaceholder": "Rechercher des transactions...",
       "statusLabels": {
         "completed": "Complété",
         "pending": "En attente",
@@ -175,7 +177,8 @@
       },
       "buttonLabels": {
         "change": "Changer",
-        "edit": "Modifier"
+        "edit": "Modifier",
+        "view": "Voir les détails"
       },
       "ariaLabels": {
         "avatar": "Avatar de {name}",

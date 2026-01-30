@@ -10,14 +10,12 @@ import {
   YAxis,
   Cell,
 } from "recharts";
-import { AlertCircle } from "lucide-react";
-
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
+  CardDescription,
 } from "@/components/ui/card";
 import {
   ChartContainer,
@@ -26,7 +24,6 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { FadeIn } from "@/components/animations/fade-in";
 import { fetchCategories } from "@/lib/api/dashboard";
 import { queryKeys } from "@/lib/query-keys";
@@ -56,33 +53,32 @@ export function CategoryChart() {
 
   if (isLoading) {
     return (
-      <Card>
-        <CardHeader className="pb-2">
-          <Skeleton className="h-5 w-40" />
-          <Skeleton className="h-3 w-24" />
-        </CardHeader>
-        <CardContent>
-          <Skeleton className="min-h-[200px] w-full" />
-        </CardContent>
-      </Card>
+      <FadeIn delay={0.1}>
+        <Card className="border-border">
+          <CardHeader className="pb-2">
+            <Skeleton className="h-5 w-40" />
+            <Skeleton className="h-4 w-32" />
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="h-[200px] w-full" />
+          </CardContent>
+        </Card>
+      </FadeIn>
     );
   }
 
   if (isError) {
     return (
       <FadeIn delay={0.1}>
-        <Card>
+        <Card className="border-border">
           <CardHeader className="pb-2">
             <CardTitle>{t("title")}</CardTitle>
             <CardDescription>{t("description")}</CardDescription>
           </CardHeader>
           <CardContent>
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                {error instanceof Error ? error.message : t("loadingError")}
-              </AlertDescription>
-            </Alert>
+            <div className="flex min-h-[200px] items-center justify-center text-sm text-muted-foreground">
+              {error instanceof Error ? error.message : t("loadingError")}
+            </div>
           </CardContent>
         </Card>
       </FadeIn>
@@ -92,7 +88,7 @@ export function CategoryChart() {
   if (!categories || categories.length === 0) {
     return (
       <FadeIn delay={0.1}>
-        <Card>
+        <Card className="border-border">
           <CardHeader className="pb-2">
             <CardTitle>{t("title")}</CardTitle>
             <CardDescription>{t("description")}</CardDescription>
@@ -107,7 +103,7 @@ export function CategoryChart() {
 
   return (
     <FadeIn delay={0.1}>
-      <Card>
+      <Card className="border-border">
         <CardHeader className="pb-2">
           <CardTitle>{t("title")}</CardTitle>
           <CardDescription>{t("description")}</CardDescription>
@@ -120,15 +116,21 @@ export function CategoryChart() {
               layout="vertical"
               margin={{
                 left: -20,
+                right: 20,
               }}
             >
-              <CartesianGrid horizontal={false} strokeDasharray="3 3" stroke="hsl(var(--border) / 0.5)" />
+              <CartesianGrid 
+                horizontal={false} 
+                strokeDasharray="3 3" 
+                stroke="hsl(var(--border))" 
+              />
               <XAxis
                 type="number"
                 tickFormatter={(value) => `${value}%`}
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
+                className="text-xs text-muted-foreground"
               />
               <YAxis
                 dataKey="category"
@@ -136,17 +138,24 @@ export function CategoryChart() {
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
+                width={80}
+                className="text-xs text-muted-foreground"
               />
               <ChartTooltip
-                cursor={false}
+                cursor={{ fill: 'hsl(var(--muted) / 0.3)' }}
                 content={
                   <ChartTooltipContent
+                    className="bg-popover border-border"
                     formatter={(value) => [`${value}%`, t("share")]}
                     hideLabel
                   />
                 }
               />
-              <Bar dataKey="value" fill="var(--color-value)" radius={[0, 4, 4, 0]}>
+              <Bar 
+                dataKey="value" 
+                radius={[0, 4, 4, 0]}
+                barSize={28}
+              >
                 {categories.map((_, index) => (
                   <Cell
                     key={`cell-${index}`}
@@ -156,6 +165,22 @@ export function CategoryChart() {
               </Bar>
             </BarChart>
           </ChartContainer>
+
+          {/* Legend */}
+          <div className="mt-4 flex flex-wrap gap-3">
+            {categories.slice(0, 3).map((cat, index) => (
+              <div 
+                key={cat.category}
+                className="flex items-center gap-1.5 text-xs text-muted-foreground"
+              >
+                <div 
+                  className="w-2 h-2 rounded-full"
+                  style={{ backgroundColor: categoryColors[index % categoryColors.length] }}
+                />
+                <span>{cat.category}</span>
+              </div>
+            ))}
+          </div>
         </CardContent>
       </Card>
     </FadeIn>

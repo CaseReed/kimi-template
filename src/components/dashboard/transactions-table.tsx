@@ -3,7 +3,7 @@
 import { useState, useCallback, useOptimistic, useTransition, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations, useLocale } from "next-intl";
-import { motion, useReducedMotion } from "motion/react";
+import { useReducedMotion } from "motion/react";
 import {
   fetchTransactions,
   updateTransactionStatus,
@@ -11,24 +11,22 @@ import {
 import { queryKeys } from "@/lib/query-keys";
 import type { Transaction } from "@/lib/types/dashboard";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+  TechTable,
+  TechPagination,
+  TechStatusBadge,
+} from "@/components/design-system";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import { FadeIn } from "@/components/animations/fade-in";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
-import { Card, CardContent } from "@/components/ui/card";
+import { RefreshCw, Download, Filter, Search } from "lucide-react";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -50,31 +48,6 @@ function formatDate(dateString: string, locale: string): string {
     hour: "2-digit",
     minute: "2-digit",
   }).format(date);
-}
-
-// Format date short (mobile)
-function formatDateShort(dateString: string, locale: string): string {
-  const date = new Date(dateString);
-  return new Intl.DateTimeFormat(locale === "fr" ? "fr-FR" : "en-US", {
-    day: "2-digit",
-    month: "short",
-  }).format(date);
-}
-
-// Get badge variant based on status
-function getStatusBadgeVariant(
-  status: Transaction["status"]
-): "default" | "secondary" | "destructive" | "outline" {
-  switch (status) {
-    case "completed":
-      return "default";
-    case "pending":
-      return "secondary";
-    case "failed":
-      return "destructive";
-    default:
-      return "outline";
-  }
 }
 
 // Get initials from name
@@ -100,164 +73,29 @@ function getNextStatus(
   return statusOrder[(currentIndex + 1) % statusOrder.length];
 }
 
-// Skeleton rows component for desktop
-function SkeletonRows({ count }: { count: number }) {
+// Map transaction status to TechStatusBadge status
+type BadgeStatus = "active" | "inactive" | "pending" | "error" | "success" | "warning";
+
+function mapStatusToBadge(status: Transaction["status"]): BadgeStatus {
+  switch (status) {
+    case "completed": return "success";
+    case "pending": return "pending";
+    case "failed": return "error";
+    default: return "inactive";
+  }
+}
+
+// Table Skeleton Loader
+function TableSkeleton() {
   return (
-    <>
-      {Array.from({ length: count }).map((_, index) => (
-        <TableRow key={`skeleton-${index}`}>
-          <TableCell>
-            <div className="flex items-center gap-3">
-              <Skeleton className="h-8 w-8 rounded-full" />
-              <div className="space-y-1">
-                <Skeleton className="h-4 w-24" />
-                <Skeleton className="h-3 w-32" />
-              </div>
-            </div>
-          </TableCell>
-          <TableCell>
-            <Skeleton className="h-4 w-20" />
-          </TableCell>
-          <TableCell>
-            <Skeleton className="h-5 w-16 rounded-full" />
-          </TableCell>
-          <TableCell>
-            <Skeleton className="h-4 w-28" />
-          </TableCell>
-          <TableCell>
-            <Skeleton className="h-8 w-24 rounded-md" />
-          </TableCell>
-        </TableRow>
+    <div className="space-y-3">
+      <div className="flex items-center gap-4 pb-4">
+        <Skeleton className="h-10 w-72" />
+      </div>
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Skeleton key={i} className="h-14 w-full" />
       ))}
-    </>
-  );
-}
-
-// Mobile card skeleton
-function MobileCardSkeleton() {
-  return (
-    <Card className="mb-3">
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between">
-          <div className="flex items-center gap-3">
-            <Skeleton className="h-10 w-10 rounded-full" />
-            <div className="space-y-1">
-              <Skeleton className="h-4 w-24" />
-              <Skeleton className="h-3 w-32" />
-            </div>
-          </div>
-          <Skeleton className="h-5 w-16 rounded-full" />
-        </div>
-        <div className="mt-3 flex items-center justify-between">
-          <Skeleton className="h-4 w-20" />
-          <Skeleton className="h-8 w-20 rounded-md" />
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-// Mobile transaction card
-interface TransactionCardProps {
-  transaction: Transaction;
-  index: number;
-  isPending: boolean;
-  onStatusUpdate: (id: string, status: Transaction["status"]) => void;
-  shouldReduceMotion: boolean | null;
-  locale: string;
-}
-
-function TransactionCard({
-  transaction,
-  index,
-  isPending,
-  onStatusUpdate,
-  shouldReduceMotion,
-  locale,
-}: TransactionCardProps) {
-  const t = useTranslations("dashboard.transactions");
-  const nextStatus = getNextStatus(transaction.status);
-
-  const statusLabel = (status: Transaction["status"]) => {
-    switch (status) {
-      case "completed": return t("statusLabels.completed");
-      case "pending": return t("statusLabels.pending");
-      case "failed": return t("statusLabels.failed");
-      default: return status;
-    }
-  };
-
-  return (
-    <motion.div
-      initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: shouldReduceMotion ? 0 : 0.3,
-        delay: shouldReduceMotion ? 0 : index * 0.05,
-        ease: "easeOut",
-      }}
-    >
-      <Card className="mb-3 hover:bg-muted/50 transition-colors">
-        <CardContent className="p-4">
-          <div className="flex items-start justify-between gap-2">
-            <div className="flex items-center gap-3 min-w-0">
-              <Avatar className="h-10 w-10 shrink-0">
-                {transaction.avatar && (
-                  <AvatarImage
-                    src={transaction.avatar}
-                    alt={t("ariaLabels.avatar", { name: transaction.customer })}
-                  />
-                )}
-                <AvatarFallback className="text-sm">
-                  {getInitials(transaction.customer)}
-                </AvatarFallback>
-              </Avatar>
-              <div className="min-w-0 flex-1">
-                <p className="font-medium truncate">{transaction.customer}</p>
-                <p className="text-muted-foreground text-sm truncate">
-                  {transaction.email}
-                </p>
-              </div>
-            </div>
-            <Badge
-              variant={getStatusBadgeVariant(transaction.status)}
-              className={`shrink-0 text-xs ${isPending ? "opacity-70" : ""}`}
-            >
-              {isPending && (
-                <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-              )}
-              {statusLabel(transaction.status)}
-            </Badge>
-          </div>
-          
-          <div className="mt-3 flex items-center justify-between">
-            <div className="text-sm">
-              <span className="font-medium">{formatAmount(transaction.amount, locale)}</span>
-              <span className="text-muted-foreground ml-2">
-                {formatDateShort(transaction.date, locale)}
-              </span>
-            </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onStatusUpdate(transaction.id, nextStatus)}
-              disabled={isPending}
-              className="h-8 text-xs"
-              aria-label={t("ariaLabels.changeStatus", { 
-                from: statusLabel(transaction.status), 
-                to: statusLabel(nextStatus) 
-              })}
-            >
-              {isPending ? (
-                <Loader2 className="h-3 w-3 animate-spin" />
-              ) : (
-                t("buttonLabels.edit")
-              )}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    </motion.div>
+    </div>
   );
 }
 
@@ -269,6 +107,9 @@ export function TransactionsTable() {
   const [updateError, setUpdateError] = useState<string | null>(null);
   const [pendingIds, setPendingIds] = useState<Set<string>>(new Set());
   const [isNavigating, setIsNavigating] = useState(false);
+  const [sortColumn, setSortColumn] = useState<string>("date");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+  const [searchQuery, setSearchQuery] = useState("");
   const [, startOptimisticUpdate] = useTransition();
   
   const queryClient = useQueryClient();
@@ -332,225 +173,177 @@ export function TransactionsTable() {
     }
   }, [addOptimisticUpdate, pendingIds, queryClient, t]);
 
-  const handlePreviousPage = useCallback(() => {
-    if (currentPage > 1) {
-      setIsNavigating(true);
-      setCurrentPage((prev) => prev - 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+  const handleSort = useCallback((column: string) => {
+    if (sortColumn === column) {
+      setSortDirection(prev => prev === "asc" ? "desc" : "asc");
+    } else {
+      setSortColumn(column);
+      setSortDirection("asc");
     }
-  }, [currentPage]);
+  }, [sortColumn]);
 
-  const handleNextPage = useCallback(() => {
-    if (data && currentPage < data.totalPages) {
-      setIsNavigating(true);
-      setCurrentPage((prev) => prev + 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }, [data, currentPage]);
+  const handlePageChange = useCallback((page: number) => {
+    setIsNavigating(true);
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
-  const displayTransactions = optimisticTransactions.length > 0 
-    ? optimisticTransactions 
-    : (data?.transactions ?? []);
-  
+  // Filter transactions based on search
+  const filteredTransactions = searchQuery
+    ? optimisticTransactions.filter(t => 
+        t.customer.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        t.email.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : optimisticTransactions;
+
   const totalPages = data?.totalPages ?? 1;
-  const hasTransactions = displayTransactions.length > 0;
 
-  const statusLabel = (status: Transaction["status"]) => {
-    switch (status) {
-      case "completed": return t("statusLabels.completed");
-      case "pending": return t("statusLabels.pending");
-      case "failed": return t("statusLabels.failed");
-      default: return status;
-    }
-  };
+  // Table columns definition
+  const columns = [
+    {
+      key: "customer",
+      header: t("customer"),
+      sortable: true,
+      cell: (row: Transaction) => (
+        <div className="flex items-center gap-3">
+          <Avatar className="h-9 w-9 border border-border">
+            {row.avatar && (
+              <AvatarImage src={row.avatar} alt={row.customer} />
+            )}
+            <AvatarFallback className="bg-muted text-muted-foreground text-sm font-medium">
+              {getInitials(row.customer)}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col min-w-0">
+            <span className="font-medium truncate">{row.customer}</span>
+            <span className="text-xs text-muted-foreground truncate">{row.email}</span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: "amount",
+      header: t("amount"),
+      sortable: true,
+      align: "right" as const,
+      cell: (row: Transaction) => (
+        <span className="font-mono font-medium">
+          {formatAmount(row.amount, currentLocale)}
+        </span>
+      ),
+    },
+    {
+      key: "status",
+      header: t("status"),
+      sortable: true,
+      cell: (row: Transaction) => (
+        <TechStatusBadge 
+          status={mapStatusToBadge(row.status)} 
+          pulse={row.status === "pending"}
+        >
+          {t(`statusLabels.${row.status}`)}
+        </TechStatusBadge>
+      ),
+    },
+    {
+      key: "date",
+      header: t("date"),
+      sortable: true,
+      cell: (row: Transaction) => (
+        <span className="text-sm text-muted-foreground">
+          {formatDate(row.date, currentLocale)}
+        </span>
+      ),
+    },
+  ];
 
   return (
     <FadeIn>
-      <div className="space-y-4">
-        {updateError && (
-          <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md" role="alert">
-            {updateError}
+      <Card className="border-border">
+        <CardHeader className="pb-3">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <CardTitle>{t("title")}</CardTitle>
+              <CardDescription>{t("description")}</CardDescription>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm">
+                <Filter className="h-4 w-4 mr-1.5" />
+                Filter
+              </Button>
+              <Button variant="outline" size="sm">
+                <Download className="h-4 w-4 mr-1.5" />
+                Export
+              </Button>
+            </div>
           </div>
-        )}
-        
-        {/* Mobile View - Cards */}
-        <div className="block sm:hidden">
-          {isLoading ? (
-            Array.from({ length: 3 }).map((_, i) => (
-              <MobileCardSkeleton key={`mobile-skeleton-${i}`} />
-            ))
-          ) : hasTransactions ? (
-            displayTransactions.map((transaction, index) => (
-              <TransactionCard
-                key={transaction.id}
-                transaction={transaction}
-                index={index}
-                isPending={pendingIds.has(transaction.id)}
-                onStatusUpdate={handleStatusUpdate}
-                shouldReduceMotion={shouldReduceMotion}
-                locale={currentLocale}
-              />
-            ))
-          ) : (
-            <Card>
-              <CardContent className="p-6 text-center text-muted-foreground">
-                {t("empty")}
-              </CardContent>
-            </Card>
-          )}
-        </div>
-        
-        {/* Desktop View - Table */}
-        <div className="hidden sm:block rounded-md border">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead scope="col">{t("customer")}</TableHead>
-                <TableHead scope="col">{t("amount")}</TableHead>
-                <TableHead scope="col">{t("status")}</TableHead>
-                <TableHead scope="col">{t("date")}</TableHead>
-                <TableHead scope="col" className="w-32">{t("actions")}</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {isLoading ? (
-                <SkeletonRows count={ITEMS_PER_PAGE} />
-              ) : hasTransactions ? (
-                displayTransactions.map((transaction, index) => {
-                  const nextStatus = getNextStatus(transaction.status);
-                  const isPending = pendingIds.has(transaction.id);
-                  
-                  return (
-                    <motion.tr
-                      key={transaction.id}
-                      initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: shouldReduceMotion ? 0 : 0.3,
-                        delay: shouldReduceMotion ? 0 : index * 0.05,
-                        ease: "easeOut",
-                      }}
-                      className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
-                    >
-                      <TableCell>
-                        <div className="flex items-center gap-3">
-                          <Avatar className="h-8 w-8">
-                            {transaction.avatar && (
-                              <AvatarImage
-                                src={transaction.avatar}
-                                alt={t("ariaLabels.avatar", { name: transaction.customer })}
-                              />
-                            )}
-                            <AvatarFallback>
-                              {getInitials(transaction.customer)}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div className="flex flex-col">
-                            <span className="font-medium">
-                              {transaction.customer}
-                            </span>
-                            <span className="text-muted-foreground text-sm">
-                              {transaction.email}
-                            </span>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="font-medium">
-                        {formatAmount(transaction.amount, currentLocale)}
-                      </TableCell>
-                      <TableCell>
-                        <Badge
-                          variant={getStatusBadgeVariant(transaction.status)}
-                          className={isPending ? "opacity-70" : ""}
-                        >
-                          {isPending && (
-                            <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-                          )}
-                          {statusLabel(transaction.status)}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-muted-foreground">
-                        {formatDate(transaction.date, currentLocale)}
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() =>
-                            handleStatusUpdate(transaction.id, nextStatus)
-                          }
-                          disabled={isPending}
-                          aria-label={t("ariaLabels.changeStatus", {
-                            from: statusLabel(transaction.status),
-                            to: statusLabel(nextStatus),
-                          })}
-                        >
-                          {isPending ? (
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                          ) : (
-                            t("buttonLabels.change")
-                          )}
-                        </Button>
-                      </TableCell>
-                    </motion.tr>
-                  );
-                })
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={5}
-                    className="h-24 text-center text-muted-foreground"
-                  >
-                    {t("empty")}
-                  </TableCell>
-                </TableRow>
+        </CardHeader>
+        <CardContent className="pt-0">
+          <div className="space-y-4">
+            {/* Search and error display */}
+            <div className="flex items-center gap-4">
+              <div className="relative w-full max-w-sm">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder={t("searchPlaceholder") || "Search transactions..."}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-9"
+                />
+              </div>
+              {isFetching && !isLoading && (
+                <RefreshCw className="h-4 w-4 animate-spin text-muted-foreground" />
               )}
-            </TableBody>
-          </Table>
-        </div>
+            </div>
 
-        {/* Pagination */}
-        <div className="flex items-center justify-between px-2">
-          <div className="text-muted-foreground text-sm" aria-live="polite">
-            {t("pagination.page", { current: currentPage, total: totalPages })}
-            {(isFetching || isNavigating) && !isLoading && (
-              <span className="ml-2 text-muted-foreground">
-                {t("pagination.loading")}
-              </span>
+            {updateError && (
+              <div className="rounded-md bg-destructive/10 border border-destructive/20 p-3 text-sm text-destructive">
+                {updateError}
+              </div>
+            )}
+
+            {/* Table */}
+            {isLoading ? (
+              <TableSkeleton />
+            ) : (
+              <>
+                <TechTable<Transaction>
+                  data={filteredTransactions}
+                  columns={columns}
+                  keyExtractor={(row) => row.id}
+                  sortColumn={sortColumn}
+                  sortDirection={sortDirection}
+                  onSort={handleSort}
+                  onRowClick={(row) => console.log("Clicked:", row.id)}
+                  loadingRowIds={pendingIds}
+                  rowActions={[
+                    {
+                      label: t("buttonLabels.change") || "Change Status",
+                      onClick: (row) => {
+                        const nextStatus = getNextStatus(row.status);
+                        handleStatusUpdate(row.id, nextStatus);
+                      },
+                    },
+                    {
+                      label: t("buttonLabels.view") || "View Details",
+                      onClick: (row) => console.log("View:", row.id),
+                    },
+                  ]}
+                />
+
+                {/* Pagination */}
+                <TechPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                  totalItems={filteredTransactions.length}
+                  pageSize={ITEMS_PER_PAGE}
+                />
+              </>
             )}
           </div>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handlePreviousPage}
-              disabled={currentPage <= 1 || isLoading || isNavigating}
-              aria-label={t("ariaLabels.previousPage")}
-            >
-              {isNavigating ? (
-                <Loader2 className="h-4 w-4 mr-1 animate-spin" />
-              ) : (
-                <ChevronLeft className="h-4 w-4 mr-1" aria-hidden="true" />
-              )}
-              <span className="hidden sm:inline">{t("pagination.previous")}</span>
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleNextPage}
-              disabled={currentPage >= totalPages || isLoading || isNavigating}
-              aria-label={t("ariaLabels.nextPage")}
-            >
-              <span className="hidden sm:inline">{t("pagination.next")}</span>
-              {isNavigating ? (
-                <Loader2 className="h-4 w-4 ml-1 animate-spin" />
-              ) : (
-                <ChevronRight className="h-4 w-4 ml-1" aria-hidden="true" />
-              )}
-            </Button>
-          </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </FadeIn>
   );
 }

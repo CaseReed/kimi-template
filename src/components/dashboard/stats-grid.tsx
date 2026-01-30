@@ -16,13 +16,14 @@ import {
   Activity,
   TrendingDown,
   RefreshCw,
+  DollarSign,
+  MousePointerClick,
 } from "lucide-react";
 import {
   StaggerContainer,
   StaggerItem,
 } from "@/components/animations/stagger-container";
 import { CountUp } from "@/components/animations/count-up";
-import { CardHover } from "@/components/animations/card-hover";
 import type { DashboardStats } from "@/lib/types/dashboard";
 import type { LucideIcon } from "lucide-react";
 
@@ -48,10 +49,10 @@ function formatValue(value: number | unknown, decimals?: boolean): number {
 
 function StatCardSkeleton() {
   return (
-    <Card>
+    <Card className="border-border">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <Skeleton className="h-4 w-[100px]" />
-        <Skeleton className="h-4 w-4" />
+        <Skeleton className="h-8 w-8 rounded-md" />
       </CardHeader>
       <CardContent>
         <Skeleton className="h-8 w-[120px] mb-2" />
@@ -73,10 +74,12 @@ function StatCardError({
   retryLabel: string;
 }) {
   return (
-    <Card className="border-destructive/50">
+    <Card className="border-destructive/30 bg-destructive/5">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        <Icon className="h-4 w-4 text-muted-foreground" />
+        <div className="rounded-md bg-destructive/10 p-2">
+          <Icon className="h-4 w-4 text-destructive" />
+        </div>
       </CardHeader>
       <CardContent>
         <p className="text-sm text-destructive mb-2">Erreur de chargement</p>
@@ -108,49 +111,58 @@ function StatCard({ config, data, vsLastMonth }: StatCardProps) {
   const Icon = config.icon;
 
   return (
-    <CardHover>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">{config.translationKey}</CardTitle>
-          <Icon className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">
-            {shouldReduceMotion ? (
-              <span>
-                {config.prefix}{formattedValue}{config.suffix}
-              </span>
-            ) : (
-              <CountUp
-                end={formattedValue}
-                duration={1.5}
-                prefix={config.prefix}
-                suffix={config.suffix}
-              />
-            )}
-          </div>
-          <div className="flex items-center gap-2 mt-1">
-            <Badge
-              variant={isPositive ? "default" : "destructive"}
-              className="text-xs"
-              aria-label={isPositive 
-                ? t("trendPositive", { value: formattedChange }) 
-                : t("trendNegative", { value: formattedChange })
+    <Card className="group border-border bg-card hover:border-primary/30 transition-colors duration-300">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+        <CardTitle className="text-sm font-medium text-muted-foreground">
+          {config.translationKey}
+        </CardTitle>
+        <div className={`
+          rounded-md p-2 transition-all duration-300
+          ${isPositive 
+            ? 'bg-primary/10 text-primary group-hover:bg-primary/20' 
+            : 'bg-destructive/10 text-destructive group-hover:bg-destructive/20'
+          }
+        `}>
+          <Icon className="h-4 w-4" />
+        </div>
+      </CardHeader>
+      <CardContent className="pt-0">
+        <div className="text-3xl font-bold tracking-tight">
+          {shouldReduceMotion ? (
+            <span>
+              {config.prefix}{formattedValue}{config.suffix}
+            </span>
+          ) : (
+            <CountUp
+              end={formattedValue}
+              duration={1.5}
+              prefix={config.prefix}
+              suffix={config.suffix}
+            />
+          )}
+        </div>
+        <div className="flex items-center gap-2 mt-3">
+          <Badge
+            variant="outline"
+            className={`
+              text-xs font-medium gap-1 border-0 px-2 py-0.5
+              ${isPositive 
+                ? 'bg-primary/10 text-primary' 
+                : 'bg-destructive/10 text-destructive'
               }
-            >
-              {isPositive ? (
-                <TrendingUp className="h-3 w-3 mr-1" aria-hidden="true" />
-              ) : (
-                <TrendingDown className="h-3 w-3 mr-1" aria-hidden="true" />
-              )}
-              {isPositive ? "+" : ""}
-              {formattedChange}%
-            </Badge>
-            <span className="text-xs text-muted-foreground">{vsLastMonth}</span>
-          </div>
-        </CardContent>
-      </Card>
-    </CardHover>
+            `}
+          >
+            {isPositive ? (
+              <TrendingUp className="h-3 w-3" />
+            ) : (
+              <TrendingDown className="h-3 w-3" />
+            )}
+            {isPositive ? "+" : ""}{formattedChange}%
+          </Badge>
+          <span className="text-xs text-muted-foreground">{vsLastMonth}</span>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -159,7 +171,7 @@ export function StatsGrid() {
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: queryKeys.dashboard.stats(),
     queryFn: fetchStats,
-    staleTime: 60 * 1000, // 1 minute
+    staleTime: 60 * 1000,
   });
 
   const statCardsConfig: StatCardConfig[] = [
@@ -167,7 +179,7 @@ export function StatsGrid() {
       key: "revenue",
       changeKey: "revenueChange",
       translationKey: t("stats.revenue"),
-      icon: TrendingUp,
+      icon: DollarSign,
       prefix: "€",
       decimals: true,
     },
@@ -181,7 +193,7 @@ export function StatsGrid() {
       key: "conversion",
       changeKey: "conversionChange",
       translationKey: t("stats.conversion"),
-      icon: Percent,
+      icon: MousePointerClick,
       suffix: "%",
       decimals: true,
     },

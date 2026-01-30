@@ -297,6 +297,20 @@
   100% { background-position: 200% 0; }
 }
 
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(400%); }
+}
+
+@keyframes neon-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+  52% { opacity: 0.3; }
+  54% { opacity: 0.9; }
+  56% { opacity: 0.5; }
+  58% { opacity: 1; }
+}
+
 @layer utilities {
   .animate-pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite;
