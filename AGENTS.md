@@ -49,6 +49,8 @@ This is a **Next.js 16** web application using the **App Router** architecture. 
 | React | 19.2.3 | UI library |
 | TypeScript | 5.9.3 | Type safety |
 | Tailwind CSS | 4.1.18 | Utility-first CSS |
+| Drizzle ORM | 0.45+ | Database ORM |
+| PostgreSQL | 16 | Database (Docker local / Neon prod) |
 | ESLint | 9.x | Linting |
 | pnpm | - | Package manager |
 
@@ -59,6 +61,8 @@ This is a **Next.js 16** web application using the **App Router** architecture. 
 - **Geist Font**: Vercel's Geist font family (Sans + Mono) loaded via `next/font/google`
 - **Path Aliases**: `@/*` maps to `./src/*` for clean imports
 - **Strict TypeScript**: Strict mode enabled with bundler module resolution
+- **Dual Database Architecture**: Local PostgreSQL (Docker) for development, Neon PostgreSQL for production
+- **Environment Auto-Detection**: Automatically switches database driver based on `DATABASE_URL`
 
 ---
 
@@ -150,6 +154,111 @@ docker run -p 3000:3000 kimi-template:latest
 # Health check
 curl http://localhost:3000/api/health
 ```
+
+---
+
+## Database Architecture
+
+The project uses a **dual-environment database architecture** that automatically switches between local development and production environments.
+
+### Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                      DEVELOPMENT (Local)                        │
+│  ┌─────────────┐         ┌─────────────────────────────────┐   │
+│  │  Next.js    │────────▶│  PostgreSQL (Docker)            │   │
+│  │  pnpm dev   │   pg    │  localhost:5432                 │   │
+│  └─────────────┘         └─────────────────────────────────┘   │
+│                                                                    │
+│  Driver: drizzle-orm/node-postgres (Pool)                        │
+│  Connection: Direct PostgreSQL TCP                               │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      PRODUCTION (Vercel)                        │
+│  ┌─────────────┐         ┌─────────────────────────────────┐   │
+│  │  Next.js    │────────▶│  Neon PostgreSQL                │   │
+│  │  Serverless │  neon   │  neon.tech                      │   │
+│  └─────────────┘         └─────────────────────────────────┘   │
+│                                                                    │
+│  Driver: drizzle-orm/neon-http (HTTP fetch)                      │
+│  Connection: Pooled (PgBouncer) for serverless                   │
+│  Migrations: Unpooled connection (direct PostgreSQL)             │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Environment Detection
+
+The database driver is automatically selected based on `DATABASE_URL`:
+
+```typescript
+// src/lib/db/index.ts
+const isNeon = process.env.DATABASE_URL?.includes("neon.tech");
+```
+
+| Environment | Detection | Driver | Use Case |
+|-------------|-----------|--------|----------|
+| **Local** | URL contains `localhost` or `host.docker.internal` | `node-postgres` Pool | Development with Docker |
+| **Production** | URL contains `neon.tech` | `@neondatabase/serverless` | Vercel serverless functions |
+
+### Environment Variables
+
+#### Local Development (`.env.local`)
+```bash
+# Docker PostgreSQL
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/myapp
+```
+
+#### Production (Vercel Dashboard)
+```bash
+# Pooled connection for runtime (serverless-friendly)
+DATABASE_URL=postgresql://user:pass@host-pooler.neon.tech/db?sslmode=require
+
+# Unpooled connection for migrations (direct access)
+DATABASE_URL_UNPOOLED=postgresql://user:pass@host.neon.tech/db?sslmode=require
+```
+
+> **Important**: `DATABASE_URL_UNPOOLED` is required for Drizzle Kit migrations (cannot use PgBouncer pooler).
+
+### Database Client Usage
+
+```typescript
+// Same API regardless of environment
+import { db, schema } from "@/lib/db";
+
+// Query
+const users = await db.query.user.findMany();
+
+// Insert
+await db.insert(schema.user).values({ email: "test@example.com" });
+```
+
+### Migration Commands
+
+```bash
+# Generate migrations (uses DATABASE_URL_UNPOOLED if available)
+pnpm db:generate
+
+# Apply migrations (uses DATABASE_URL_UNPOOLED if available)
+pnpm db:migrate
+
+# Push schema directly (development only)
+pnpm db:push
+
+# Open Drizzle Studio
+pnpm db:studio
+```
+
+### Notes
+
+- **Pool Export**: `pool` is only available in local development (undefined in production)
+- **SSL**: Neon connections require `sslmode=require`
+- **Edge Compatibility**: Neon driver works in Vercel Edge Functions
+- **Type Safety**: Both drivers export the same typed `db` instance
+
+See [DOCKER_DATABASE.md](./DOCKER_DATABASE.md) for Docker-specific database operations.
 
 ---
 
@@ -657,6 +766,54 @@ export function LanguageSwitcher() {
   );
 }
 ```
+
+---
+
+## Lessons Learned from OAuth/Vercel Deployment
+
+### Vercel CLI: Avoid Newline Characters in Environment Variables
+
+**⚠️ CRITICAL**: When using `echo` to pipe values to `vercel env add`, a trailing newline (`\n`) is added, corrupting OAuth credentials:
+
+```bash
+# ❌ WRONG - echo adds \n (causes "invalid_client" / "redirect_uri" errors)
+echo "client-id" | vercel env add GOOGLE_CLIENT_ID production
+# Value stored: "client-id\n" -> URL-encoded as "client-id%0A"
+
+# ✅ CORRECT - use printf without \n
+printf "client-id" | vercel env add GOOGLE_CLIENT_ID production
+# Value stored: "client-id" (clean)
+```
+
+**Symptoms of corruption:**
+- Google OAuth: `Error 401: invalid_client`
+- GitHub OAuth: `redirect_uri is not associated with this application`
+- URL query params contain `%0A` (URL-encoded newline)
+- API authentication failures
+
+**Affected variables (examples):**
+- `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`
+- `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`
+- `BETTER_AUTH_URL` (causes wrong redirect URI)
+
+### OAuth Provider Configuration Checklist
+
+When deploying OAuth to production:
+
+1. **Vercel Environment Variables** (use `printf`):
+   ```bash
+   printf "actual-client-id" | vercel env add PROVIDER_CLIENT_ID production
+   printf "actual-secret" | vercel env add PROVIDER_CLIENT_SECRET production
+   printf "https://your-domain.vercel.app" | vercel env add BETTER_AUTH_URL production
+   ```
+
+2. **Provider Console Configuration**:
+   - **Google Cloud**: Add authorized redirect URI exactly as `https://domain.com/api/auth/callback/google`
+   - **GitHub**: Set Authorization callback URL to `https://domain.com/api/auth/callback/github`
+   - **Test Users**: Add your email in Google Cloud OAuth consent screen (or publish app)
+   - **Cleanup**: Remove `localhost` URLs from production OAuth apps (security best practice)
+
+3. **Redeploy after env changes**: Environment variables are baked at build time
 
 ---
 

@@ -135,6 +135,28 @@ vercel env add DEBUG development
 vercel env pull .env.local
 ```
 
+**⚠️ CRITICAL: Avoid Newline Characters with CLI**
+
+When piping values to `vercel env add`, `echo` adds a trailing newline that corrupts the value:
+
+```bash
+# ❌ WRONG - echo adds \n (causes OAuth "invalid_client" errors)
+echo "my-secret" | vercel env add API_KEY production
+# Results in: "my-secret\n" -> URL-encoded as "my-secret%0A"
+
+# ✅ CORRECT - use printf without \n
+printf "my-secret" | vercel env add API_KEY production
+# Results in: "my-secret" (clean)
+
+# ✅ ALTERNATIVE - use echo -n (not portable on all systems)
+echo -n "my-secret" | vercel env add API_KEY production
+```
+
+**Symptoms of newline corruption:**
+- OAuth errors: `invalid_client`, `redirect_uri_mismatch`
+- URL-encoded values: `%0A` in query parameters
+- API authentication failures
+
 **Method 3: `vercel.json`** (static config - NOT for secrets!)
 ```json
 {

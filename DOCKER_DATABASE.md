@@ -4,6 +4,14 @@ This guide explains how to run the application with PostgreSQL database in Docke
 
 ## Architecture
 
+This project supports **dual database environments**:
+- **Local Development**: PostgreSQL in Docker (this guide)
+- **Production**: Neon PostgreSQL on Vercel (see AGENTS.md)
+
+The application automatically detects the environment and switches drivers accordingly.
+
+### Docker Architecture (Local Development)
+
 ```
 ┌─────────────────┐     ┌─────────────────┐
 │   Next.js App   │────▶│   PostgreSQL    │
@@ -20,6 +28,21 @@ This guide explains how to run the application with PostgreSQL database in Docke
 │   Better Auth   │
 │   (auto-migrate)│
 └─────────────────┘
+```
+
+### Environment Overview
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  DEVELOPMENT (Docker)        │  PRODUCTION (Vercel + Neon)  │
+├─────────────────────────────────────────────────────────────┤
+│  DATABASE_URL=postgresql://  │  DATABASE_URL=postgresql://  │
+│    localhost:5432/myapp      │    *.neon.tech/*?sslmode=    │
+│                              │    require                   │
+├─────────────────────────────────────────────────────────────┤
+│  Driver: node-postgres       │  Driver: @neondatabase/      │
+│  (TCP connection)            │  serverless (HTTP fetch)     │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ## Quick Start (Production Mode)

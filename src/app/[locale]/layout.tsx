@@ -4,6 +4,7 @@ import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "../../../i18n/routing";
 import { QueryProvider } from "@/components/providers/query-provider";
+import { HydrationSuppressor } from "@/components/providers/hydration-suppressor";
 import { Header } from "@/components/layout/header";
 import { OrganizationJsonLd, WebSiteJsonLd } from "@/components/seo";
 import { Analytics } from "@vercel/analytics/next";
@@ -50,6 +51,9 @@ export default async function LocaleLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* Suppress hydration warnings from browser extensions */}
+        <HydrationSuppressor />
+        
         {/* Structured Data for SEO */}
         <OrganizationJsonLd />
         <WebSiteJsonLd />
