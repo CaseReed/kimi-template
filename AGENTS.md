@@ -1,4 +1,4 @@
-# Project: my-app
+# Project: kimi-template
 
 ## Project Overview
 
@@ -65,14 +65,17 @@ This is a **Next.js 16** web application using the **App Router** architecture. 
 ## Project Structure
 
 ```
-my-app/
+kimi-template/
 ├── src/
 │   └── app/                    # App Router directory
 │       ├── layout.tsx          # Root layout with fonts & metadata
 │       ├── page.tsx            # Home page (landing)
 │       ├── globals.css         # Global styles + Tailwind theme
 │       ├── page.module.css     # CSS Module for page (legacy styles)
-│       └── favicon.ico         # Site favicon
+│       ├── favicon.ico         # Site favicon
+│       └── api/                # API routes
+│           └── health/         # Health check endpoint
+│               └── route.ts
 ├── public/                     # Static assets
 │   ├── file.svg
 │   ├── globe.svg
@@ -86,7 +89,13 @@ my-app/
 ├── postcss.config.mjs          # PostCSS config (Tailwind)
 ├── .gitignore                  # Git ignore rules
 ├── .npmrc                      # pnpm configuration
-└── pnpm-lock.yaml              # Lock file
+├── pnpm-lock.yaml              # Lock file
+├── Dockerfile                  # Production Docker image
+├── Dockerfile.dev              # Development Docker image
+├── docker-compose.yml          # Docker Compose (development)
+├── docker-compose.prod.yml     # Docker Compose (production)
+├── .dockerignore               # Docker build context ignore
+└── DOCKER.md                   # Docker documentation
 ```
 
 ---
@@ -119,6 +128,27 @@ pnpm update:latest
 
 # Update packages (semver compatible)
 pnpm update
+```
+
+### Docker Commands
+
+```bash
+# Development with Docker Compose
+docker-compose up -d              # Start development container
+docker-compose logs -f            # Follow logs
+docker-compose down               # Stop containers
+
+# Production with Docker Compose
+docker-compose -f docker-compose.prod.yml up -d --build
+docker-compose -f docker-compose.prod.yml logs -f
+docker-compose -f docker-compose.prod.yml down
+
+# Docker Build (direct)
+DOCKER_BUILDKIT=1 docker build -t kimi-template:latest .
+docker run -p 3000:3000 kimi-template:latest
+
+# Health check
+curl http://localhost:3000/api/health
 ```
 
 ---
@@ -259,17 +289,17 @@ vercel --prod
 
 ### Docker Deployment
 
-No Dockerfile is present. To containerize, create:
+Docker configuration is available. See `/skill:docker-deployment` for detailed patterns and:
+- `Dockerfile` - Production multi-stage image
+- `Dockerfile.dev` - Development with hot reload
+- `docker-compose.yml` - Development orchestration
+- `docker-compose.prod.yml` - Production orchestration
+- `DOCKER.md` - Docker documentation
 
-```dockerfile
-FROM node:20-alpine
-WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
-COPY . .
-RUN pnpm build
-EXPOSE 3000
-CMD ["pnpm", "start"]
+Quick start:
+```bash
+docker-compose up -d        # Development
+curl http://localhost:3000/api/health
 ```
 
 ### Build Output
@@ -317,7 +347,7 @@ export async function GET() {
 
 ## Kimi Skills Reference
 
-This project has **22 specialized skills** in `.agents/skills/` to help with development tasks:
+This project has **27 specialized skills** in `.agents/skills/` to help with development tasks:
 
 ### Planning & Coordination
 
@@ -331,12 +361,15 @@ This project has **22 specialized skills** in `.agents/skills/` to help with dev
 
 | Skill | Purpose | When to Use |
 |-------|---------|-------------|
+| `/skill:better-auth` | Better Auth authentication - email/password, OAuth, 2FA, sessions | Setting up authentication in Next.js 16 |
 | `/skill:nextjs-16-tailwind-4` | Next.js 16 + Tailwind 4 + React 19 patterns | Any UI/component work |
 | `/skill:nextjs-seo` | SEO optimization - metadata, OG, sitemap, JSON-LD | Adding SEO, social sharing, structured data |
 | `/skill:shadcn-ui` | shadcn/ui components + Charts (recharts) | UI components, dashboards, data viz |
 | `/skill:next-intl-i18n` | next-intl internationalization (i18n) | Multi-language apps, translations |
 | `/skill:motion-animations` | Motion (Framer Motion) animations | Page transitions, gestures, scroll effects |
 | `/skill:tanstack-query` | TanStack Query for data fetching | Client-side data, caching, mutations |
+| `/skill:drizzle-orm` | Drizzle ORM + Neon PostgreSQL | Database schema, queries, migrations, Edge Functions |
+| `/skill:neon-postgresql` | Neon PostgreSQL serverless database | Vercel integration, branching, edge connections |
 | `/skill:next-api-routes` | API Routes & Server Actions | Creating endpoints or actions |
 | `/skill:forms-master` | Forms with React 19 + Zod + Server Actions | Building any form |
 | `/skill:zustand-state` | Zustand state management | Global state, cart, auth |
@@ -349,6 +382,7 @@ This project has **22 specialized skills** in `.agents/skills/` to help with dev
 | `/skill:git-workflow` | Git best practices: commits, branches, PRs | Any git operations |
 | `/skill:performance-optimization` | Next.js 16 + React 19 performance patterns | CWV, PPR, React Compiler, lazy loading |
 | `/skill:deployment-vercel` | Vercel deployment, CI/CD, Edge Functions | Deploying to production, env vars, preview |
+| `/skill:docker-deployment` | Docker containerization, multi-platform deployment | AWS, GCP, Railway, self-hosting with Docker |
 | `/skill:source-of-truth` | **Official documentation reference** | When stuck, in doubt, or adding deps |
 | `/skill:post-review` | **Post-implementation code review** | **After EVERY feature implementation** |
 

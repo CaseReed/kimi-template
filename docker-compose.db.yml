@@ -1,0 +1,41 @@
+# ==========================================
+# Docker Compose - Database Only
+# Use this to run PostgreSQL in Docker while developing locally
+# ==========================================
+#
+# Usage:
+#   docker-compose -f docker-compose.db.yml up -d
+#
+# Then run your app locally:
+#   pnpm dev
+#
+# The database will be available at: localhost:5432
+
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: kimi-template-db-dev
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: kimi_template
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d kimi_template"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  postgres_dev_data:
