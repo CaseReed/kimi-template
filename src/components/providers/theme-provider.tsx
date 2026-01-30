@@ -9,10 +9,11 @@ interface ThemeProviderProps {
 
 /**
  * Theme provider for Next.js with next-themes
- * Configured for Tailwind CSS v4 with class-based dark mode
+ * Configured for Tech Noir design system with Tailwind CSS v4
  * 
  * Features:
- * - System preference detection
+ * - Default dark theme (Tech Noir aesthetic)
+ * - System preference detection (enableSystem)
  * - localStorage persistence
  * - SSR-safe (no flash)
  * - Smooth transitions between themes
@@ -22,11 +23,11 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   return (
     <NextThemesProvider
       attribute="class"
-      defaultTheme="system"
+      defaultTheme="dark"
       enableSystem={true}
       enableColorScheme={true}
       disableTransitionOnChange={false}
-      storageKey="theme"
+      storageKey="kimi-template-theme"
     >
       {children}
     </NextThemesProvider>

@@ -1,13 +1,14 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 
 interface ScrollRevealProps {
   children: ReactNode;
   className?: string;
   delay?: number;
   direction?: "up" | "down" | "left" | "right";
+  style?: CSSProperties;
 }
 
 export function ScrollReveal({
@@ -15,6 +16,7 @@ export function ScrollReveal({
   className = "",
   delay = 0,
   direction = "up",
+  style,
 }: ScrollRevealProps) {
   const shouldReduceMotion = useReducedMotion();
 
@@ -39,7 +41,8 @@ export function ScrollReveal({
         delay: shouldReduceMotion ? 0 : delay,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={className}
+      className={`${className}`}
+      style={{ height: "100%", ...style }}
     >
       {children}
     </motion.div>

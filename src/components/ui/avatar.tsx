@@ -17,13 +17,16 @@ function Avatar({
       data-slot="avatar"
       data-size={size}
       className={cn(
-        "group/avatar relative flex size-8 shrink-0 overflow-hidden rounded-full select-none data-[size=lg]:size-10 data-[size=sm]:size-6",
+        "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background",
+        "group/avatar select-none",
+        "data-[size=lg]:size-10 data-[size=sm]:size-6",
         className
       )}
       {...props}
     />
   )
 }
+Avatar.displayName = "Avatar"
 
 function AvatarImage({
   className,
@@ -32,11 +35,12 @@ function AvatarImage({
   return (
     <AvatarPrimitive.Image
       data-slot="avatar-image"
-      className={cn("aspect-square size-full", className)}
+      className={cn("aspect-square h-full w-full", className)}
       {...props}
     />
   )
 }
+AvatarImage.displayName = "AvatarImage"
 
 function AvatarFallback({
   className,
@@ -46,13 +50,14 @@ function AvatarFallback({
     <AvatarPrimitive.Fallback
       data-slot="avatar-fallback"
       className={cn(
-        "bg-muted text-muted-foreground flex size-full items-center justify-center rounded-full text-sm group-data-[size=sm]/avatar:text-xs",
+        "flex h-full w-full items-center justify-center rounded-full bg-secondary text-secondary-foreground border border-border text-sm",
         className
       )}
       {...props}
     />
   )
 }
+AvatarFallback.displayName = "AvatarFallback"
 
 function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
   return (
@@ -69,6 +74,7 @@ function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
     />
   )
 }
+AvatarBadge.displayName = "AvatarBadge"
 
 function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -82,6 +88,7 @@ function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
     />
   )
 }
+AvatarGroup.displayName = "AvatarGroup"
 
 function AvatarGroupCount({
   className,
@@ -98,6 +105,7 @@ function AvatarGroupCount({
     />
   )
 }
+AvatarGroupCount.displayName = "AvatarGroupCount"
 
 export {
   Avatar,

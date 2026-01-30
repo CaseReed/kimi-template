@@ -34,7 +34,7 @@ export function AnimatedLogo({ className = "" }: AnimatedLogoProps) {
         <svg
           viewBox="0 0 24 24"
           fill="none"
-          className="w-6 h-6 text-white"
+          className="w-6 h-6 text-primary-foreground"
           stroke="currentColor"
           strokeWidth="2"
           strokeLinecap="round"

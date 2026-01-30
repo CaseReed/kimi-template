@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { z } from "zod";
 import { authClient } from "@/lib/auth-client";
@@ -17,9 +16,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Github, Chrome, Loader2 } from "lucide-react";
+import { Github, Chrome, Loader2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { FadeIn } from "@/components/animations/fade-in";
+import { AnimatedLogo } from "@/components/animations";
+import { GradientText } from "@/components/animations";
 
 // Validation schema
 const loginSchema = z.object({
@@ -32,7 +33,6 @@ interface LoginFormProps {
 }
 
 export function LoginForm({ locale }: LoginFormProps) {
-  const router = useRouter();
   const t = useTranslations("auth");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -87,6 +87,13 @@ export function LoginForm({ locale }: LoginFormProps) {
 
   return (
     <FadeIn direction="up" duration={0.5} className="w-full max-w-md">
+      {/* Logo link to home */}
+      <Link href={`/${locale}`} className="flex items-center justify-center gap-2 mb-8">
+        <AnimatedLogo />
+        <span className="font-bold text-lg">
+          <GradientText>kimi-template</GradientText>
+        </span>
+      </Link>
       <Card className="border shadow-sm">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold tracking-tight text-foreground">
@@ -197,7 +204,7 @@ export function LoginForm({ locale }: LoginFormProps) {
           </Button>
         </form>
       </CardContent>
-      <CardFooter className="flex flex-col space-y-2 pt-2">
+      <CardFooter className="flex flex-col gap-3 pt-2">
         <div className="text-sm text-muted-foreground">
           {t("login.noAccount")}{" "}
           <Link
@@ -207,6 +214,14 @@ export function LoginForm({ locale }: LoginFormProps) {
             {t("login.signUp")}
           </Link>
         </div>
+        <div className="h-px w-full bg-border" />
+        <Link
+          href={`/${locale}`}
+          className="inline-flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          {t("backToHome", { fallback: "Back to home" })}
+        </Link>
       </CardFooter>
     </Card>
     </FadeIn>

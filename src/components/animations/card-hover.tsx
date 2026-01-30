@@ -1,18 +1,19 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 
 interface CardHoverProps {
   children: ReactNode;
   className?: string;
+  style?: CSSProperties;
 }
 
 /**
  * Card hover animation with theme-aware shadow
  * Uses CSS variables for shadows that adapt to light/dark mode
  */
-export function CardHover({ children, className }: CardHoverProps) {
+export function CardHover({ children, className = "", style }: CardHoverProps) {
   const shouldReduceMotion = useReducedMotion();
 
   return (
@@ -29,7 +30,8 @@ export function CardHover({ children, className }: CardHoverProps) {
         stiffness: 300,
         damping: 20,
       }}
-      className={`rounded-xl overflow-hidden transition-shadow duration-300 hover:shadow-xl ${className || ""}`}
+      className={`h-full rounded-xl overflow-hidden transition-shadow duration-300 hover:shadow-xl ${className}`}
+      style={style}
     >
       {children}
     </motion.div>

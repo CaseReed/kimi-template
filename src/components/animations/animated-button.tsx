@@ -24,7 +24,7 @@ export function AnimatedButton({
     "inline-flex items-center justify-center rounded-lg px-8 py-3 text-sm font-medium transition-colors";
 
   const variantStyles = {
-    primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+    primary: "bg-primary text-white hover:bg-primary/90",
     secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/90",
     outline:
       "border border-border bg-background text-foreground hover:bg-muted",

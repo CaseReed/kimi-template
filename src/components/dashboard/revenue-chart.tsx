@@ -38,11 +38,11 @@ export function RevenueChart() {
   const chartConfig = {
     revenue: {
       label: t("title"),
-      color: "hsl(var(--chart-1))",
+      color: "var(--chart-1)",
     },
     target: {
       label: t("target"),
-      color: "hsl(var(--chart-2))",
+      color: "var(--chart-3)",
     },
   } satisfies ChartConfig;
 
@@ -109,7 +109,7 @@ export function RevenueChart() {
                 right: 12,
               }}
             >
-              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border) / 0.5)" />
               <XAxis
                 dataKey="month"
                 tickLine={false}
