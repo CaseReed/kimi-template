@@ -458,7 +458,7 @@ export async function GET() {
 
 ## Kimi Skills Reference
 
-This project has **29 specialized skills** in `.agents/skills/` to help with development tasks:
+This project has **30 specialized skills** in `.agents/skills/` to help with development tasks:
 
 ### Planning & Coordination
 
