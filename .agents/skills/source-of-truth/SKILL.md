@@ -47,6 +47,15 @@ This skill serves as the **single source of truth** for all official documentati
 |------------|--------------|---------|-------|
 | **TanStack Query** | https://tanstack.com/query/latest/docs | v5 | React Query, caching |
 | **Zustand** | https://docs.pmnd.rs/zustand | v5 | Lightweight state |
+| **Drizzle ORM** | https://orm.drizzle.team/docs | v0.45 | Type-safe SQL ORM |
+| **Drizzle Kit** | https://orm.drizzle.team/docs/kit | v0.31 | Migrations, schema management |
+| **Neon PostgreSQL** | https://neon.tech/docs | latest | Serverless Postgres, Edge compatible |
+
+### Authentication
+
+| Technology | Official Docs | Version | Notes |
+|------------|--------------|---------|-------|
+| **Better Auth** | https://www.better-auth.com/docs | v1 | Type-safe auth for Next.js, self-hosted |
 
 ### Internationalization (i18n)
 
@@ -108,6 +117,8 @@ This skill serves as the **single source of truth** for all official documentati
 | Technology | Official Docs | Version | Notes |
 |------------|--------------|---------|-------|
 | **Vercel** | https://vercel.com/docs | latest | Edge Functions, Analytics, Preview Deployments |
+| **Docker** | https://docs.docker.com/build/building/best-practices/ | 24+ | Multi-stage builds, containerization |
+| **Node.js** | https://nodejs.org/docs/latest/api/ | 20+ | LTS version for production |
 | **Vercel Edge Config** | https://vercel.com/docs/edge-config | latest | Feature flags, A/B testing, low-latency config |
 | **@vercel/analytics** | https://vercel.com/docs/analytics/quickstart | latest | Web Analytics for Next.js |
 | **@vercel/speed-insights** | https://vercel.com/docs/speed-insights/quickstart | latest | Core Web Vitals tracking |
@@ -253,10 +264,12 @@ If you discover the project uses a different version than documented:
 | migration-refactor | `.agents/skills/migration-refactor/SKILL.md` |
 | git-workflow | `.agents/skills/git-workflow/SKILL.md` |
 | post-review | `.agents/skills/post-review/SKILL.md` |
+| **better-auth** | `.agents/skills/better-auth/SKILL.md` |
 | **source-of-truth** | `.agents/skills/source-of-truth/SKILL.md` |
 | **next-intl-i18n** | `.agents/skills/next-intl-i18n/SKILL.md` |
 | **performance-optimization** | `.agents/skills/performance-optimization/SKILL.md` |
 | **deployment-vercel** | `.agents/skills/deployment-vercel/SKILL.md` |
+| **docker-deployment** | `.agents/skills/docker-deployment/SKILL.md` |
 | **skill-creator** | `.agents/skills/skill-creator/SKILL.md` |
 
 ---

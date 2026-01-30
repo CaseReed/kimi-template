@@ -10,7 +10,7 @@ This project is a **demo/template specifically designed for Kimi k2.5**, showcas
 
 - 🤖 **Optimal integration with Kimi k2.5** via a structured skill system
 - 🏗️ **A modern tech stack** (Next.js 16, React 19, Tailwind CSS 4)
-- 📚 **17 specialized skills** to accelerate development
+- 📚 **27 specialized skills** to accelerate development
 - 🎯 **Patterns and best practices** validated for React 19 and Next.js App Router
 
 ---
@@ -37,9 +37,9 @@ This project is a **demo/template specifically designed for Kimi k2.5**, showcas
 
 ---
 
-## 🎓 Kimi Skills (15 Specializations)
+## 🎓 Kimi Skills (27 Specializations)
 
-The project includes **17 specialized skills** in `.agents/skills/` to guide Kimi k2.5:
+The project includes **27 specialized skills** in `.agents/skills/` to guide Kimi k2.5:
 
 ### 🎯 Planning & Architecture
 | Skill | Description |
@@ -55,19 +55,23 @@ The project includes **17 specialized skills** in `.agents/skills/` to guide Kim
 | [`shadcn-ui`](.agents/skills/shadcn-ui/SKILL.md) | shadcn/ui components and Charts |
 | [`motion-animations`](.agents/skills/motion-animations/SKILL.md) | Motion (Framer Motion) animations |
 | [`component-generator`](.agents/skills/component-generator/SKILL.md) | React component generator |
+| [`next-intl-i18n`](.agents/skills/next-intl-i18n/SKILL.md) | Internationalization (i18n) |
+| [`forms-master`](.agents/skills/forms-master/SKILL.md) | Forms with React 19 + Zod + Server Actions |
 
 ### 🔄 Data & State Management
 | Skill | Description |
 |-------|-------------|
 | [`tanstack-query`](.agents/skills/tanstack-query/SKILL.md) | Data fetching with TanStack Query |
 | [`zustand-state`](.agents/skills/zustand-state/SKILL.md) | State management with Zustand |
-| [`forms-master`](.agents/skills/forms-master/SKILL.md) | React 19 forms + Zod + Server Actions |
+| [`drizzle-orm`](.agents/skills/drizzle-orm/SKILL.md) | Drizzle ORM + Neon PostgreSQL |
+| [`neon-postgresql`](.agents/skills/neon-postgresql/SKILL.md) | Neon PostgreSQL serverless database |
 | [`react-custom-hooks`](.agents/skills/react-custom-hooks/SKILL.md) | Custom React hooks |
 
 ### 🔧 Backend & API
 | Skill | Description |
 |-------|-------------|
 | [`next-api-routes`](.agents/skills/next-api-routes/SKILL.md) | API Routes & Server Actions |
+| [`better-auth`](.agents/skills/better-auth/SKILL.md) | Authentication with Better Auth |
 
 ### ✅ Quality & Security
 | Skill | Description |
@@ -78,6 +82,10 @@ The project includes **17 specialized skills** in `.agents/skills/` to guide Kim
 | [`git-workflow`](.agents/skills/git-workflow/SKILL.md) | Git best practices (commits, branches, PRs) |
 | [`source-of-truth`](.agents/skills/source-of-truth/SKILL.md) | Official documentation reference |
 | [`migration-refactor`](.agents/skills/migration-refactor/SKILL.md) | Refactoring and migrations |
+| [`deployment-vercel`](.agents/skills/deployment-vercel/SKILL.md) | Vercel deployment |
+| [`docker-deployment`](.agents/skills/docker-deployment/SKILL.md) | Docker containerization |
+| [`nextjs-seo`](.agents/skills/nextjs-seo/SKILL.md) | SEO optimization (metadata, OG, sitemap) |
+| [`performance-optimization`](.agents/skills/performance-optimization/SKILL.md) | Performance & Core Web Vitals |
 
 ---
 
@@ -86,7 +94,7 @@ The project includes **17 specialized skills** in `.agents/skills/` to guide Kim
 ```
 my-app/
 ├── .agents/
-│   └── skills/                 # 🎓 Kimi Skills (15 specializations)
+│   └── skills/                 # 🎓 Kimi Skills (27 specializations)
 │       ├── SKILL_AUDIT_MASTER.md
 │       ├── plan-master/
 │       ├── nextjs-16-tailwind-4/
@@ -175,6 +183,42 @@ pnpm start        # Start production server
 pnpm lint         # ESLint
 pnpm clean        # Full cleanup (node_modules, .next, etc.)
 ```
+
+---
+
+## 🔐 Authentication
+
+The project includes a **complete authentication system** powered by [Better Auth](https://better-auth.com):
+
+- 🔑 **Email/Password** authentication with secure session management
+- 🔐 **OAuth providers** (GitHub, Google) - configurable
+- 🛡️ **Protected routes** with Server Components
+- 📧 **Session management** with HTTP-only cookies
+- 🌍 **i18n support** for login/register pages
+
+### Quick Start Auth
+
+```bash
+# 1. Start PostgreSQL database
+docker-compose -f docker-compose.db.yml up -d
+
+# 2. Configure environment
+cp .env.example .env.local
+# Edit .env.local with your values
+
+# 3. Run migrations
+pnpm db:push
+
+# 4. Create admin user
+pnpm db:seed:admin
+
+# 5. Start the app
+pnpm dev
+```
+
+### Configure OAuth Providers
+
+See **[OAUTH_SETUP.md](OAUTH_SETUP.md)** for detailed instructions on configuring GitHub and Google OAuth.
 
 ---
 
