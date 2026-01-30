@@ -99,7 +99,9 @@ kimi-template/
 ├── docker-compose.yml          # Docker Compose (development)
 ├── docker-compose.prod.yml     # Docker Compose (production)
 ├── .dockerignore               # Docker build context ignore
-└── DOCKER.md                   # Docker documentation
+└── .agents/                    # Agent-specific resources
+    ├── docs/                   # Agent documentation (AUTH.md, DOCKER.md, etc.)
+    └── skills/                 # Specialized agent skills
 ```
 
 ---
@@ -403,7 +405,7 @@ Docker configuration is available. See `/skill:docker-deployment` for detailed p
 - `Dockerfile.dev` - Development with hot reload
 - `docker-compose.yml` - Development orchestration
 - `docker-compose.prod.yml` - Production orchestration
-- `DOCKER.md` - Docker documentation
+- `.agents/docs/DOCKER.md` - Docker documentation
 
 Quick start:
 ```bash
