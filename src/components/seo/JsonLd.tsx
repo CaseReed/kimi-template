@@ -1,4 +1,11 @@
-import { serializeJsonLd, type JsonLdType } from "@/lib/seo/json-ld";
+import {
+  serializeJsonLd,
+  generateOrganizationJsonLd,
+  generateWebSiteJsonLd,
+  generateSoftwareApplicationJsonLd,
+  generateBreadcrumbJsonLd,
+  type JsonLdType,
+} from "@/lib/seo/json-ld";
 
 interface JsonLdProps {
   data: JsonLdType | Record<string, unknown>;
@@ -35,18 +42,7 @@ export function JsonLd({ data }: JsonLdProps) {
  * Use in Server Components
  */
 export function OrganizationJsonLd() {
-  const data = {
-    "@context": "https://schema.org" as const,
-    "@type": "Organization" as const,
-    name: "My App",
-    url:
-      process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : "http://localhost:3000",
-    description:
-      "A modern web application built with Next.js 16, Tailwind CSS v4, and React 19.",
-  };
-
+  const data = generateOrganizationJsonLd();
   return <JsonLd data={data} />;
 }
 
@@ -54,20 +50,29 @@ export function OrganizationJsonLd() {
  * WebSite JSON-LD for the site
  * Use in Server Components
  */
-export function WebSiteJsonLd() {
-  const baseUrl =
-    process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000";
+export function WebSiteJsonLd({ locale = "en" }: { locale?: string } = {}) {
+  const data = generateWebSiteJsonLd(locale);
+  return <JsonLd data={data} />;
+}
 
-  const data = {
-    "@context": "https://schema.org" as const,
-    "@type": "WebSite" as const,
-    name: "My App",
-    url: baseUrl,
-    description:
-      "Modern dashboard application with real-time analytics and data visualization.",
-  };
+/**
+ * SoftwareApplication JSON-LD for the template
+ * Helps with rich results for developer tools
+ */
+export function SoftwareApplicationJsonLd() {
+  const data = generateSoftwareApplicationJsonLd();
+  return <JsonLd data={data} />;
+}
 
+/**
+ * BreadcrumbList JSON-LD for navigation
+ * Helps Google show breadcrumbs in SERP
+ */
+interface BreadcrumbJsonLdProps {
+  items: Array<{ name: string; path: string }>;
+}
+
+export function BreadcrumbJsonLd({ items }: BreadcrumbJsonLdProps) {
+  const data = generateBreadcrumbJsonLd(items);
   return <JsonLd data={data} />;
 }

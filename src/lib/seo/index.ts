@@ -3,7 +3,7 @@ export {
   generateOrganizationJsonLd,
   generateWebSiteJsonLd,
   generateWebPageJsonLd,
-  generateBreadcrumbListJsonLd,
+  generateBreadcrumbJsonLd,
   generateSoftwareApplicationJsonLd,
   serializeJsonLd,
   type OrganizationJsonLd,
