@@ -4,6 +4,9 @@ import createNextIntlPlugin from "next-intl/plugin";
 const nextConfig: NextConfig = {
   output: 'standalone',
   
+  // React Compiler - Automatic optimization
+  reactCompiler: true,
+  
   // Security Headers
   async headers() {
     return [
