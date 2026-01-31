@@ -2,10 +2,10 @@
 
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/routing";
-import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
+
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { UserNav } from "./user-nav";
-import { LayoutDashboard, Home, Palette } from "lucide-react";
+import { LayoutDashboard, Home, Palette, Layers } from "lucide-react";
 
 export function Header() {
   const t = useTranslations("navigation");
@@ -51,12 +51,19 @@ export function Header() {
             <Palette className="h-4 w-4" />
             <span className="hidden sm:inline">Design System</span>
           </Link>
+          <Link
+            href="/design-system/tech-components"
+            locale={locale}
+            className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <Layers className="h-4 w-4" />
+            <span className="hidden sm:inline">Tech Components</span>
+          </Link>
         </nav>
 
         {/* Actions */}
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <LanguageSwitcher />
           <div className="ml-2 border-l pl-2">
             <UserNav />
           </div>

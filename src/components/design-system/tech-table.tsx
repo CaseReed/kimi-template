@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import {
   Table,
@@ -155,25 +155,38 @@ export function TechStatusBadge({
   const variant = variants[status];
 
   return (
-    <Badge
-      variant="outline"
-      className={cn(
-        variant.bg,
-        variant.text,
-        variant.border,
-        "font-medium border gap-1.5 pl-2 pr-2.5",
-        pulse && status === "active" && "animate-pulse"
-      )}
-    >
-      <span
-        className={cn(
-          "h-1.5 w-1.5 rounded-full",
-          variant.dot,
-          pulse && status === "active" && "animate-ping"
-        )}
-      />
-      {children}
-    </Badge>
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={status}
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
+      >
+        <Badge
+          variant="outline"
+          className={cn(
+            variant.bg,
+            variant.text,
+            variant.border,
+            "font-medium border gap-1.5 pl-2 pr-2.5 transition-colors duration-300",
+            pulse && status === "active" && "animate-pulse"
+          )}
+        >
+          <motion.span
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.1, type: "spring", stiffness: 500, damping: 30 }}
+            className={cn(
+              "h-1.5 w-1.5 rounded-full",
+              variant.dot,
+              pulse && status === "active" && "animate-ping"
+            )}
+          />
+          {children}
+        </Badge>
+      </motion.div>
+    </AnimatePresence>
   );
 }
 

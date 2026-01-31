@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useOptimistic, useTransition, useEffect } from "react";
+import { useState, useCallback, useOptimistic, useTransition, useEffect, useRef } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations, useLocale } from "next-intl";
 import { useReducedMotion } from "motion/react";
@@ -102,6 +102,7 @@ function TableSkeleton() {
 export function TransactionsTable() {
   const t = useTranslations("dashboard.transactions");
   const currentLocale = useLocale();
+  const tableRef = useRef<HTMLDivElement>(null);
   
   const [currentPage, setCurrentPage] = useState(1);
   const [updateError, setUpdateError] = useState<string | null>(null);
@@ -185,7 +186,8 @@ export function TransactionsTable() {
   const handlePageChange = useCallback((page: number) => {
     setIsNavigating(true);
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Scroll to the top of the table card instead of the whole page
+    tableRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, []);
 
   // Filter transactions based on search
@@ -259,7 +261,7 @@ export function TransactionsTable() {
 
   return (
     <FadeIn>
-      <Card className="border-border">
+      <Card ref={tableRef} className="border-border">
         <CardHeader className="pb-3">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>

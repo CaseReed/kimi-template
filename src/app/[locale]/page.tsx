@@ -83,7 +83,6 @@ export default async function HomePage({
           <FadeIn direction="right" delay={0.1}>
             <div className="flex items-center gap-2">
               <ThemeToggle />
-              <LanguageSwitcher />
               <Link
                 href="/login"
                 locale={locale}
@@ -416,6 +415,14 @@ export default async function HomePage({
                     {tech}
                   </span>
                 ))}
+              </div>
+            </div>
+
+            {/* Language Selector */}
+            <div className="border-t border-border pt-6 mb-6">
+              <div className="flex items-center justify-center gap-4">
+                <span className="text-sm text-muted-foreground">{t("footer.language")}</span>
+                <LanguageSwitcher />
               </div>
             </div>
 

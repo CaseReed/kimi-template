@@ -80,7 +80,8 @@
         "github": "GitHub",
         "docs": "Documentation"
       },
-      "builtWith": "Built with"
+      "builtWith": "Built with",
+      "language": "Language"
     }
   },
   "auth": {
@@ -197,6 +198,10 @@
         "loading": "Error loading data"
       },
       "empty": "No transactions found."
+    },
+    "footer": {
+      "copyright": "© 2025 kimi-template. All rights reserved.",
+      "language": "Language"
     }
   },
   "language": {
