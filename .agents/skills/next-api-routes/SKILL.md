@@ -163,34 +163,33 @@ export default function UserForm() {
 }
 ```
 
-### Programmatic Server Action
+### Programmatic Server Action (React 19)
+
+Use `useActionState` for form actions without forms:
 
 ```tsx
 'use client';
 
-import { useState } from 'react';
+import { useActionState } from 'react';
 import { updateUser } from '@/app/actions/user';
 
 export function EditUserButton({ userId }: { userId: string }) {
-  const [isPending, setIsPending] = useState(false);
-  
-  async function handleClick() {
-    setIsPending(true);
-    const result = await updateUser(userId, { name: 'New Name' });
-    setIsPending(false);
-    
-    if (result.success) {
-      // Handle success
-    }
-  }
+  const [state, dispatch, isPending] = useActionState(
+    async () => {
+      return await updateUser(userId, { name: 'New Name' });
+    },
+    null
+  );
   
   return (
-    <button onClick={handleClick} disabled={isPending}>
+    <button onClick={() => dispatch()} disabled={isPending}>
       {isPending ? 'Updating...' : 'Update User'}
     </button>
   );
 }
 ```
+
+> **Note**: The legacy pattern with manual `useState` (pre-React 19) is deprecated. Always use `useActionState` for action pending states.
 
 ### Server Action with bind()
 
@@ -199,31 +198,40 @@ export function EditUserButton({ userId }: { userId: string }) {
 'use server';
 
 export async function updateUser(
-  userId: string,
-  prevState: unknown,
+  prevState: { success: boolean; message: string } | null,
   formData: FormData
 ) {
+  const userId = formData.get('userId') as string;
   const name = formData.get('name') as string;
+  
   const user = await db.user.update({
     where: { id: userId },
     data: { name }
   });
-  return { success: true, user };
+  
+  return { success: true, message: 'User updated!' };
 }
 ```
 
 ```tsx
 // app/users/[id]/page.tsx
+'use client';
+
+import { useActionState } from 'react';
 import { updateUser } from '@/app/actions/user';
 
-export default function EditUserPage({ params }: { params: { id: string } }) {
-  // Pre-fill userId argument
-  const updateUserWithId = updateUser.bind(null, params.id);
+export default function EditUserPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = React.use(params);
+  const [state, formAction, isPending] = useActionState(updateUser, null);
   
   return (
-    <form action={updateUserWithId}>
+    <form action={formAction}>
+      <input type="hidden" name="userId" value={id} />
       <input name="name" placeholder="New Name" required />
-      <button type="submit">Update</button>
+      <button type="submit" disabled={isPending}>
+        {isPending ? 'Updating...' : 'Update'}
+      </button>
+      {state?.success && <p>{state.message}</p>}
     </form>
   );
 }

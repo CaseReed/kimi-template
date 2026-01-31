@@ -383,6 +383,33 @@ interface ComponentProps {
 
 ### Ref Forwarding
 
+#### React 19+ Pattern (Recommended)
+
+In React 19, `ref` can be passed as a regular prop. `forwardRef` is deprecated but still works.
+
+```tsx
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label: string;
+  // ref is automatically included in HTMLAttributes
+}
+
+// No forwardRef needed in React 19
+const Input = ({ label, ref, ...props }: InputProps) => (
+  <label>
+    {label}
+    <input ref={ref} {...props} />
+  </label>
+);
+
+// For custom components without HTMLAttributes
+interface CustomProps {
+  label: string;
+  ref?: React.Ref<HTMLDivElement>;
+}
+```
+
+#### Legacy Pattern (React 18 and earlier)
+
 ```tsx
 import { forwardRef, type Ref } from 'react';
 

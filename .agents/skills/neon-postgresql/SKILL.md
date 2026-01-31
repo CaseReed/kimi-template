@@ -246,7 +246,7 @@ async function createPreviewBranch(branchName: string) {
   
   // Example using API
   const response = await fetch(
-    `https://console.neon.tech/api/v2/projects/${PROJECT_ID}/branches`,
+    `https://console.neon.com/api/v2/projects/${PROJECT_ID}/branches`,
     {
       method: "POST",
       headers: {
@@ -275,7 +275,7 @@ async function createTempBranch(branchName: string, ttlHours: number) {
   expiresAt.setHours(expiresAt.getHours() + ttlHours);
   
   const response = await fetch(
-    `https://console.neon.tech/api/v2/projects/${PROJECT_ID}/branches`,
+    `https://console.neon.com/api/v2/projects/${PROJECT_ID}/branches`,
     {
       method: "POST",
       headers: {

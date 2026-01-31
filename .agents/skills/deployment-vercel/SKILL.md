@@ -273,7 +273,7 @@ export default config;
 
 ### 3. Edge Functions & Middleware
 
-#### Middleware Pattern (`src/middleware.ts`)
+#### Middleware Pattern (`src/proxy.ts` - Next.js 16+)
 
 ```typescript
 import { NextResponse } from 'next/server';
@@ -308,7 +308,7 @@ export const config = {
 #### Edge Function with Edge Config
 
 ```typescript
-// middleware.ts with Edge Config
+// proxy.ts with Edge Config
 import { NextResponse } from 'next/server';
 import { get } from '@vercel/edge-config';
 import type { NextRequest } from 'next/server';

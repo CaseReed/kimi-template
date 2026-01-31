@@ -29,7 +29,7 @@ This skill serves as the **single source of truth** for all official documentati
 | Technology | Official Docs | Version | Notes |
 |------------|--------------|---------|-------|
 | **Next.js** | https://nextjs.org/docs | 16.1.6 | App Router architecture |
-| **React** | https://react.dev | 19.2.3 | Server Components, use hooks |
+| **React** | https://react.dev | 19.2.4 | Server Components, use hooks |
 | **TypeScript** | https://www.typescriptlang.org/docs | 5.9.3 | Strict mode enabled |
 
 ### Styling & UI
@@ -89,21 +89,23 @@ This skill serves as the **single source of truth** for all official documentati
 
 | Technology | Official Docs | Version | Notes |
 |------------|--------------|---------|-------|
-| **Zod** | https://zod.dev | v3 | Schema validation |
+| **Zod** | https://zod.dev | v4 | Schema validation |
 | **React Hook Form** | https://react-hook-form.com/docs | v7 | Form management |
 
 ### Charts
 
 | Technology | Official Docs | Version | Notes |
 |------------|--------------|---------|-------|
-| **Recharts** | https://recharts.org/en-US/api | v2 | Composable charts |
+| **Recharts** | https://recharts.org/en-US/api | v2/v3 | Composable charts |
 
 ### Testing
 
+> ⚠️ **Note**: Testing dependencies are not installed by default. See `/skill:testing-vitest` for setup instructions.
+
 | Technology | Official Docs | Version | Notes |
 |------------|--------------|---------|-------|
-| **Vitest** | https://vitest.dev/guide | v2 | Unit testing |
-| **React Testing Library** | https://testing-library.com/docs/react-testing-library/intro | v16 | Component testing |
+| **Vitest** | https://vitest.dev/guide | v2+ | Unit testing (optional) |
+| **React Testing Library** | https://testing-library.com/docs/react-testing-library/intro | v16+ | Component testing (optional) |
 
 ### Build Tools
 

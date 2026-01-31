@@ -80,15 +80,34 @@ Use the official ESLint plugin to enforce rules:
 npm install eslint-plugin-react-hooks --save-dev
 ```
 
-```json
-// .eslintrc.json
-{
-  "plugins": ["react-hooks"],
-  "rules": {
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
-  }
-}
+```typescript
+// eslint.config.mjs (Flat Config - ESLint 9+)
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { FlatCompat } from "@eslint/eslintrc";
+import hooksPlugin from "eslint-plugin-react-hooks";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
+
+const eslintConfig = [
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    plugins: {
+      "react-hooks": hooksPlugin,
+    },
+    rules: {
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
+    },
+  },
+];
+
+export default eslintConfig;
 ```
 
 ## Hook Patterns

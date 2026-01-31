@@ -7,6 +7,8 @@ compatibility: Vitest >=1.0, React >=19, Next.js >=16
 
 # Testing with Vitest + React Testing Library
 
+> ⚠️ **IMPORTANT**: This skill requires Vitest and testing dependencies to be installed. They are not included in the default template.
+
 Comprehensive testing guide for Next.js 16 + React 19 projects using Vitest and React Testing Library.
 
 ## Setup & Configuration
