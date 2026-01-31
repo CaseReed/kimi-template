@@ -1,76 +1,68 @@
 #!/usr/bin/env tsx
 /**
- * Seed script to create admin user directly in database
+ * Seed script to create admin user via Better Auth API
  * Usage for production: 
- *   DATABASE_URL=postgresql://... pnpm tsx scripts/seed-admin-prod.ts
+ *   BETTER_AUTH_URL=https://your-app.vercel.app pnpm tsx scripts/seed-admin-prod.ts
  */
 
-import { hash } from "bcryptjs";
-import { db } from "../src/lib/db";
-import { user, account } from "../src/lib/db/schema";
-import { eq } from "drizzle-orm";
-
+const BETTER_AUTH_URL = process.env.BETTER_AUTH_URL || "http://localhost:3000";
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@example.com";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123456";
 const ADMIN_NAME = process.env.ADMIN_NAME || "Admin User";
 
-async function seedAdmin() {
-  console.log("🌱 Seeding admin user to production database...");
+async function seedAdminProd() {
+  console.log("🌱 Seeding admin user via Better Auth API...");
+  console.log(`   URL: ${BETTER_AUTH_URL}`);
   console.log(`   Email: ${ADMIN_EMAIL}`);
   console.log(`   Name: ${ADMIN_NAME}`);
   console.log("");
 
   try {
-    // Check if user already exists
-    const existingUser = await db.query.user.findFirst({
-      where: eq(user.email, ADMIN_EMAIL),
+    const response = await fetch(`${BETTER_AUTH_URL}/api/auth/sign-up/email`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: ADMIN_EMAIL,
+        password: ADMIN_PASSWORD,
+        name: ADMIN_NAME,
+      }),
     });
 
-    if (existingUser) {
-      console.log("ℹ️  Admin user already exists.");
-      console.log("   You can login with the existing credentials.");
-      process.exit(0);
+    const contentType = response.headers.get("content-type");
+    let data;
+    
+    if (contentType && contentType.includes("application/json")) {
+      data = await response.json();
+    } else {
+      const text = await response.text();
+      data = { message: text };
     }
 
-    // Generate user ID
-    const userId = crypto.randomUUID();
-    const now = new Date();
-
-    // Hash password with bcrypt (same as Better Auth)
-    const hashedPassword = await hash(ADMIN_PASSWORD, 10);
-
-    // Create user
-    await db.insert(user).values({
-      id: userId,
-      email: ADMIN_EMAIL,
-      name: ADMIN_NAME,
-      emailVerified: true, // Auto-verify for admin
-      createdAt: now,
-      updatedAt: now,
-    });
-
-    // Create account with password
-    await db.insert(account).values({
-      id: crypto.randomUUID(),
-      userId: userId,
-      accountId: userId, // For email/password, accountId = userId
-      providerId: "credential", // Better Auth uses "credential" for email/password
-      password: hashedPassword,
-      createdAt: now,
-      updatedAt: now,
-    });
-
-    console.log("✅ Admin user created successfully!");
-    console.log("");
-    console.log("   You can now login with:");
-    console.log(`   Email: ${ADMIN_EMAIL}`);
-    console.log(`   Password: ${ADMIN_PASSWORD}`);
+    if (response.ok) {
+      console.log("✅ Admin user created successfully!");
+      console.log("");
+      console.log("   You can now login with:");
+      console.log(`   Email: ${ADMIN_EMAIL}`);
+      console.log(`   Password: ${ADMIN_PASSWORD}`);
+    } else if (response.status === 409 || data.message?.includes("already exists")) {
+      console.log("ℹ️  Admin user already exists.");
+      console.log("   Updating password...");
+      
+      console.log("   Please use the password reset flow or delete the user manually.")
+    } else {
+      console.error("❌ Failed to create admin user:");
+      console.error("   Status:", response.status);
+      console.error("   Error:", data.message || JSON.stringify(data));
+      process.exit(1);
+    }
   } catch (error) {
-    console.error("❌ Error seeding admin:", error);
+    console.error("❌ Error:", error);
     process.exit(1);
   }
 
   process.exit(0);
 }
 
-seedAdmin();
+seedAdminProd();
