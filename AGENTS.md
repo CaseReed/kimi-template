@@ -46,7 +46,7 @@ This is a **Next.js 16** web application using the **App Router** architecture. 
 | Technology | Version | Purpose |
 |------------|---------|---------|
 | Next.js | 16.1.6 | React framework with App Router |
-| React | 19.2.3 | UI library |
+| React | 19.2.4 | UI library |
 | TypeScript | 5.9.3 | Type safety |
 | Tailwind CSS | 4.1.18 | Utility-first CSS |
 | Drizzle ORM | 0.45+ | Database ORM |
@@ -458,7 +458,7 @@ export async function GET() {
 
 ## Kimi Skills Reference
 
-This project has **30 specialized skills** in `.agents/skills/` to help with development tasks:
+This project has **29 specialized skills** in `.agents/skills/` to help with development tasks:
 
 ### Planning & Coordination
 
@@ -467,7 +467,6 @@ This project has **30 specialized skills** in `.agents/skills/` to help with dev
 | `/skill:plan-master` | Systematic planning methodology | Before starting complex features |
 | `/skill:subagent-tasker` | Best practices for subagent tasks | When decomposing work into parallel tasks |
 | `/skill:skill-creator` | **Mandatory process for creating skills** | **ALWAYS use before creating any skill** |
-
 ### Technical Skills
 
 | Skill | Purpose | When to Use |

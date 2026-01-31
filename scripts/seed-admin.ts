@@ -8,7 +8,7 @@
 
 const BASE_URL = process.env.BETTER_AUTH_URL || "http://localhost:3000";
 
-async function seedAdmin() {
+async function seedAdminLocal() {
   const adminEmail = process.env.ADMIN_EMAIL || "admin@example.com";
   const adminPassword = process.env.ADMIN_PASSWORD || "admin123456";
   const adminName = process.env.ADMIN_NAME || "Admin User";
@@ -75,4 +75,4 @@ async function seedAdmin() {
   }
 }
 
-seedAdmin();
+seedAdminLocal();

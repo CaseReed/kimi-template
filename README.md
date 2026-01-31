@@ -10,7 +10,7 @@ This project is a **demo/template specifically designed for Kimi k2.5**, showcas
 
 - 🤖 **Optimal integration with Kimi k2.5** via a structured skill system
 - 🏗️ **A modern tech stack** (Next.js 16, React 19, Tailwind CSS 4)
-- 📚 **30 specialized skills** to accelerate development
+- 📚 **29 specialized skills** to accelerate development
 - 🎯 **Patterns and best practices** validated for React 19 and Next.js App Router
 
 ---
@@ -20,7 +20,7 @@ This project is a **demo/template specifically designed for Kimi k2.5**, showcas
 | Technology | Version | Description |
 |------------|---------|-------------|
 | **Next.js** | 16.1.6 | React framework with App Router |
-| **React** | 19.2.3 | UI library with Server Components |
+| **React** | 19.2.4 | UI library with Server Components |
 | **TypeScript** | 5.9.3 | Strict type safety |
 | **Tailwind CSS** | 4.1.18 | Utility-first CSS with `@theme` |
 | **Geist Font** | latest | Vercel font family (Sans + Mono) |
@@ -37,9 +37,9 @@ This project is a **demo/template specifically designed for Kimi k2.5**, showcas
 
 ---
 
-## 🎓 Kimi Skills (30 Specializations)
+## 🎓 Kimi Skills (29 Specializations)
 
-The project includes **30 specialized skills** in `.agents/skills/` to guide Kimi k2.5:
+The project includes **29 specialized skills** in `.agents/skills/` to guide Kimi k2.5:
 
 ### 🎯 Planning & Architecture
 | Skill | Description |
@@ -220,7 +220,7 @@ pnpm dev
 
 ### Configure OAuth Providers
 
-See **[OAUTH_SETUP.md](OAUTH_SETUP.md)** for detailed instructions on configuring GitHub and Google OAuth.
+See **[Better Auth Documentation](https://www.better-auth.com/docs)** for detailed instructions on configuring GitHub and Google OAuth.
 
 ---
 

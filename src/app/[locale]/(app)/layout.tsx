@@ -1,5 +1,5 @@
 import { Header } from "@/components/layout/header";
-import { SkipLink } from "@/components/a11y";
+import { SkipLink } from "@/components/accessibility";
 
 // App layout - WITH Header navigation
 export default function AppLayout({
