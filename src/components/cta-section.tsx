@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/routing";
 import { ScrollReveal } from "@/components/animations";
+import { TechBorder } from "@/components/design-system";
 import { cn } from "@/lib/utils";
 
 interface CTASectionProps {
@@ -27,7 +28,7 @@ export function CTASection({
     <section className={cn("py-24 sm:py-32", className)}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <ScrollReveal>
-          <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+          <TechBorder variant="gradient" animated className="relative overflow-hidden rounded-2xl">
             {/* Gradient background */}
             <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-secondary opacity-90" />
             
@@ -83,11 +84,7 @@ export function CTASection({
                   asChild
                   size="lg"
                   variant="outline"
-                  className={cn(
-                    "border-2 border-white text-white bg-transparent hover:bg-white/10",
-                    "shadow-lg shadow-black/20",
-                    "transition-all duration-200"
-                  )}
+                  className="border-2 border-white text-white bg-transparent hover:bg-white/10 shadow-lg transition-all duration-200"
                 >
                   <Link href={buttonHref}>
                     {buttonText}
@@ -99,7 +96,7 @@ export function CTASection({
             {/* Decorative corner glows */}
             <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary-foreground/10 rounded-full blur-3xl" />
             <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-secondary/20 rounded-full blur-3xl" />
-          </div>
+          </TechBorder>
         </ScrollReveal>
       </div>
     </section>

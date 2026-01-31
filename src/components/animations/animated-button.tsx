@@ -9,6 +9,7 @@ interface AnimatedButtonProps {
   onClick?: () => void;
   href?: string;
   variant?: "primary" | "secondary" | "outline";
+  external?: boolean;
 }
 
 export function AnimatedButton({
@@ -17,6 +18,7 @@ export function AnimatedButton({
   onClick,
   href,
   variant = "primary",
+  external = false,
 }: AnimatedButtonProps) {
   const shouldReduceMotion = useReducedMotion();
 
@@ -37,6 +39,8 @@ export function AnimatedButton({
       href={href}
       onClick={onClick}
       className={`${baseStyles} ${variantStyles[variant]} ${className}`}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
       whileHover={
         shouldReduceMotion
           ? undefined

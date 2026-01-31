@@ -15,6 +15,257 @@ import {
   AnimatedLogo,
   CardHover,
 } from "@/components/animations";
+import { GlowCard, TechBorder } from "@/components/design-system";
+import { Badge } from "@/components/ui/badge";
+import { 
+  Bot, 
+  Sparkles, 
+  Shield, 
+  Globe, 
+  Database, 
+  Check, 
+  X,
+  ArrowRight,
+  Terminal,
+  Target,
+  Palette,
+  Lock
+} from "lucide-react";
+
+// Stats Card Component
+function StatsCard({ value, label }: { value: string; label: string }) {
+  return (
+    <GlowCard glowIntensity="low" className="text-center py-8">
+      <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary-400 bg-clip-text text-transparent">
+        {value}
+      </div>
+      <div className="text-sm text-muted-foreground mt-2 font-medium">{label}</div>
+    </GlowCard>
+  );
+}
+
+// Capability Card Component
+function CapabilityCard({
+  icon,
+  title,
+  subtitle,
+  description,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  subtitle: string;
+  description: string;
+}) {
+  return (
+    <GlowCard glowIntensity="low" className="h-full">
+      <div className="flex flex-col h-full">
+        <div className="p-3 rounded-xl bg-primary/10 text-primary w-fit mb-4">
+          {icon}
+        </div>
+        <h3 className="font-bold text-foreground text-lg">{title}</h3>
+        <p className="text-xs text-primary font-semibold uppercase tracking-wide mt-1">{subtitle}</p>
+        <p className="text-sm text-muted-foreground mt-3 flex-1">{description}</p>
+      </div>
+    </GlowCard>
+  );
+}
+
+// Comparison Row Component
+function ComparisonRow({
+  traditional,
+  kimi,
+}: {
+  traditional: string;
+  kimi: string;
+}) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4 border-b border-border/50 last:border-0">
+      <div className="text-muted-foreground flex items-center gap-3">
+        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-red-500/10 flex items-center justify-center">
+          <X className="h-3.5 w-3.5 text-red-500" />
+        </div>
+        <span className="text-sm">{traditional}</span>
+      </div>
+      <div className="text-foreground font-medium flex items-center gap-3">
+        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-green-500/10 flex items-center justify-center">
+          <Check className="h-3.5 w-3.5 text-green-500" />
+        </div>
+        <span className="text-sm">{kimi}</span>
+      </div>
+    </div>
+  );
+}
+
+// Built with Kimi Section
+function BuiltWithKimiSection() {
+  const capabilities = [
+    {
+      icon: <Target className="h-6 w-6" />,
+      title: "Systematic Planning",
+      subtitle: "P.L.A.N. Framework",
+      description: "Every feature planned with the P.L.A.N. methodology: Probe, Layout, Assess, Notify. No guesswork, just structured development.",
+    },
+    {
+      icon: <Palette className="h-6 w-6" />,
+      title: "Design System First",
+      subtitle: "Tech Noir Aesthetic",
+      description: "Complete design system with 30+ specialized skills, coherent components, and the signature cyan-electric dark mode.",
+    },
+    {
+      icon: <Lock className="h-6 w-6" />,
+      title: "Auth Integration",
+      subtitle: "Better Auth",
+      description: "Production-ready authentication with email/password, OAuth providers, 2FA support, and secure session management.",
+    },
+    {
+      icon: <Globe className="h-6 w-6" />,
+      title: "i18n Ready",
+      subtitle: "next-intl Routing",
+      description: "Multi-language support built-in with type-safe translations, locale routing, and seamless language switching.",
+    },
+    {
+      icon: <Database className="h-6 w-6" />,
+      title: "Database Setup",
+      subtitle: "Drizzle + Neon",
+      description: "Type-safe ORM with Drizzle, serverless PostgreSQL via Neon, automatic migrations, and Edge-compatible drivers.",
+    },
+    {
+      icon: <Shield className="h-6 w-6" />,
+      title: "Security Built-in",
+      subtitle: "Best Practices",
+      description: "Security headers, XSS protection, CSRF tokens, input validation with Zod, and OWASP guidelines from day one.",
+    },
+  ];
+
+  const comparisons = [
+    { traditional: "Weeks of initial project setup", kimi: "Production-ready in hours" },
+    { traditional: "Manual architecture decisions", kimi: "Systematic P.L.A.N. framework" },
+    { traditional: "Inconsistent UI components", kimi: "Coherent Tech Noir design system" },
+    { traditional: "Debugging configuration issues", kimi: "Pre-configured, battle-tested stack" },
+    { traditional: "Researching auth best practices", kimi: "Better Auth integrated & secured" },
+    { traditional: "Reinventing the wheel", kimi: "30+ specialized agent skills" },
+  ];
+
+  return (
+    <section className="relative py-24 sm:py-32 overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background pointer-events-none" />
+      
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <ScrollReveal className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary mb-6">
+            <Sparkles className="h-4 w-4" />
+            <span>AI-Powered Development</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-6">
+            Built with{" "}
+            <span className="bg-gradient-to-r from-primary via-primary-400 to-primary bg-clip-text text-transparent">
+              Kimi Code CLI
+            </span>
+          </h2>
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+            This template wasn&apos;t just coded—it was architected with systematic AI assistance. 
+            From planning to production, every decision was made with precision.
+          </p>
+        </ScrollReveal>
+
+        {/* Stats Grid */}
+        <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
+          <StaggerItem>
+            <StatsCard value="30+" label="Specialized Skills" />
+          </StaggerItem>
+          <StaggerItem>
+            <StatsCard value="15+" label="UI Components" />
+          </StaggerItem>
+          <StaggerItem>
+            <StatsCard value="6" label="Core Features" />
+          </StaggerItem>
+          <StaggerItem>
+            <StatsCard value="Hours" label="To Customize" />
+          </StaggerItem>
+        </StaggerContainer>
+
+        {/* Capabilities Grid */}
+        <ScrollReveal className="mb-6">
+          <h3 className="text-2xl font-bold text-center text-foreground mb-12">
+            What Makes This Different
+          </h3>
+        </ScrollReveal>
+        
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+          {capabilities.map((cap) => (
+            <StaggerItem key={cap.title}>
+              <CapabilityCard {...cap} />
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
+
+        {/* Comparison Section */}
+        <ScrollReveal className="mb-6">
+          <h3 className="text-2xl font-bold text-center text-foreground mb-12">
+            Traditional Dev vs{" "}
+            <span className="text-primary">Kimi-Assisted</span>
+          </h3>
+        </ScrollReveal>
+
+        <ScrollReveal>
+          <TechBorder variant="glow" className="p-6 md:p-8 mb-12">
+            <div className="hidden md:grid grid-cols-2 gap-4 pb-4 border-b border-border mb-2">
+              <div className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                Traditional Development
+              </div>
+              <div className="text-sm font-semibold text-primary uppercase tracking-wider">
+                With Kimi Code CLI
+              </div>
+            </div>
+            {comparisons.map((comp) => (
+              <ComparisonRow key={`${comp.traditional}-${comp.kimi}`} {...comp} />
+            ))}
+          </TechBorder>
+        </ScrollReveal>
+
+        {/* CTA Block */}
+        <ScrollReveal>
+          <div className="text-center">
+            <h3 className="text-2xl font-bold text-foreground mb-4">
+              Ready to Build Your Next Project?
+            </h3>
+            <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
+              Experience the future of development. Kimi Code CLI combines the power 
+              of Moonshot AI&apos;s models with specialized tools for production-grade results.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <AnimatedButton 
+                href="https://kimi.ai" 
+                variant="primary"
+                className="group"
+                external
+                aria-label="Get Kimi Code CLI (opens in new tab)"
+              >
+                <Bot className="mr-2 h-4 w-4" aria-hidden="true" />
+                Get Kimi Code CLI
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              </AnimatedButton>
+              <AnimatedButton 
+                href="https://github.com/CaseReed/kimi-template" 
+                variant="outline"
+                external
+                aria-label="View project on GitHub (opens in new tab)"
+              >
+                <Terminal className="mr-2 h-4 w-4" aria-hidden="true" />
+                View on GitHub
+              </AnimatedButton>
+            </div>
+            <p className="text-xs text-muted-foreground mt-6">
+              Powered by Moonshot AI • Free to use • Open source
+            </p>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}
 
 // Generate metadata for SEO
 export async function generateMetadata({
@@ -46,13 +297,15 @@ function FeatureCard({
   return (
     <ScrollReveal delay={delay}>
       <CardHover>
-        <div className="flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition-colors hover:border-primary/20">
-          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-            {icon}
+        <GlowCard glowIntensity="low" className="h-full">
+          <div className="flex h-full flex-col">
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+              {icon}
+            </div>
+            <h3 className="mb-2 text-lg font-semibold text-foreground">{title}</h3>
+            <p className="flex-1 text-sm text-muted-foreground">{description}</p>
           </div>
-          <h3 className="mb-2 text-lg font-semibold text-foreground">{title}</h3>
-          <p className="flex-1 text-sm text-muted-foreground">{description}</p>
-        </div>
+        </GlowCard>
       </CardHover>
     </ScrollReveal>
   );
@@ -115,10 +368,10 @@ export default async function HomePage({
         <div className="relative z-10 text-center max-w-3xl mx-auto">
           <StaggerContainer className="space-y-8">
             <StaggerItem>
-              <div className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/50 px-4 py-1.5 text-sm text-muted-foreground">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary" aria-label="Status indicator">
+                <span className="relative flex h-2 w-2" aria-hidden="true">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                 </span>
                 {t("hero.badge")}
               </div>
@@ -145,8 +398,10 @@ export default async function HomePage({
                   {t("hero.cta")}
                 </AnimatedButton>
                 <AnimatedButton
-                  href="https://github.com"
+                  href="https://github.com/CaseReed/kimi-template"
                   variant="outline"
+                  external
+                  aria-label="View project on GitHub (opens in new tab)"
                 >
                   <svg
                     className="mr-2 h-4 w-4"
@@ -186,14 +441,17 @@ export default async function HomePage({
                 "next-intl",
                 "Zustand",
               ].map((tech) => (
-                <span key={tech} className="inline-flex items-center rounded-full border border-border bg-muted/50 px-3 py-1 text-xs font-medium text-foreground">
+                <Badge key={tech} variant="outline">
                   {tech}
-                </span>
+                </Badge>
               ))}
             </div>
           </FadeIn>
         </div>
       </section>
+
+      {/* Built with Kimi Section */}
+      <BuiltWithKimiSection />
 
       {/* Features Section */}
       <section className="relative py-24 sm:py-32">
@@ -411,9 +669,9 @@ export default async function HomePage({
               <p className="text-xs text-muted-foreground mb-3 text-center">{t("footer.builtWith")}</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {["Next.js 16", "React 19", "Tailwind CSS v4", "Better Auth", "Drizzle ORM", "PostgreSQL"].map((tech) => (
-                  <span key={tech} className="text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground">
+                  <Badge key={tech} variant="secondary" className="text-xs">
                     {tech}
-                  </span>
+                  </Badge>
                 ))}
               </div>
             </div>
