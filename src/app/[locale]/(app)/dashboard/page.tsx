@@ -8,12 +8,13 @@ import { auth } from "@/lib/auth";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 import { RefreshButton } from "@/components/dashboard/refresh-button";
 import { StatsGrid } from "@/components/dashboard/stats-grid";
-import { RevenueChart } from "@/components/dashboard/revenue-chart";
-import { CategoryChart } from "@/components/dashboard/category-chart";
+// Lazy-loaded chart components for better performance
+import { RevenueChart } from "@/components/dashboard/revenue-chart-lazy";
+import { CategoryChart } from "@/components/dashboard/category-chart-lazy";
 import { TransactionsTable } from "@/components/dashboard/transactions-table";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
-import { JsonLd } from "@/components/seo";
+import { JsonLd, BreadcrumbJsonLd } from "@/components/seo";
 import { generateWebPageJsonLd } from "@/lib/seo";
 import { FadeIn } from "@/components/animations/fade-in";
 import { Activity } from "lucide-react";
@@ -33,6 +34,11 @@ export async function generateMetadata({
   const baseUrl = getBaseUrl();
 
   const path = locale === "en" ? "/dashboard" : `/${locale}/dashboard`;
+  
+  // Localized OG alt text
+  const ogAlt = locale === "fr"
+    ? "Tableau de bord analytics avec métriques en temps réel"
+    : "Analytics dashboard with real-time metrics";
 
   return {
     title: t("title"),
@@ -43,6 +49,9 @@ export async function generateMetadata({
       "metrics",
       "statistics",
       "data visualization",
+      "real-time data",
+      "business intelligence",
+      "kimi-template",
     ],
     alternates: {
       canonical: `${baseUrl}${path}`,
@@ -56,12 +65,34 @@ export async function generateMetadata({
       description: t("description"),
       type: "website",
       locale: locale === "fr" ? "fr_FR" : "en_US",
+      alternateLocale: locale === "fr" ? ["en_US"] : ["fr_FR"],
       url: `${baseUrl}${path}`,
+      siteName: "kimi-template",
+      images: [
+        {
+          url: `${baseUrl}/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: ogAlt,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: t("title"),
       description: t("description"),
+      creator: "@kimitemplate",
+      images: [`${baseUrl}/opengraph-image`],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
 }
@@ -102,18 +133,25 @@ export default async function DashboardPage({
 
   // Generate JSON-LD for this page
   const path = locale === "en" ? "/dashboard" : `/${locale}/dashboard`;
+  const homePath = locale === "en" ? "/" : `/${locale}/`;
+  
   const pageJsonLd = generateWebPageJsonLd(
-    "Dashboard",
+    t("title"),
     path,
-    {
-      description: "Analytics dashboard with real-time metrics and data visualization.",
-    }
+    t("subtitle")
   );
+
+  // Breadcrumb for structured data
+  const breadcrumbItems = [
+    { name: t("backToHome"), path: homePath },
+    { name: t("title"), path },
+  ];
 
   return (
     <>
       {/* Structured Data for this page */}
       <JsonLd data={pageJsonLd} />
+      <BreadcrumbJsonLd items={breadcrumbItems} />
 
       <HydrationBoundary state={dehydrate(queryClient)}>
         <DashboardShell>

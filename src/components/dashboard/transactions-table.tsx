@@ -378,8 +378,8 @@ export function TransactionsTable() {
               <Popover open={isFilterOpen} onOpenChange={setIsFilterOpen}>
                 <PopoverTrigger asChild>
                   <Button variant="outline" size="sm" className="relative">
-                    <Filter className="h-4 w-4 mr-1.5" />
-                    Filter
+                    <Filter className="h-4 w-4 mr-1.5" aria-hidden="true" />
+                    {t("filter.title")}
                     {statusFilters.length > 0 && (
                       <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-primary text-[10px] font-medium text-primary-foreground flex items-center justify-center">
                         {statusFilters.length}
@@ -405,9 +405,9 @@ export function TransactionsTable() {
                     </div>
                     <div className="space-y-2">
                       {[
-                        { value: "completed", label: "Completed", color: "text-green-500" },
-                        { value: "pending", label: "Pending", color: "text-amber-500" },
-                        { value: "failed", label: "Failed", color: "text-red-500" },
+                        { value: "completed", label: t("statusLabels.completed"), color: "text-green-500" },
+                        { value: "pending", label: t("statusLabels.pending"), color: "text-amber-500" },
+                        { value: "failed", label: t("statusLabels.failed"), color: "text-red-500" },
                       ].map((status) => (
                         <div key={status.value} className="flex items-center space-x-2">
                           <Checkbox
@@ -437,8 +437,8 @@ export function TransactionsTable() {
                         className="w-full"
                         onClick={() => setIsFilterOpen(false)}
                       >
-                        <Check className="h-3.5 w-3.5 mr-1.5" />
-                        Apply Filters
+                        <Check className="h-3.5 w-3.5 mr-1.5" aria-hidden="true" />
+                        {t("filter.apply")}
                       </Button>
                     </div>
                   </div>
@@ -452,16 +452,16 @@ export function TransactionsTable() {
                     disabled={isExporting || filteredTransactions.length === 0}
                   >
                     {isExporting ? (
-                      <RefreshCw className="h-4 w-4 mr-1.5 animate-spin" />
+                      <RefreshCw className="h-4 w-4 mr-1.5 animate-spin" aria-hidden="true" />
                     ) : (
-                      <FileDown className="h-4 w-4 mr-1.5" />
+                      <FileDown className="h-4 w-4 mr-1.5" aria-hidden="true" />
                     )}
-                    Export
+                    {t("export.title")}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-56 p-3" align="end">
                   <div className="space-y-2">
-                    <h4 className="font-semibold text-sm text-foreground mb-3">Export Options</h4>
+                    <h4 className="font-semibold text-sm text-foreground mb-3">{t("export.title")}</h4>
                     
                     <Button
                       variant="ghost"
@@ -472,7 +472,7 @@ export function TransactionsTable() {
                     >
                       <FileDown className="h-4 w-4 mr-2 text-muted-foreground" />
                       <div className="flex flex-col items-start">
-                        <span className="text-sm">Current Page</span>
+                        <span className="text-sm">{t("export.currentPage")}</span>
                         <span className="text-xs text-muted-foreground">
                           {filteredTransactions.length} transactions
                         </span>
@@ -488,7 +488,7 @@ export function TransactionsTable() {
                     >
                       <FileDown className="h-4 w-4 mr-2 text-primary" />
                       <div className="flex flex-col items-start">
-                        <span className="text-sm font-medium">Export All</span>
+                        <span className="text-sm font-medium">{t("export.all")}</span>
                         <span className="text-xs text-muted-foreground">
                           All 47+ transactions
                         </span>
@@ -505,21 +505,34 @@ export function TransactionsTable() {
             {/* Search and error display */}
             <div className="flex items-center gap-4">
               <div className="relative w-full max-w-sm">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" aria-hidden="true" />
                 <Input
-                  placeholder={t("searchPlaceholder") || "Search transactions..."}
+                  placeholder={t("searchPlaceholder")}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-9"
+                  aria-label={t("searchPlaceholder")}
                 />
               </div>
               {isFetching && !isLoading && (
-                <RefreshCw className="h-4 w-4 animate-spin text-muted-foreground" />
+                <RefreshCw className="h-4 w-4 animate-spin text-muted-foreground" aria-hidden="true" />
               )}
             </div>
 
+            {/* Live region for status updates - announced to screen readers */}
+            <div 
+              aria-live="polite" 
+              aria-atomic="true"
+              className="sr-only"
+            >
+              {updateError && updateError}
+            </div>
+
             {updateError && (
-              <div className="rounded-md bg-destructive/10 border border-destructive/20 p-3 text-sm text-destructive">
+              <div 
+                role="alert"
+                className="rounded-md bg-destructive/10 border border-destructive/20 p-3 text-sm text-destructive"
+              >
                 {updateError}
               </div>
             )}
