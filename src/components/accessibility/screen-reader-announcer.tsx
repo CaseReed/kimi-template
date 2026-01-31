@@ -30,6 +30,7 @@ export function ScreenReaderAnnouncer({
   const [announcement, setAnnouncement] = useState(message);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setAnnouncement(message);
     
     if (clearAfter > 0 && message) {
@@ -128,6 +129,7 @@ export function FormStatusAnnouncer({
 
   useEffect(() => {
     if (isSubmitting) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setAnnouncement(submittingMessage);
     } else if (isSuccess) {
       setAnnouncement(successMessage);

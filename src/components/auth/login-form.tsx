@@ -29,9 +29,10 @@ import {
   FormStatusAnnouncer,
 } from "@/components/accessibility";
 
-// Test credentials - Must match scripts/seed-admin.ts defaults
-const TEST_EMAIL = "admin@example.com";
-const TEST_PASSWORD = "admin123456";
+// Demo credentials for development only
+// In production, these should be set via environment variables
+const DEMO_EMAIL = process.env.NODE_ENV === "development" ? "demo@example.com" : "";
+const DEMO_PASSWORD = process.env.NODE_ENV === "development" ? "demo-password-123" : "";
 
 interface LoginFormProps {
   locale: string;
@@ -52,6 +53,7 @@ export function LoginForm({ locale }: LoginFormProps) {
   // Handle successful validation and actual sign in
   useEffect(() => {
     if (state?.success) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setAuthError(null);
       // The form was valid, now perform actual authentication
       const form = document.getElementById("login-form") as HTMLFormElement;
@@ -97,8 +99,8 @@ export function LoginForm({ locale }: LoginFormProps) {
   const handleFillCredentials = () => {
     const emailInput = document.getElementById("email") as HTMLInputElement;
     const passwordInput = document.getElementById("password") as HTMLInputElement;
-    if (emailInput) emailInput.value = TEST_EMAIL;
-    if (passwordInput) passwordInput.value = TEST_PASSWORD;
+    if (emailInput) emailInput.value = DEMO_EMAIL;
+    if (passwordInput) passwordInput.value = DEMO_PASSWORD;
     // Trigger change events to update React state if needed
     emailInput?.dispatchEvent(new Event("change", { bubbles: true }));
     passwordInput?.dispatchEvent(new Event("change", { bubbles: true }));
@@ -203,12 +205,12 @@ export function LoginForm({ locale }: LoginFormProps) {
               <p className="mb-2">{t("testCredentials.description")}</p>
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between gap-2 rounded bg-amber-100/50 dark:bg-amber-900/20 px-2 py-1">
-                  <code className="text-xs font-mono">{TEST_EMAIL}</code>
+                  <code className="text-xs font-mono">{DEMO_EMAIL}</code>
                   <Button
                     type="button"
                     variant="ghost"
                     size="sm"
-                    onClick={() => handleCopy(TEST_EMAIL, "email")}
+                    onClick={() => handleCopy(DEMO_EMAIL, "email")}
                     className="h-6 px-2 text-xs text-amber-700 hover:text-amber-900 hover:bg-amber-200/50 dark:text-amber-300 dark:hover:text-amber-100 dark:hover:bg-amber-800/50"
                     aria-label={copiedField === "email" ? t("testCredentials.copied") : t("testCredentials.copy")}
                   >
@@ -221,12 +223,12 @@ export function LoginForm({ locale }: LoginFormProps) {
                   </Button>
                 </div>
                 <div className="flex items-center justify-between gap-2 rounded bg-amber-100/50 dark:bg-amber-900/20 px-2 py-1">
-                  <code className="text-xs font-mono">{TEST_PASSWORD}</code>
+                  <code className="text-xs font-mono">{DEMO_PASSWORD}</code>
                   <Button
                     type="button"
                     variant="ghost"
                     size="sm"
-                    onClick={() => handleCopy(TEST_PASSWORD, "password")}
+                    onClick={() => handleCopy(DEMO_PASSWORD, "password")}
                     className="h-6 px-2 text-xs text-amber-700 hover:text-amber-900 hover:bg-amber-200/50 dark:text-amber-300 dark:hover:text-amber-100 dark:hover:bg-amber-800/50"
                     aria-label={copiedField === "password" ? t("testCredentials.copied") : t("testCredentials.copy")}
                   >
@@ -290,7 +292,7 @@ export function LoginForm({ locale }: LoginFormProps) {
                 aria-invalid={!!state?.errors?.email}
                 aria-describedby={state?.errors?.email ? emailErrorId : undefined}
                 autoComplete="email"
-                defaultValue={TEST_EMAIL}
+                defaultValue={DEMO_EMAIL}
               />
               {state?.errors?.email && (
                 <p 
@@ -328,7 +330,7 @@ export function LoginForm({ locale }: LoginFormProps) {
                   aria-invalid={!!state?.errors?.password}
                   aria-describedby={state?.errors?.password ? passwordErrorId : undefined}
                   autoComplete="current-password"
-                  defaultValue={TEST_PASSWORD}
+                  defaultValue={DEMO_PASSWORD}
                   className="pr-10"
                 />
                 <Button

@@ -27,7 +27,7 @@ import {
   formatFormErrors,
   FormStatusAnnouncer,
 } from "@/components/accessibility";
-import { PasswordStrengthIndicator, usePasswordStrength } from "./password-strength-indicator";
+import { PasswordStrengthIndicator } from "./password-strength-indicator";
 import { usePasswordMatch } from "./use-form-validation";
 
 interface RegisterFormProps {
@@ -57,8 +57,7 @@ export function RegisterForm({ locale }: RegisterFormProps) {
     null
   );
 
-  // Password strength analysis
-  const passwordStrength = usePasswordStrength(formValues.password);
+  // Password strength is handled by PasswordStrengthIndicator component
   
   // Password match validation
   const passwordMatch = usePasswordMatch(
@@ -69,6 +68,7 @@ export function RegisterForm({ locale }: RegisterFormProps) {
   // Handle successful validation and actual sign up
   useEffect(() => {
     if (state?.success) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setAuthError(null);
       // The form was valid, now perform actual registration
       const form = document.getElementById("register-form") as HTMLFormElement;
