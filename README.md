@@ -1,6 +1,10 @@
 # 🚀 Kimi k2.5 Template
 
-> **Demo template for Kimi k2.5** — A modern Next.js 16 project optimized for AI-assisted development with a comprehensive collection of specialized skills.
+[![Use this template](https://img.shields.io/badge/Use%20this%20template-2ea44f?style=for-the-badge&logo=github)](https://github.com/new?template_name=kimi-template&template_owner=CaseReed)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://kimi-template.vercel.app)
+[![Deploy with Vercel](https://img.shields.io/badge/Deploy-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/new/clone?repository-url=https://github.com/CaseReed/kimi-template)
+
+> **Production-ready Next.js 16 template** optimized for AI-assisted development with 29 specialized skills.
 
 ---
 
@@ -155,26 +159,49 @@ kimi-template/
 
 ## 🚀 Quick Start
 
+### Option 1: Use GitHub Template (Recommended)
+
+Click the green **"Use this template"** button at the top of this page, or:
+
+```bash
+# Create a new repo from this template
+git clone --depth 1 https://github.com/CaseReed/kimi-template.git my-app
+cd my-app
+rm -rf .git
+git init
+```
+
+### Option 2: Clone Directly
+
+```bash
+git clone https://github.com/CaseReed/kimi-template.git
+cd kimi-template
+```
+
 ### Prerequisites
 
 - Node.js 20+
 - pnpm (recommended)
 
-### Installation
+### Setup
 
 ```bash
-# Clone the repo
-git clone https://github.com/CaseReed/kimi-template.git
-cd kimi-template
-
 # Install dependencies
 pnpm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Edit .env.local with your values
 
 # Start the development server
 pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to see the result.
+
+### 🌐 Live Demo
+
+See it in action: **[kimi-template.vercel.app](https://kimi-template.vercel.app)**
 
 ### Available Scripts
 
