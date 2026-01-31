@@ -275,10 +275,74 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "metadata" });
+  const baseUrl = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000";
+  const path = locale === "en" ? "/" : `/${locale}/`;
+
+  // Localized OG alt text
+  const ogAlt = locale === "fr" 
+    ? "kimi-template - Template Next.js 16 Production-Ready"
+    : "kimi-template - Production-Ready Next.js 16 Starter";
 
   return {
     title: t("home.title"),
     description: t("home.description"),
+    keywords: [
+      "Next.js 16",
+      "React 19", 
+      "Tailwind CSS v4",
+      "Better Auth",
+      "Drizzle ORM",
+      "PostgreSQL",
+      "TypeScript",
+      "shadcn/ui",
+      "Starter Template",
+      "Dashboard",
+      "i18n",
+    ],
+    alternates: {
+      canonical: `${baseUrl}${path}`,
+      languages: {
+        "en-US": `${baseUrl}/`,
+        "fr-FR": `${baseUrl}/fr/`,
+      },
+    },
+    openGraph: {
+      type: "website",
+      locale: locale === "fr" ? "fr_FR" : "en_US",
+      alternateLocale: locale === "fr" ? ["en_US"] : ["fr_FR"],
+      url: `${baseUrl}${path}`,
+      siteName: "kimi-template",
+      title: t("home.title"),
+      description: t("home.description"),
+      images: [
+        {
+          url: `${baseUrl}/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: ogAlt,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("home.title"),
+      description: t("home.description"),
+      creator: "@kimitemplate",
+      images: [`${baseUrl}/opengraph-image`],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
   };
 }
 
@@ -320,7 +384,7 @@ export default async function HomePage({
   const t = await getTranslations({ locale, namespace: "home" });
 
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
+    <div id="main-content" className="min-h-screen bg-background overflow-x-hidden">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-transparent bg-background/80 backdrop-blur-md transition-colors">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">

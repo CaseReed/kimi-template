@@ -15,6 +15,14 @@
     "register": {
       "title": "Inscription",
       "description": "Créez un compte pour commencer"
+    },
+    "designSystem": {
+      "title": "Système de Design",
+      "description": "Système de design Tech Noir - Une bibliothèque de composants UI cyberpunk avec des accents cyan électriques, mode sombre dominant et motifs futuristes. Construit avec Next.js 16, Tailwind CSS v4 et shadcn/ui."
+    },
+    "techComponents": {
+      "title": "Composants Tech",
+      "description": "Composants UI avancés avec esthétique Tech Noir - Tables de données, inputs de formulaire, skeletons de chargement, tooltips et interactions futuristes."
     }
   },
   "navigation": {
@@ -186,9 +194,19 @@
         "failed": "Échoué"
       },
       "buttonLabels": {
-        "change": "Changer",
+        "change": "Changer le statut",
         "edit": "Modifier",
         "view": "Voir les détails"
+      },
+      "filter": {
+        "title": "Filtrer par statut",
+        "clear": "Effacer",
+        "apply": "Appliquer les filtres"
+      },
+      "export": {
+        "title": "Options d'export",
+        "currentPage": "Page actuelle",
+        "all": "Exporter tout"
       },
       "ariaLabels": {
         "avatar": "Avatar de {name}",
@@ -225,5 +243,265 @@
     "light": "Clair",
     "dark": "Sombre",
     "system": "Système"
+  },
+  "designSystem": {
+    "metadata": {
+      "title": "Système de Design",
+      "description": "Un système de design inspiré du cyberpunk avec des accents cyan électriques, un mode sombre dominant et des motifs UI futuristes."
+    },
+    "breadcrumb": {
+      "home": "Accueil",
+      "designSystem": "Système de Design",
+      "techComponents": "Composants Tech"
+    },
+    "hero": {
+      "badge": "Esthétique Tech Noir",
+      "title": "Système de Design",
+      "description": "Un système de design inspiré du cyberpunk avec des accents cyan électriques, un mode sombre dominant et des motifs UI futuristes.",
+      "toggleTheme": "Changer de thème :"
+    },
+    "navigation": {
+      "foundation": "Fondations",
+      "techComponents": "Composants Tech"
+    },
+    "sections": {
+      "colors": {
+        "title": "Couleurs",
+        "description": "La palette de couleurs Tech Noir propose une échelle de gris sophistiquée avec des accents cyan électriques.",
+        "grayScale": "Échelle de Gris",
+        "primaryScale": "Échelle Primaire (Cyan)",
+        "semanticColors": "Couleurs Sémantiques"
+      },
+      "typography": {
+        "title": "Typographie",
+        "description": "Échelle de typographie et graisses de police pour le système de design Tech Noir.",
+        "headings": "Titres",
+        "headingsDescription": "Hiérarchie des titres et affichages",
+        "bodyText": "Corps de Texte",
+        "fontWeights": "Graisses de Police",
+        "monospace": "Monospace",
+        "monospaceDescription": "Code et texte technique avec Geist Mono"
+      },
+      "buttons": {
+        "title": "Boutons",
+        "description": "Variantes et tailles de boutons interactifs avec style Tech Noir.",
+        "variants": "Variantes de Boutons",
+        "sizes": "Tailles de Boutons",
+        "withIcons": "Boutons avec Icônes",
+        "states": "États des Boutons",
+        "pulsingGlow": "Lueur pulsante"
+      },
+      "inputs": {
+        "title": "Inputs & Formulaires",
+        "description": "Contrôles de formulaire avec divers états et configurations.",
+        "inputStates": "États des Inputs",
+        "withIcons": "Input avec Icônes"
+      },
+      "cards": {
+        "title": "Cartes",
+        "description": "Divers styles de cartes pour différents cas d'usage."
+      },
+      "badges": {
+        "title": "Badges",
+        "description": "Indicateurs de statut et étiquettes.",
+        "variants": "Variantes de Badges"
+      },
+      "alerts": {
+        "title": "Alertes",
+        "description": "Messages de feedback contextuels.",
+        "default": "Alerte par défaut",
+        "info": "Alerte Info",
+        "success": "Alerte Succès",
+        "warning": "Alerte Avertissement",
+        "error": "Alerte Erreur"
+      },
+      "icons": {
+        "title": "Icônes",
+        "description": "Intégration de la bibliothèque Lucide avec style Tech Noir.",
+        "gallery": "Galerie d'Icônes",
+        "galleryDescription": "Icônes communes à diverses tailles",
+        "sizes": "Tailles d'Icônes"
+      },
+      "effects": {
+        "title": "Effets",
+        "description": "Effets visuels spéciaux et animations.",
+        "gradientText": "Texte en Dégradé",
+        "glowEffects": "Effets de Lueur",
+        "skeletonLoading": "Chargement Skeleton",
+        "pulseGlow": "Lueur pulsante",
+        "hoverGlow": "Lueur au survol",
+        "redGlow": "Lueur rouge",
+        "interactiveSpotlight": "Spotlight interactif"
+      }
+    },
+    "copy": {
+      "copy": "Copier",
+      "copied": "Copié !"
+    },
+    "footer": "Système de Design Tech Noir — Next.js 16, Tailwind CSS v4, shadcn/ui",
+    "techComponents": {
+      "metadata": {
+        "title": "Composants Tech",
+        "description": "Composants UI avancés avec esthétique cyberpunk — tables, inputs, tooltips et états de chargement avec interactions futuristes."
+      },
+      "hero": {
+        "badge": "Composants Améliorés",
+        "title": "Tech Design System",
+        "description": "Composants UI avancés avec esthétique cyberpunk — tables, inputs, tooltips et états de chargement avec interactions futuristes."
+      },
+      "sections": {
+        "techTable": {
+          "title": "Table Tech",
+          "description": "Table avancée avec sélection, tri et actions sur les lignes",
+          "columns": {
+            "project": "Projet",
+            "status": "Statut",
+            "deploys": "Déploiements",
+            "region": "Région",
+            "lastDeploy": "Dernier déploiement"
+          },
+          "selection": "{count} élément(s) sélectionné(s)",
+          "searchPlaceholder": "Rechercher des projets..."
+        },
+        "statusBadges": {
+          "title": "Badges de Statut Tech",
+          "description": "Indicateurs de statut avec point et animations pulsantes",
+          "statuses": {
+            "active": "Actif",
+            "inactive": "Inactif",
+            "pending": "En attente",
+            "success": "Succès",
+            "warning": "Avertissement",
+            "error": "Erreur"
+          }
+        },
+        "techInputs": {
+          "title": "Inputs Tech",
+          "description": "Inputs de formulaire avec effets de lueur et icônes",
+          "labels": {
+            "search": "Rechercher",
+            "email": "Email",
+            "password": "Mot de passe",
+            "command": "Commande",
+            "projectName": "Nom du projet",
+            "apiKey": "Clé API",
+            "glowVariant": "Variante Lueur",
+            "ghostVariant": "Variante Ghost"
+          },
+          "hints": {
+            "search": "Rechercher dans tous les projets",
+            "password": "Doit contenir au moins 8 caractères",
+            "command": "Utilisez les flèches pour naviguer dans l'historique",
+            "apiKey": "Gardez ceci secret !",
+            "glowVariant": "Cliquez pour l'effet de lueur...",
+            "ghostVariant": "Apparence minimale..."
+          },
+          "errors": {
+            "projectNameTaken": "Ce nom est déjà pris"
+          },
+          "placeholders": {
+            "projectName": "mon-super-projet"
+          }
+        },
+        "techBorders": {
+          "title": "Bordures & Cartes Tech",
+          "description": "Variantes de bordures avec effets de lueur et dégradés",
+          "variants": {
+            "default": "Bordure par défaut",
+            "glow": "Bordure Lueur",
+            "pulsingGlow": "Lueur pulsante",
+            "gradient": "Bordure Dégradée",
+            "neon": "Bordure Néon",
+            "scan": "Effet Scan",
+            "defaultDescription": "Style de bordure standard",
+            "glowDescription": "Effet de lueur cyan subtile",
+            "pulsingGlowDescription": "Effet de pulsation animé",
+            "gradientDescription": "Bordure avec dégradé linéaire",
+            "neonDescription": "Effet néon scintillant",
+            "scanDescription": "Ligne de scanner animée"
+          },
+          "card": {
+            "title": "Carte Complète",
+            "description": "Carte avec en-tête, contenu et pied de page",
+            "securityScan": "Scan de sécurité réussi",
+            "performanceOptimized": "Performance optimisée",
+            "lastUpdated": "Mis à jour il y a 2 min",
+            "viewDetails": "Voir les détails"
+          },
+          "frame": {
+            "title": "Cadre Terminal",
+            "description": "Accents décoratifs aux coins"
+          }
+        },
+        "techTooltips": {
+          "title": "Tooltips Tech",
+          "description": "Information contextuelle avec style tech",
+          "content": {
+            "default": "Style de tooltip par défaut",
+            "info": "Tooltip variante info",
+            "success": "Succès ! Tout fonctionne",
+            "warning": "Attention : Vérifiez votre configuration",
+            "error": "Erreur : Connexion échouée",
+            "serviceStatus": "Ce service fonctionne normalement",
+            "apiKeyTooltip": "Ce champ est requis pour l'accès API"
+          },
+          "labels": {
+            "hoverMe": "Survolez-moi",
+            "info": "Info",
+            "success": "Succès",
+            "warning": "Attention",
+            "error": "Erreur",
+            "status": "Statut :",
+            "apiKey": "Clé API"
+          }
+        },
+        "techSkeletons": {
+          "title": "Skeletons Tech",
+          "description": "États de chargement avec effets shimmer",
+          "show": "Afficher les Skeletons",
+          "hide": "Masquer les Skeletons",
+          "types": {
+            "card": "Skeleton de Carte",
+            "avatar": "Skeleton d'Avatar",
+            "text": "Skeleton de Texte",
+            "table": "Skeleton de Table",
+            "code": "Skeleton de Code",
+            "grid": "Grille de Skeletons"
+          },
+          "prompt": "Cliquez sur \"Afficher les Skeletons\" pour voir les états de chargement"
+        },
+        "glowCards": {
+          "title": "Variantes de Cartes Lueur",
+          "description": "Cartes avec effets de lueur personnalisables",
+          "variants": {
+            "medium": {
+              "title": "Lueur Moyenne",
+              "description": "Intensité par défaut"
+            },
+            "high": {
+              "title": "Haute Intensité",
+              "description": "Avec animation"
+            },
+            "custom": {
+              "title": "Couleur Personnalisée",
+              "description": "Lueur verte"
+            }
+          }
+        }
+      },
+      "usage": "Utilisation",
+      "demo": {
+        "export": "Exporter",
+        "edit": "Modifier",
+        "viewLogs": "Voir les logs",
+        "delete": "Supprimer",
+        "ariaLabels": {
+          "edit": "Modifier le projet {name}",
+          "viewLogs": "Voir les logs de {name}",
+          "delete": "Supprimer le projet {name}",
+          "export": "Exporter les données"
+        }
+      }
+    }
   }
 }

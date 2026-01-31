@@ -1,4 +1,5 @@
 import { Header } from "@/components/layout/header";
+import { SkipLink } from "@/components/a11y";
 
 // App layout - WITH Header navigation
 export default function AppLayout({
@@ -8,8 +9,11 @@ export default function AppLayout({
 }) {
   return (
     <>
+      <SkipLink />
       <Header />
-      {children}
+      <div id="main-content">
+        {children}
+      </div>
     </>
   );
 }

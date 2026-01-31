@@ -6,8 +6,10 @@ import { routing } from "../../../i18n/routing";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { HydrationSuppressor } from "@/components/providers/hydration-suppressor";
-import { OrganizationJsonLd, WebSiteJsonLd } from "@/components/seo";
+import { SkipLink } from "@/components/a11y";
+import { OrganizationJsonLd, WebSiteJsonLd, SoftwareApplicationJsonLd } from "@/components/seo";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import enMessages from "../../../i18n/messages/en.json";
 import frMessages from "../../../i18n/messages/fr.json";
 import "../globals.css";
@@ -51,12 +53,16 @@ export default async function LocaleLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* Accessibility: Skip to main content link */}
+        <SkipLink />
+        
         {/* Suppress hydration warnings from browser extensions */}
         <HydrationSuppressor />
         
         {/* Structured Data for SEO */}
         <OrganizationJsonLd />
-        <WebSiteJsonLd />
+        <WebSiteJsonLd locale={locale} />
+        <SoftwareApplicationJsonLd />
 
         {/* 
           Provider order is critical:
@@ -71,7 +77,12 @@ export default async function LocaleLayout({
             </QueryProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
-        {process.env.NODE_ENV === "production" && <Analytics />}
+        {process.env.NODE_ENV === "production" && (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        )}
       </body>
     </html>
   );

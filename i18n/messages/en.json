@@ -15,6 +15,14 @@
     "register": {
       "title": "Sign Up",
       "description": "Create an account to get started"
+    },
+    "designSystem": {
+      "title": "Design System",
+      "description": "Tech Noir Design System - A cyberpunk-inspired UI component library featuring electric cyan accents, dark mode dominance, and futuristic patterns. Built with Next.js 16, Tailwind CSS v4, and shadcn/ui."
+    },
+    "techComponents": {
+      "title": "Tech Components",
+      "description": "Advanced UI components with Tech Noir aesthetics - Data tables, form inputs, loading skeletons, tooltips, and futuristic interactions."
     }
   },
   "navigation": {
@@ -186,9 +194,19 @@
         "failed": "Failed"
       },
       "buttonLabels": {
-        "change": "Change",
+        "change": "Change Status",
         "edit": "Edit",
         "view": "View Details"
+      },
+      "filter": {
+        "title": "Filter by Status",
+        "clear": "Clear",
+        "apply": "Apply Filters"
+      },
+      "export": {
+        "title": "Export Options",
+        "currentPage": "Current Page",
+        "all": "Export All"
       },
       "ariaLabels": {
         "avatar": "Avatar of {name}",
@@ -225,5 +243,265 @@
     "light": "Light",
     "dark": "Dark",
     "system": "System"
+  },
+  "designSystem": {
+    "metadata": {
+      "title": "Design System",
+      "description": "A cyberpunk-inspired design system featuring electric cyan accents, dark mode dominance, and futuristic UI patterns."
+    },
+    "breadcrumb": {
+      "home": "Home",
+      "designSystem": "Design System",
+      "techComponents": "Tech Components"
+    },
+    "hero": {
+      "badge": "Tech Noir Aesthetic",
+      "title": "Design System",
+      "description": "A cyberpunk-inspired design system featuring electric cyan accents, dark mode dominance, and futuristic UI patterns.",
+      "toggleTheme": "Toggle theme:"
+    },
+    "navigation": {
+      "foundation": "Foundation",
+      "techComponents": "Tech Components"
+    },
+    "sections": {
+      "colors": {
+        "title": "Colors",
+        "description": "The Tech Noir color palette features a sophisticated gray scale with electric cyan accents.",
+        "grayScale": "Gray Scale",
+        "primaryScale": "Primary Scale (Cyan)",
+        "semanticColors": "Semantic Colors"
+      },
+      "typography": {
+        "title": "Typography",
+        "description": "Type scale and font weights for the Tech Noir design system.",
+        "headings": "Headings",
+        "headingsDescription": "Display and heading hierarchy",
+        "bodyText": "Body Text",
+        "fontWeights": "Font Weights",
+        "monospace": "Monospace",
+        "monospaceDescription": "Code and technical text using Geist Mono"
+      },
+      "buttons": {
+        "title": "Buttons",
+        "description": "Interactive button variants and sizes with Tech Noir styling.",
+        "variants": "Button Variants",
+        "sizes": "Button Sizes",
+        "withIcons": "Buttons with Icons",
+        "states": "Button States",
+        "pulsingGlow": "Pulsing Glow"
+      },
+      "inputs": {
+        "title": "Inputs & Forms",
+        "description": "Form controls with various states and configurations.",
+        "inputStates": "Input States",
+        "withIcons": "Input with Icons"
+      },
+      "cards": {
+        "title": "Cards",
+        "description": "Various card styles for different use cases."
+      },
+      "badges": {
+        "title": "Badges",
+        "description": "Status indicators and labels.",
+        "variants": "Badge Variants"
+      },
+      "alerts": {
+        "title": "Alerts",
+        "description": "Contextual feedback messages.",
+        "default": "Default Alert",
+        "info": "Info Alert",
+        "success": "Success Alert",
+        "warning": "Warning Alert",
+        "error": "Error Alert"
+      },
+      "icons": {
+        "title": "Icons",
+        "description": "Lucide icon library integration with Tech Noir styling.",
+        "gallery": "Icon Gallery",
+        "galleryDescription": "Common icons at various sizes",
+        "sizes": "Icon Sizes"
+      },
+      "effects": {
+        "title": "Effects",
+        "description": "Special visual effects and animations.",
+        "gradientText": "Gradient Text",
+        "glowEffects": "Glow Effects",
+        "skeletonLoading": "Skeleton Loading",
+        "pulseGlow": "Pulse Glow",
+        "hoverGlow": "Hover Glow",
+        "redGlow": "Red Glow",
+        "interactiveSpotlight": "Interactive Spotlight"
+      }
+    },
+    "copy": {
+      "copy": "Copy",
+      "copied": "Copied!"
+    },
+    "footer": "Tech Noir Design System — Next.js 16, Tailwind CSS v4, shadcn/ui",
+    "techComponents": {
+      "metadata": {
+        "title": "Tech Components",
+        "description": "Advanced components with cyberpunk aesthetics — tables, inputs, tooltips, and loading states with futuristic interactions."
+      },
+      "hero": {
+        "badge": "Enhanced Components",
+        "title": "Tech Design System",
+        "description": "Advanced components with cyberpunk aesthetics — tables, inputs, tooltips, and loading states with futuristic interactions."
+      },
+      "sections": {
+        "techTable": {
+          "title": "Tech Table",
+          "description": "Advanced table with selection, sorting, and row actions",
+          "columns": {
+            "project": "Project",
+            "status": "Status",
+            "deploys": "Deploys",
+            "region": "Region",
+            "lastDeploy": "Last Deploy"
+          },
+          "selection": "{count} item(s) selected",
+          "searchPlaceholder": "Search projects..."
+        },
+        "statusBadges": {
+          "title": "Tech Status Badges",
+          "description": "Status indicators with dot and pulse animations",
+          "statuses": {
+            "active": "Active",
+            "inactive": "Inactive",
+            "pending": "Pending",
+            "success": "Success",
+            "warning": "Warning",
+            "error": "Error"
+          }
+        },
+        "techInputs": {
+          "title": "Tech Inputs",
+          "description": "Form inputs with glow effects and icons",
+          "labels": {
+            "search": "Search",
+            "email": "Email",
+            "password": "Password",
+            "command": "Command",
+            "projectName": "Project Name",
+            "apiKey": "API Key",
+            "glowVariant": "Glow Variant",
+            "ghostVariant": "Ghost Variant"
+          },
+          "hints": {
+            "search": "Search across all projects",
+            "password": "Must be at least 8 characters",
+            "command": "Use arrow keys to navigate history",
+            "apiKey": "Keep this secret!",
+            "glowVariant": "Focus me for glow effect...",
+            "ghostVariant": "Minimal appearance..."
+          },
+          "errors": {
+            "projectNameTaken": "This name is already taken"
+          },
+          "placeholders": {
+            "projectName": "my-awesome-project"
+          }
+        },
+        "techBorders": {
+          "title": "Tech Borders & Cards",
+          "description": "Border variants with glow and gradient effects",
+          "variants": {
+            "default": "Default Border",
+            "glow": "Glow Border",
+            "pulsingGlow": "Pulsing Glow",
+            "gradient": "Gradient Border",
+            "neon": "Neon Border",
+            "scan": "Scan Effect",
+            "defaultDescription": "Standard border styling",
+            "glowDescription": "Subtle cyan glow effect",
+            "pulsingGlowDescription": "Animated pulse effect",
+            "gradientDescription": "Linear gradient edge",
+            "neonDescription": "Flickering neon effect",
+            "scanDescription": "Animated scanner line"
+          },
+          "card": {
+            "title": "Complete Card",
+            "description": "Card with header, content, and footer",
+            "securityScan": "Security scan passed",
+            "performanceOptimized": "Performance optimized",
+            "lastUpdated": "Last updated 2m ago",
+            "viewDetails": "View Details"
+          },
+          "frame": {
+            "title": "Terminal Frame",
+            "description": "Decorative corner accents"
+          }
+        },
+        "techTooltips": {
+          "title": "Tech Tooltips",
+          "description": "Contextual information with tech styling",
+          "content": {
+            "default": "Default tooltip style",
+            "info": "Info variant tooltip",
+            "success": "Success! Everything is working",
+            "warning": "Warning: Check your configuration",
+            "error": "Error: Connection failed",
+            "serviceStatus": "This service is running normally",
+            "apiKeyTooltip": "This field is required for API access"
+          },
+          "labels": {
+            "hoverMe": "Hover me",
+            "info": "Info",
+            "success": "Success",
+            "warning": "Warning",
+            "error": "Error",
+            "status": "Status:",
+            "apiKey": "API Key"
+          }
+        },
+        "techSkeletons": {
+          "title": "Tech Skeletons",
+          "description": "Loading states with shimmer effects",
+          "show": "Show Skeletons",
+          "hide": "Hide Skeletons",
+          "types": {
+            "card": "Card Skeleton",
+            "avatar": "Avatar Skeleton",
+            "text": "Text Skeleton",
+            "table": "Table Skeleton",
+            "code": "Code Skeleton",
+            "grid": "Skeleton Grid"
+          },
+          "prompt": "Click \"Show Skeletons\" to see loading states"
+        },
+        "glowCards": {
+          "title": "Glow Card Variants",
+          "description": "Cards with customizable glow effects",
+          "variants": {
+            "medium": {
+              "title": "Medium Glow",
+              "description": "Default intensity"
+            },
+            "high": {
+              "title": "High Intensity",
+              "description": "With animation"
+            },
+            "custom": {
+              "title": "Custom Color",
+              "description": "Green glow"
+            }
+          }
+        }
+      },
+      "usage": "Usage",
+      "demo": {
+        "export": "Export",
+        "edit": "Edit",
+        "viewLogs": "View Logs",
+        "delete": "Delete",
+        "ariaLabels": {
+          "edit": "Edit project {name}",
+          "viewLogs": "View logs for {name}",
+          "delete": "Delete project {name}",
+          "export": "Export data"
+        }
+      }
+    }
   }
 }
