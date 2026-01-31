@@ -11,6 +11,8 @@ import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { GlowCard, GradientBorder, Spotlight, TextGradient } from "@/components/design-system"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { FadeIn } from "@/components/animations/fade-in"
+import { Link } from "@/i18n/routing"
 import { 
   Check, Info, AlertTriangle, X, Moon, Sun, Zap, Shield, 
   Database, Globe, Settings, User, Search, Bell, Menu,
@@ -161,9 +163,26 @@ export default function DesignSystemPage() {
         </div>
       </section>
 
+      {/* Navigation */}
+      <FadeIn delay={0.1}>
+        <nav className="flex items-center justify-center gap-2">
+          <Button variant="default" size="sm" className="pointer-events-none">
+            <Layers className="mr-2 h-4 w-4" />
+            Foundation
+          </Button>
+          <Button variant="outline" size="sm" asChild>
+            <Link href="/design-system/tech-components">
+              <Terminal className="mr-2 h-4 w-4" />
+              Tech Components
+            </Link>
+          </Button>
+        </nav>
+      </FadeIn>
+
       {/* Colors Section */}
-      <section>
-        <SectionHeader 
+      <FadeIn delay={0.2}>
+        <section>
+          <SectionHeader 
           title="Colors" 
           description="The Tech Noir color palette features a sophisticated gray scale with electric cyan accents."
         />
@@ -196,11 +215,13 @@ export default function DesignSystemPage() {
             </div>
           </div>
         </div>
-      </section>
+        </section>
+      </FadeIn>
 
       {/* Typography Section */}
-      <section>
-        <SectionHeader 
+      <FadeIn delay={0.25}>
+        <section>
+          <SectionHeader 
           title="Typography" 
           description="Type scale and font weights for the Tech Noir design system."
         />
@@ -300,11 +321,13 @@ export default function DesignSystemPage() {
             </CardContent>
           </Card>
         </div>
-      </section>
+        </section>
+      </FadeIn>
 
       {/* Buttons Section */}
-      <section>
-        <SectionHeader 
+      <FadeIn delay={0.3}>
+        <section>
+          <SectionHeader 
           title="Buttons" 
           description="Interactive button variants and sizes with Tech Noir styling."
         />
@@ -378,11 +401,13 @@ export default function DesignSystemPage() {
             </CardContent>
           </Card>
         </div>
-      </section>
+        </section>
+      </FadeIn>
 
       {/* Inputs & Forms Section */}
-      <section>
-        <SectionHeader 
+      <FadeIn delay={0.35}>
+        <section>
+          <SectionHeader 
           title="Inputs & Forms" 
           description="Form controls with various states and configurations."
         />
@@ -448,11 +473,13 @@ export default function DesignSystemPage() {
             </CardContent>
           </Card>
         </div>
-      </section>
+        </section>
+      </FadeIn>
 
       {/* Cards Section */}
-      <section>
-        <SectionHeader 
+      <FadeIn delay={0.4}>
+        <section>
+          <SectionHeader 
           title="Cards" 
           description="Various card styles for different use cases."
         />
@@ -516,45 +543,49 @@ export default function DesignSystemPage() {
           </GlowCard>
         </div>
       </section>
+      </FadeIn>
 
       {/* Badges Section */}
-      <section>
-        <SectionHeader 
-          title="Badges" 
-          description="Status indicators and labels."
-        />
-        
-        <Card>
-          <CardHeader>
-            <CardTitle>Badge Variants</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-3">
-              <Badge>Default</Badge>
-              <Badge variant="secondary">Secondary</Badge>
-              <Badge variant="outline">Outline</Badge>
-              <Badge variant="destructive">Destructive</Badge>
-              <Badge variant="success">
-                <Check className="mr-1 h-3 w-3" />
-                Success
-              </Badge>
-              <Badge variant="warning">
-                <AlertTriangle className="mr-1 h-3 w-3" />
-                Warning
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
+      <FadeIn delay={0.45}>
+        <section>
+          <SectionHeader 
+            title="Badges" 
+            description="Status indicators and labels."
+          />
+          
+          <Card>
+            <CardHeader>
+              <CardTitle>Badge Variants</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-3">
+                <Badge>Default</Badge>
+                <Badge variant="secondary">Secondary</Badge>
+                <Badge variant="outline">Outline</Badge>
+                <Badge variant="destructive">Destructive</Badge>
+                <Badge variant="success">
+                  <Check className="mr-1 h-3 w-3" />
+                  Success
+                </Badge>
+                <Badge variant="warning">
+                  <AlertTriangle className="mr-1 h-3 w-3" />
+                  Warning
+                </Badge>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+      </FadeIn>
 
       {/* Alerts Section */}
-      <section>
-        <SectionHeader 
-          title="Alerts" 
-          description="Contextual feedback messages."
-        />
-        
-        <div className="space-y-4">
+      <FadeIn delay={0.5}>
+        <section>
+          <SectionHeader 
+            title="Alerts" 
+            description="Contextual feedback messages."
+          />
+          
+          <div className="space-y-4">
           <Alert>
             <Info className="h-4 w-4" />
             <AlertTitle>Default Alert</AlertTitle>
@@ -595,16 +626,18 @@ export default function DesignSystemPage() {
             </AlertDescription>
           </Alert>
         </div>
-      </section>
+        </section>
+      </FadeIn>
 
       {/* Icons Section */}
-      <section>
-        <SectionHeader 
-          title="Icons" 
-          description="Lucide icon library integration with Tech Noir styling."
-        />
-        
-        <Card>
+      <FadeIn delay={0.55}>
+        <section>
+          <SectionHeader 
+            title="Icons" 
+            description="Lucide icon library integration with Tech Noir styling."
+          />
+          
+          <Card>
           <CardHeader>
             <CardTitle>Icon Gallery</CardTitle>
             <CardDescription>Common icons at various sizes</CardDescription>
@@ -650,16 +683,18 @@ export default function DesignSystemPage() {
             </div>
           </CardContent>
         </Card>
-      </section>
+        </section>
+      </FadeIn>
 
       {/* Effects Section */}
-      <section>
-        <SectionHeader 
-          title="Effects" 
-          description="Special visual effects and animations."
-        />
-        
-        <div className="space-y-8">
+      <FadeIn delay={0.6}>
+        <section>
+          <SectionHeader 
+            title="Effects" 
+            description="Special visual effects and animations."
+          />
+          
+          <div className="space-y-8">
           <Card>
             <CardHeader>
               <CardTitle>Gradient Text</CardTitle>
@@ -743,14 +778,17 @@ export default function DesignSystemPage() {
             </div>
           </Spotlight>
         </div>
-      </section>
+        </section>
+      </FadeIn>
 
       {/* Footer */}
-      <footer className="border-t border-border pt-8 text-center text-sm text-muted-foreground">
-        <p>
-          Tech Noir Design System — Built with Next.js 16, Tailwind CSS v4, and shadcn/ui
-        </p>
-      </footer>
+      <FadeIn delay={0.65}>
+        <footer className="border-t border-border pt-8 text-center text-sm text-muted-foreground">
+          <p>
+            Tech Noir Design System — Next.js 16, Tailwind CSS v4, shadcn/ui
+          </p>
+        </footer>
+      </FadeIn>
     </div>
   )
 }
