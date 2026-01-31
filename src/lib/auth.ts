@@ -75,15 +75,19 @@ export const auth = betterAuth({
     },
   },
 
-  // Rate limiting (relaxed for development)
+  // Rate limiting - stricter limits for production security
   rateLimit: {
     enabled: true,
     window: 60, // 1 minute window
-    max: 100,   // 100 requests per window (dev mode)
+    max: 30,    // 30 requests per window for general endpoints
     customRules: {
       "/sign-in/email": {
         window: 60,  // 1 minute
-        max: 20,     // 20 attempts (dev mode)
+        max: 5,      // 5 login attempts per minute (prevents brute force)
+      },
+      "/sign-up/email": {
+        window: 60,  // 1 minute  
+        max: 3,      // 3 registration attempts per minute
       },
     },
   },

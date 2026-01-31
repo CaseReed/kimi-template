@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import {
   TrendingUp,
   Users,
-  Percent,
   Activity,
   TrendingDown,
   RefreshCw,

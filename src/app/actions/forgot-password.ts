@@ -3,7 +3,27 @@
 import { z } from "zod";
 import { headers } from "next/headers";
 
-// Simple in-memory rate limiting (use Redis in production)
+/**
+ * ⚠️  PRODUCTION WARNING: In-Memory Rate Limiting
+ * 
+ * This implementation uses an in-memory Map which has the following limitations:
+ * - Does NOT work across serverless function instances (Vercel, AWS Lambda)
+ * - Does NOT persist across deployments or container restarts
+ * - Does NOT work with horizontal scaling (multiple containers)
+ * 
+ * For production deployments, replace with Redis or Upstash:
+ * 
+ * @example
+ * import { Redis } from '@upstash/redis';
+ * const redis = new Redis({ url: process.env.UPSTASH_REDIS_URL, token: process.env.UPSTASH_REDIS_TOKEN });
+ * 
+ * async function checkRateLimit(identifier: string): Promise<boolean> {
+ *   const key = `rate_limit:forgot_password:${identifier}`;
+ *   const count = await redis.incr(key);
+ *   if (count === 1) await redis.expire(key, 900); // 15 min
+ *   return count <= 5;
+ * }
+ */
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT_MAX = 5; // 5 attempts
 const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes

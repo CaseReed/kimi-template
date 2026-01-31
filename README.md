@@ -96,7 +96,7 @@ The project includes **29 specialized skills** in `.agents/skills/` to guide Kim
 ```
 kimi-template/
 ├── .agents/
-│   └── skills/                 # 🎓 Kimi Skills (30 specializations)
+│   └── skills/                 # 🎓 Kimi Skills (29 specializations)
 │       ├── SKILL_AUDIT_MASTER.md
 │       ├── plan-master/
 │       ├── nextjs-16-tailwind-4/

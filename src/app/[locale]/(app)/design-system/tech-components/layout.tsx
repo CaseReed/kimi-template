@@ -19,8 +19,6 @@ export async function generateMetadata({
   const path = locale === "en" 
     ? "/design-system/tech-components" 
     : `/${locale}/design-system/tech-components`;
-  
-  const parentPath = locale === "en" ? "/design-system" : `/${locale}/design-system`;
 
   const title = t("techComponents.title");
   const description = t("techComponents.description");

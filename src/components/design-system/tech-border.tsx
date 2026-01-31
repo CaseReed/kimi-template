@@ -30,12 +30,6 @@ export function TechBorder({
   cornerAccent = false,
   glowColor,
 }: TechBorderProps) {
-  const intensityMap = {
-    low: "1px",
-    medium: "2px",
-    high: "3px",
-  };
-
   const variants = {
     default: {
       border: "border border-border",

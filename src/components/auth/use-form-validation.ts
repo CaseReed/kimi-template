@@ -7,11 +7,13 @@ interface FieldError {
   message: string;
 }
 
-interface FormValidationState<T extends Record<string, string>> {
+// FormValidationState type is used internally by useFormValidation hook
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+type FormValidationState<T extends Record<string, string>> = {
   errors: Partial<Record<keyof T, FieldError>>;
   touched: Partial<Record<keyof T, boolean>>;
   isValid: boolean;
-}
+};
 
 interface UseFormValidationOptions<T extends Record<string, string>> {
   schema: z.ZodType<T>;

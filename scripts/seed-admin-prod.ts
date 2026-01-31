@@ -2,13 +2,40 @@
 /**
  * Seed script to create admin user via Better Auth API
  * Usage for production: 
- *   BETTER_AUTH_URL=https://your-app.vercel.app pnpm tsx scripts/seed-admin-prod.ts
+ *   BETTER_AUTH_URL=https://your-app.vercel.app ADMIN_PASSWORD=secure_password pnpm tsx scripts/seed-admin-prod.ts
+ * 
+ * ⚠️  SECURITY: Never commit this script with hardcoded passwords.
+ *    Always use environment variables for credentials.
  */
 
-const BETTER_AUTH_URL = process.env.BETTER_AUTH_URL || "http://localhost:3000";
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@example.com";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123456";
+const BETTER_AUTH_URL = process.env.BETTER_AUTH_URL;
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const ADMIN_NAME = process.env.ADMIN_NAME || "Admin User";
+
+// Validate all required environment variables
+if (!BETTER_AUTH_URL) {
+  console.error("❌ Error: BETTER_AUTH_URL environment variable is required");
+  console.error("   Example: https://your-app.vercel.app");
+  process.exit(1);
+}
+
+if (!ADMIN_EMAIL) {
+  console.error("❌ Error: ADMIN_EMAIL environment variable is required");
+  process.exit(1);
+}
+
+if (!ADMIN_PASSWORD) {
+  console.error("❌ Error: ADMIN_PASSWORD environment variable is required");
+  console.error("   Use a strong, unique password (min 8 characters)");
+  console.error("   Generate one with: openssl rand -base64 16");
+  process.exit(1);
+}
+
+if (ADMIN_PASSWORD.length < 8) {
+  console.error("❌ Error: ADMIN_PASSWORD must be at least 8 characters");
+  process.exit(1);
+}
 
 async function seedAdminProd() {
   console.log("🌱 Seeding admin user via Better Auth API...");
@@ -45,12 +72,9 @@ async function seedAdminProd() {
       console.log("");
       console.log("   You can now login with:");
       console.log(`   Email: ${ADMIN_EMAIL}`);
-      console.log(`   Password: ${ADMIN_PASSWORD}`);
     } else if (response.status === 409 || data.message?.includes("already exists")) {
       console.log("ℹ️  Admin user already exists.");
-      console.log("   Updating password...");
-      
-      console.log("   Please use the password reset flow or delete the user manually.")
+      console.log("   Please use the password reset flow or delete the user manually.");
     } else {
       console.error("❌ Failed to create admin user:");
       console.error("   Status:", response.status);

@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+
 import { ForgotPasswordForm } from "@/components/auth/forgot-password-form";
 
 export async function generateMetadata({
-  params,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  params: _params,
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "metadata" });
-
   return {
     title: "Reset Password",
     description: "Request a password reset for your account",

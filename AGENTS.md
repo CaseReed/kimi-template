@@ -63,6 +63,9 @@ This is a **Next.js 16** web application using the **App Router** architecture. 
 - **Strict TypeScript**: Strict mode enabled with bundler module resolution
 - **Dual Database Architecture**: Local PostgreSQL (Docker) for development, Neon PostgreSQL for production
 - **Environment Auto-Detection**: Automatically switches database driver based on `DATABASE_URL`
+- **Testing**: Vitest + React Testing Library configured
+- **i18n**: Complete internationalization with next-intl (English/French)
+- **Authentication**: Better Auth with email/password + OAuth (GitHub, Google)
 
 ---
 
@@ -71,26 +74,51 @@ This is a **Next.js 16** web application using the **App Router** architecture. 
 ```
 kimi-template/
 ├── src/
-│   └── app/                    # App Router directory
-│       ├── layout.tsx          # Root layout with fonts & metadata
-│       ├── page.tsx            # Home page (landing)
-│       ├── globals.css         # Global styles + Tailwind theme
-│       ├── page.module.css     # CSS Module for page (legacy styles)
-│       ├── favicon.ico         # Site favicon
-│       └── api/                # API routes
-│           └── health/         # Health check endpoint
-│               └── route.ts
+│   ├── app/                    # App Router directory
+│   │   ├── layout.tsx          # Root layout with fonts & metadata
+│   │   ├── page.tsx            # Home page (landing)
+│   │   ├── globals.css         # Global styles + Tailwind theme
+│   │   ├── [locale]/           # i18n routes (en, fr)
+│   │   │   ├── (app)/          # Authenticated routes
+│   │   │   │   ├── dashboard/
+│   │   │   │   └── design-system/
+│   │   │   └── (auth)/         # Public auth routes
+│   │   │       ├── login/
+│   │   │       ├── register/
+│   │   │       └── forgot-password/
+│   │   ├── actions/            # Server Actions
+│   │   └── api/                # API routes
+│   │       ├── auth/           # Better Auth API
+│   │       └── health/         # Health check endpoint
+│   ├── components/             # React components
+│   │   ├── ui/                 # shadcn/ui components
+│   │   ├── auth/               # Authentication components
+│   │   ├── dashboard/          # Dashboard components
+│   │   ├── animations/         # Motion animation components
+│   │   └── accessibility/      # A11y components
+│   ├── lib/                    # Utilities and configurations
+│   │   ├── utils.ts            # Utility functions (cn, formatDate, etc.)
+│   │   ├── auth.ts             # Better Auth configuration
+│   │   ├── db/                 # Database client and schema
+│   │   └── api/                # API clients
+│   └── hooks/                  # Custom React hooks
 ├── public/                     # Static assets
-│   ├── file.svg
-│   ├── globe.svg
-│   ├── next.svg
-│   ├── vercel.svg
-│   └── window.svg
+├── scripts/                    # Utility scripts
+│   ├── seed-admin.ts           # Admin user creation (dev)
+│   └── seed-admin-prod.ts      # Admin user creation (prod)
+├── .agents/                    # Agent-specific resources
+│   ├── docs/                   # Documentation (AUTH.md, DOCKER.md, etc.)
+│   └── skills/                 # 29 specialized agent skills
 ├── package.json                # Dependencies & scripts
 ├── next.config.ts              # Next.js configuration
 ├── tsconfig.json               # TypeScript configuration
 ├── eslint.config.mjs           # ESLint flat config
 ├── postcss.config.mjs          # PostCSS config (Tailwind)
+├── vitest.config.ts            # Vitest configuration
+├── vitest.setup.ts             # Test setup and mocks
+├── LICENSE                     # MIT License
+├── CONTRIBUTING.md             # Contributing guidelines
+├── .env.example                # Environment variables template
 ├── .gitignore                  # Git ignore rules
 ├── .npmrc                      # pnpm configuration
 ├── pnpm-lock.yaml              # Lock file
@@ -98,10 +126,8 @@ kimi-template/
 ├── Dockerfile.dev              # Development Docker image
 ├── docker-compose.yml          # Docker Compose (development)
 ├── docker-compose.prod.yml     # Docker Compose (production)
-├── .dockerignore               # Docker build context ignore
-└── .agents/                    # Agent-specific resources
-    ├── docs/                   # Agent documentation (AUTH.md, DOCKER.md, etc.)
-    └── skills/                 # Specialized agent skills
+├── docker-compose.db.yml       # Database only compose
+└── .dockerignore               # Docker build context ignore
 ```
 
 ---
@@ -134,6 +160,24 @@ pnpm update:latest
 
 # Update packages (semver compatible)
 pnpm update
+
+# Run tests
+pnpm test
+
+# Run tests in watch mode
+pnpm test:watch
+
+# Run tests with coverage
+pnpm test:coverage
+
+# Database commands
+pnpm db:up           # Start PostgreSQL container
+pnpm db:down         # Stop PostgreSQL container
+pnpm db:migrate      # Run migrations
+pnpm db:generate     # Generate migrations
+pnpm db:push         # Push schema changes
+pnpm db:studio       # Open Drizzle Studio
+pnpm db:seed:admin   # Create admin user (dev)
 ```
 
 ### Docker Commands
@@ -328,14 +372,56 @@ font-family: var(--font-geist-mono);
 
 ---
 
-## Testing Instructions
+## Testing
 
-**Note**: This project does not currently have a testing framework configured.
+The project uses **Vitest** with React Testing Library for testing.
 
-**Recommended Setup** (use `/skill:testing-vitest`):
+### Running Tests
+
 ```bash
-# Vitest + React Testing Library (modern, fast)
-pnpm add -D vitest @testing-library/react @testing-library/jest-dom jsdom
+# Run tests once
+pnpm test
+
+# Run tests in watch mode
+pnpm test:watch
+
+# Run tests with coverage
+pnpm test:coverage
+```
+
+### Test Configuration
+
+- **Framework**: Vitest 3.x
+- **DOM Environment**: jsdom
+- **Testing Library**: React Testing Library + jest-dom
+- **Config**: `vitest.config.ts`
+- **Setup**: `vitest.setup.ts` (mocks for next/navigation, next-intl, next-themes)
+
+### Test Structure
+
+Place test files next to source files:
+```
+src/
+├── lib/
+│   ├── utils.ts
+│   └── utils.test.ts
+└── app/
+    └── actions/
+        ├── auth.ts
+        └── auth.test.ts
+```
+
+### Example Test
+
+```typescript
+import { describe, it, expect } from 'vitest';
+import { cn } from '@/lib/utils';
+
+describe('cn utility', () => {
+  it('should merge tailwind classes', () => {
+    expect(cn('px-2', 'px-4')).toBe('px-4');
+  });
+});
 ```
 
 See `.agents/skills/testing-vitest/` for:
@@ -344,9 +430,11 @@ See `.agents/skills/testing-vitest/` for:
 - Async testing patterns
 - Component testing best practices
 
-**Alternative Options:**
-- **Playwright** or **Cypress** for E2E tests
-- **Jest** if you prefer the older ecosystem
+### E2E Testing
+
+For end-to-end tests, consider:
+- **Playwright** (recommended)
+- **Cypress**
 
 ---
 

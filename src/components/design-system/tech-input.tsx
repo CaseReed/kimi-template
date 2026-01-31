@@ -95,7 +95,7 @@ const TechInput = React.forwardRef<HTMLInputElement, TechInputProps>(
               
               variant === "glow" && [
                 "border-border/50 bg-background/50 backdrop-blur-sm",
-                isFocused && "border-primary/50 shadow-[0_0_20px_rgba(0,217,255,0.15)]",
+                isFocused && `border-primary/50 shadow-[0_0_20px_${glowColor}]`,
                 error && "border-destructive/50",
               ],
               

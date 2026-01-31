@@ -9,9 +9,28 @@
 const BASE_URL = process.env.BETTER_AUTH_URL || "http://localhost:3000";
 
 async function seedAdminLocal() {
-  const adminEmail = process.env.ADMIN_EMAIL || "admin@example.com";
-  const adminPassword = process.env.ADMIN_PASSWORD || "admin123456";
+  // Validate required environment variables
+  const adminEmail = process.env.ADMIN_EMAIL;
+  const adminPassword = process.env.ADMIN_PASSWORD;
   const adminName = process.env.ADMIN_NAME || "Admin User";
+
+  if (!adminEmail) {
+    console.error("❌ Error: ADMIN_EMAIL environment variable is required");
+    console.error("   Please set it in your .env.local file");
+    process.exit(1);
+  }
+
+  if (!adminPassword) {
+    console.error("❌ Error: ADMIN_PASSWORD environment variable is required");
+    console.error("   Please set it in your .env.local file");
+    console.error("   Use a strong password (min 8 characters)");
+    process.exit(1);
+  }
+
+  if (adminPassword.length < 8) {
+    console.error("❌ Error: ADMIN_PASSWORD must be at least 8 characters");
+    process.exit(1);
+  }
 
   console.log("🌱 Seeding admin user...");
   console.log(`   Email: ${adminEmail}`);
@@ -47,7 +66,6 @@ async function seedAdminLocal() {
       console.log("");
       console.log("   You can now login with:");
       console.log(`   Email: ${adminEmail}`);
-      console.log(`   Password: ${adminPassword}`);
       console.log("");
       console.log(`   URL: ${BASE_URL}/login`);
     } else if (response.status === 409 || data.message?.includes("already exists")) {

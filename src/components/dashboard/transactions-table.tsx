@@ -18,7 +18,7 @@ import {
 import { TransactionDetailModal } from "./transaction-detail-modal";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { FadeIn } from "@/components/animations/fade-in";
@@ -27,7 +27,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
-import { RefreshCw, Download, Filter, Search, X, Check, FileDown } from "lucide-react";
+import { RefreshCw, Filter, Search, X, Check, FileDown } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -128,7 +128,8 @@ export function TransactionsTable() {
   const [, startOptimisticUpdate] = useTransition();
   
   const queryClient = useQueryClient();
-  const shouldReduceMotion = useReducedMotion();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _shouldReduceMotion = useReducedMotion();
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: queryKeys.dashboard.transactions(currentPage),
