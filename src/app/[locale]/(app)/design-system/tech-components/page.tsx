@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useTranslations } from "next-intl";
 import {
   TechTable,
   TechPagination,
@@ -63,12 +64,12 @@ const demoData: Project[] = [
 ];
 
 // ============================================
-// Copy Button Component
+// Copy Button Component with i18n
 // ============================================
-function CopyButton({ code, label = "Copy" }: { code: string; label?: string }) {
+function CopyButton({ code }: { code: string }) {
+  const t = useTranslations("designSystem");
   const [copied, setCopied] = React.useState(false);
 
-  // Handle cleanup for setTimeout
   React.useEffect(() => {
     if (copied) {
       const timer = setTimeout(() => setCopied(false), 2000);
@@ -85,17 +86,17 @@ function CopyButton({ code, label = "Copy" }: { code: string; label?: string }) 
     <button
       onClick={handleCopy}
       className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors"
-      title={label}
+      aria-label={copied ? t("copy.copied") : t("copy.copy")}
     >
       {copied ? (
         <>
-          <Check className="h-3.5 w-3.5 text-green-500" />
-          <span className="text-green-500">Copied!</span>
+          <Check className="h-3.5 w-3.5 text-green-500" aria-hidden="true" />
+          <span className="text-green-500">{t("copy.copied")}</span>
         </>
       ) : (
         <>
-          <Copy className="h-3.5 w-3.5" />
-          <span>{label}</span>
+          <Copy className="h-3.5 w-3.5" aria-hidden="true" />
+          <span>{t("copy.copy")}</span>
         </>
       )}
     </button>
@@ -124,6 +125,9 @@ function Section({ title, description, children, delay = 0 }: { title: string; d
 // Main Page
 // ============================================
 export default function TechComponentsPage() {
+  const t = useTranslations("designSystem.techComponents");
+  const tDS = useTranslations("designSystem");
+  
   const [currentPage, setCurrentPage] = React.useState(1);
   const [selectedIds, setSelectedIds] = React.useState<Set<string>>(new Set());
   const [sortColumn, setSortColumn] = React.useState<string>("name");
@@ -142,34 +146,34 @@ export default function TechComponentsPage() {
   const columns = [
     {
       key: "name",
-      header: "Project",
+      header: t("sections.techTable.columns.project"),
       sortable: true,
       cell: (row: Project) => (
         <div className="flex items-center gap-2">
-          <Database className="h-4 w-4 text-muted-foreground" />
+          <Database className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
           <span className="font-medium">{row.name}</span>
         </div>
       ),
     },
     {
       key: "status",
-      header: "Status",
+      header: t("sections.techTable.columns.status"),
       cell: (row: Project) => (
         <TechStatusBadge status={row.status} pulse={row.status === "active"}>
-          {row.status}
+          {t(`sections.statusBadges.statuses.${row.status}`)}
         </TechStatusBadge>
       ),
     },
     {
       key: "deploys",
-      header: "Deploys",
+      header: t("sections.techTable.columns.deploys"),
       sortable: true,
       align: "right" as const,
       cell: (row: Project) => <span className="font-mono">{row.deploys}</span>,
     },
     {
       key: "region",
-      header: "Region",
+      header: t("sections.techTable.columns.region"),
       cell: (row: Project) => (
         <Badge variant="outline" className="font-mono text-xs">
           {row.region}
@@ -178,7 +182,7 @@ export default function TechComponentsPage() {
     },
     {
       key: "lastDeploy",
-      header: "Last Deploy",
+      header: t("sections.techTable.columns.lastDeploy"),
       cell: (row: Project) => (
         <span className="text-muted-foreground text-sm">{row.lastDeploy}</span>
       ),
@@ -193,15 +197,14 @@ export default function TechComponentsPage() {
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
           <div className="relative z-10 flex flex-col items-center text-center">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
-              <Terminal className="h-4 w-4" />
-              <span>Enhanced Components</span>
+              <Terminal className="h-4 w-4" aria-hidden="true" />
+              <span>{t("hero.badge")}</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-              <TextGradient>Tech Design System</TextGradient>
+              <TextGradient>{t("hero.title")}</TextGradient>
             </h1>
             <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-              Advanced components with cyberpunk aesthetics — tables, inputs, tooltips, 
-              and loading states with futuristic interactions.
+              {t("hero.description")}
             </p>
           </div>
         </div>
@@ -209,29 +212,40 @@ export default function TechComponentsPage() {
 
       {/* Navigation */}
       <FadeIn delay={0.1}>
-        <nav className="flex items-center justify-center gap-2">
+        <nav aria-label="Design system navigation" className="flex items-center justify-center gap-2">
           <Button variant="outline" size="sm" asChild>
             <Link href="/design-system">
-              <Layers className="mr-2 h-4 w-4" />
-              Foundation
+              <Layers className="mr-2 h-4 w-4" aria-hidden="true" />
+              {tDS("navigation.foundation")}
             </Link>
           </Button>
-          <Button variant="default" size="sm" className="pointer-events-none">
-            <Terminal className="mr-2 h-4 w-4" />
-            Tech Components
+          <Button variant="default" size="sm" className="pointer-events-none" aria-current="page">
+            <Terminal className="mr-2 h-4 w-4" aria-hidden="true" />
+            {tDS("navigation.techComponents")}
           </Button>
         </nav>
       </FadeIn>
 
       {/* Tech Table Section */}
-      <Section title="Tech Table" description="Advanced table with selection, sorting, and row actions" delay={0.2}>
+      <Section 
+        title={t("sections.techTable.title")} 
+        description={t("sections.techTable.description")} 
+        delay={0.2}
+      >
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <TechSearchInput className="w-72" />
+            <TechSearchInput 
+              className="w-72" 
+              aria-label={t("sections.techTable.searchPlaceholder")}
+            />
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm">
-                <Download className="h-4 w-4 mr-2" />
-                Export
+              <Button 
+                variant="outline" 
+                size="sm"
+                aria-label={t("demo.ariaLabels.export")}
+              >
+                <Download className="h-4 w-4 mr-2" aria-hidden="true" />
+                {t("demo.export")}
               </Button>
             </div>
           </div>
@@ -247,9 +261,21 @@ export default function TechComponentsPage() {
             sortDirection={sortDirection}
             onSort={handleSort}
             rowActions={[
-              { label: "Edit", icon: <Edit className="h-4 w-4" />, onClick: (row) => console.log("Edit", row.name) },
-              { label: "View Logs", onClick: (row) => console.log("Logs", row.name) },
-              { label: "Delete", icon: <Trash2 className="h-4 w-4" />, onClick: (row) => console.log("Delete", row.name), destructive: true },
+              { 
+                label: t("demo.edit"), 
+                icon: <Edit className="h-4 w-4" aria-hidden="true" />, 
+                onClick: (row) => console.log("Edit", row.name),
+              },
+              { 
+                label: t("demo.viewLogs"), 
+                onClick: (row) => console.log("Logs", row.name),
+              },
+              { 
+                label: t("demo.delete"), 
+                icon: <Trash2 className="h-4 w-4" aria-hidden="true" />, 
+                onClick: (row) => console.log("Delete", row.name), 
+                destructive: true,
+              },
             ]}
           />
 
@@ -261,25 +287,22 @@ export default function TechComponentsPage() {
             pageSize={10}
           />
 
+          {/* Live region for selection announcements */}
+          <div aria-live="polite" aria-atomic="true" className="sr-only">
+            {selectedIds.size > 0 && t("sections.techTable.selection", { count: selectedIds.size })}
+          </div>
+
           {selectedIds.size > 0 && (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Check className="h-4 w-4 text-primary" />
-              {selectedIds.size} item(s) selected
+              <Check className="h-4 w-4 text-primary" aria-hidden="true" />
+              {t("sections.techTable.selection", { count: selectedIds.size })}
             </div>
           )}
 
           <div className="rounded-lg bg-muted p-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-medium text-muted-foreground">Usage</span>
-              <CopyButton code={`import { TechTable, TechPagination } from "@/components/design-system";
-
-<TechTable
-  data={data}
-  columns={columns}
-  selectable
-  sortColumn={sortColumn}
-  onSort={handleSort}
-/>`} />
+              <span className="text-xs font-medium text-muted-foreground">{t("usage")}</span>
+              <CopyButton code="import { TechTable } from '@/components/design-system'" />
             </div>
             <code className="text-xs font-mono text-foreground/80 block whitespace-pre">
               {`<TechTable
@@ -295,163 +318,191 @@ export default function TechComponentsPage() {
       </Section>
 
       {/* Status Badges */}
-      <Section title="Tech Status Badges" description="Status indicators with dot and pulse animations" delay={0.25}>
+      <Section 
+        title={t("sections.statusBadges.title")} 
+        description={t("sections.statusBadges.description")} 
+        delay={0.25}
+      >
         <div className="space-y-4">
           <div className="flex flex-wrap gap-3">
-            <TechStatusBadge status="active" pulse>Active</TechStatusBadge>
-            <TechStatusBadge status="inactive">Inactive</TechStatusBadge>
-            <TechStatusBadge status="pending">Pending</TechStatusBadge>
-            <TechStatusBadge status="success">Success</TechStatusBadge>
-            <TechStatusBadge status="warning">Warning</TechStatusBadge>
-            <TechStatusBadge status="error">Error</TechStatusBadge>
+            <TechStatusBadge status="active" pulse>
+              {t("sections.statusBadges.statuses.active")}
+            </TechStatusBadge>
+            <TechStatusBadge status="inactive">
+              {t("sections.statusBadges.statuses.inactive")}
+            </TechStatusBadge>
+            <TechStatusBadge status="pending">
+              {t("sections.statusBadges.statuses.pending")}
+            </TechStatusBadge>
+            <TechStatusBadge status="success">
+              {t("sections.statusBadges.statuses.success")}
+            </TechStatusBadge>
+            <TechStatusBadge status="warning">
+              {t("sections.statusBadges.statuses.warning")}
+            </TechStatusBadge>
+            <TechStatusBadge status="error">
+              {t("sections.statusBadges.statuses.error")}
+            </TechStatusBadge>
           </div>
 
           <div className="rounded-lg bg-muted p-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-medium text-muted-foreground">Usage</span>
-              <CopyButton code={`<TechStatusBadge status="active" pulse>Active</TechStatusBadge>
-<TechStatusBadge status="error">Error</TechStatusBadge>`} />
+              <span className="text-xs font-medium text-muted-foreground">{t("usage")}</span>
+              <CopyButton code="<TechStatusBadge status='active' pulse />" />
             </div>
             <code className="text-xs font-mono text-foreground/80 block">
-              {`<TechStatusBadge status="active" pulse>Active</TechStatusBadge>`}
+              {`<TechStatusBadge status="active" pulse />`}
             </code>
           </div>
         </div>
       </Section>
 
       {/* Tech Inputs */}
-      <Section title="Tech Inputs" description="Form inputs with glow effects and icons" delay={0.3}>
+      <Section 
+        title={t("sections.techInputs.title")} 
+        description={t("sections.techInputs.description")} 
+        delay={0.3}
+      >
         <div className="space-y-6">
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-4">
-              <TechSearchInput label="Search" hint="Search across all projects" />
-              <TechEmailInput label="Email" required />
-              <TechPasswordInput label="Password" hint="Must be at least 8 characters" />
-              <TechCommandInput label="Command" hint="Use arrow keys to navigate history" />
+              <TechSearchInput 
+                label={t("sections.techInputs.labels.search")} 
+                hint={t("sections.techInputs.hints.search")} 
+              />
+              <TechEmailInput 
+                label={t("sections.techInputs.labels.email")} 
+                required 
+              />
+              <TechPasswordInput 
+                label={t("sections.techInputs.labels.password")} 
+                hint={t("sections.techInputs.hints.password")} 
+              />
+              <TechCommandInput 
+                label={t("sections.techInputs.labels.command")} 
+                hint={t("sections.techInputs.hints.command")} 
+              />
             </div>
 
             <div className="space-y-4">
               <TechInput
-                label="Project Name"
-                placeholder="my-awesome-project"
-                error="This name is already taken"
+                label={t("sections.techInputs.labels.projectName")}
+                placeholder={t("sections.techInputs.placeholders.projectName")}
+                error={t("sections.techInputs.errors.projectNameTaken")}
               />
               <TechInput
-                label="API Key"
+                label={t("sections.techInputs.labels.apiKey")}
                 type="password"
                 defaultValue="sk_live_123456789"
-                hint="Keep this secret!"
+                hint={t("sections.techInputs.hints.apiKey")}
               />
               <TechInput
-                label="Glow Variant"
+                label={t("sections.techInputs.labels.glowVariant")}
                 variant="glow"
-                placeholder="Focus me for glow effect..."
+                placeholder={t("sections.techInputs.hints.glowVariant")}
               />
               <TechInput
-                label="Ghost Variant"
+                label={t("sections.techInputs.labels.ghostVariant")}
                 variant="ghost"
-                placeholder="Minimal appearance..."
+                placeholder={t("sections.techInputs.hints.ghostVariant")}
               />
             </div>
           </div>
 
           <div className="rounded-lg bg-muted p-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-medium text-muted-foreground">Usage</span>
-              <CopyButton code={`<TechSearchInput label="Search" hint="Search projects..." />
-<TechInput label="Name" variant="glow" error="Invalid" />`} />
+              <span className="text-xs font-medium text-muted-foreground">{t("usage")}</span>
+              <CopyButton code="<TechSearchInput label='Search' hint='Search projects...' />" />
             </div>
             <code className="text-xs font-mono text-foreground/80 block">
-              {`<TechSearchInput label="Search" hint="Search projects..." />`}
+              {`<TechSearchInput label="..." hint="..." />`}
             </code>
           </div>
         </div>
       </Section>
 
       {/* Tech Borders & Cards */}
-      <Section title="Tech Borders & Cards" description="Border variants with glow and gradient effects" delay={0.35}>
+      <Section 
+        title={t("sections.techBorders.title")} 
+        description={t("sections.techBorders.description")} 
+        delay={0.35}
+      >
         <div className="space-y-6">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <TechBorder variant="default" className="p-6">
-              <h3 className="font-semibold mb-2">Default Border</h3>
-              <p className="text-sm text-muted-foreground">Standard border styling</p>
+              <h3 className="font-semibold mb-2">{t("sections.techBorders.variants.default")}</h3>
+              <p className="text-sm text-muted-foreground">{t("sections.techBorders.variants.defaultDescription")}</p>
             </TechBorder>
 
             <TechBorder variant="glow" className="p-6">
-              <h3 className="font-semibold mb-2">Glow Border</h3>
-              <p className="text-sm text-muted-foreground">Subtle cyan glow effect</p>
+              <h3 className="font-semibold mb-2">{t("sections.techBorders.variants.glow")}</h3>
+              <p className="text-sm text-muted-foreground">{t("sections.techBorders.variants.glowDescription")}</p>
             </TechBorder>
 
             <TechBorder variant="glow" animated intensity="high" className="p-6">
-              <h3 className="font-semibold mb-2">Pulsing Glow</h3>
-              <p className="text-sm text-muted-foreground">Animated pulse effect</p>
+              <h3 className="font-semibold mb-2">{t("sections.techBorders.variants.pulsingGlow")}</h3>
+              <p className="text-sm text-muted-foreground">{t("sections.techBorders.variants.pulsingGlowDescription")}</p>
             </TechBorder>
 
             <TechBorder variant="gradient" className="p-6">
-              <h3 className="font-semibold mb-2">Gradient Border</h3>
-              <p className="text-sm text-muted-foreground">Linear gradient edge</p>
+              <h3 className="font-semibold mb-2">{t("sections.techBorders.variants.gradient")}</h3>
+              <p className="text-sm text-muted-foreground">{t("sections.techBorders.variants.gradientDescription")}</p>
             </TechBorder>
 
             <TechBorder variant="neon" className="p-6">
-              <h3 className="font-semibold mb-2">Neon Border</h3>
-              <p className="text-sm text-muted-foreground">Flickering neon effect</p>
+              <h3 className="font-semibold mb-2">{t("sections.techBorders.variants.neon")}</h3>
+              <p className="text-sm text-muted-foreground">{t("sections.techBorders.variants.neonDescription")}</p>
             </TechBorder>
 
             <TechBorder variant="scan" className="p-6">
-              <h3 className="font-semibold mb-2">Scan Effect</h3>
-              <p className="text-sm text-muted-foreground">Animated scanner line</p>
+              <h3 className="font-semibold mb-2">{t("sections.techBorders.variants.scan")}</h3>
+              <p className="text-sm text-muted-foreground">{t("sections.techBorders.variants.scanDescription")}</p>
             </TechBorder>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2">
             <TechCard
-              title="Complete Card"
-              description="Card with header, content, and footer"
+              title={t("sections.techBorders.card.title")}
+              description={t("sections.techBorders.card.description")}
               variant="glow"
               cornerAccent
               headerAction={
-                <Button variant="ghost" size="icon">
-                  <MoreHorizontal className="h-4 w-4" />
+                <Button variant="ghost" size="icon" aria-label="More options">
+                  <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
                 </Button>
               }
               footer={
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Last updated 2m ago</span>
-                  <Button size="sm">View Details</Button>
+                  <span className="text-sm text-muted-foreground">{t("sections.techBorders.card.lastUpdated")}</span>
+                  <Button size="sm">{t("sections.techBorders.card.viewDetails")}</Button>
                 </div>
               }
             >
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <Shield className="h-4 w-4 text-green-500" />
-                  <span className="text-sm">Security scan passed</span>
+                  <Shield className="h-4 w-4 text-green-500" aria-hidden="true" />
+                  <span className="text-sm">{t("sections.techBorders.card.securityScan")}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Zap className="h-4 w-4 text-primary" />
-                  <span className="text-sm">Performance optimized</span>
+                  <Zap className="h-4 w-4 text-primary" aria-hidden="true" />
+                  <span className="text-sm">{t("sections.techBorders.card.performanceOptimized")}</span>
                 </div>
               </div>
             </TechCard>
 
             <TechFrame>
               <div className="text-center space-y-2">
-                <Terminal className="h-8 w-8 text-primary mx-auto" />
-                <h3 className="font-semibold">Terminal Frame</h3>
-                <p className="text-sm text-muted-foreground">Decorative corner accents</p>
+                <Terminal className="h-8 w-8 text-primary mx-auto" aria-hidden="true" />
+                <h3 className="font-semibold">{t("sections.techBorders.frame.title")}</h3>
+                <p className="text-sm text-muted-foreground">{t("sections.techBorders.frame.description")}</p>
               </div>
             </TechFrame>
           </div>
 
           <div className="rounded-lg bg-muted p-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-medium text-muted-foreground">Usage</span>
-              <CopyButton code={`<TechBorder variant="glow" animated intensity="high">
-  <h3>Glow Border</h3>
-</TechBorder>
-
-<TechCard title="Card" variant="glow" cornerAccent>
-  Content here
-</TechCard>`} />
+              <span className="text-xs font-medium text-muted-foreground">{t("usage")}</span>
+              <CopyButton code="<TechBorder variant='glow' animated />" />
             </div>
             <code className="text-xs font-mono text-foreground/80 block whitespace-pre">
               {`<TechBorder variant="glow" animated intensity="high">
@@ -463,38 +514,42 @@ export default function TechComponentsPage() {
       </Section>
 
       {/* Tech Tooltips */}
-      <Section title="Tech Tooltips" description="Contextual information with tech styling" delay={0.4}>
+      <Section 
+        title={t("sections.techTooltips.title")} 
+        description={t("sections.techTooltips.description")} 
+        delay={0.4}
+      >
         <div className="space-y-6">
           <div className="flex flex-wrap items-center gap-6">
-            <TechTooltip content="Default tooltip style">
-              <Button variant="outline">Hover me</Button>
+            <TechTooltip content={t("sections.techTooltips.content.default")}>
+              <Button variant="outline">{t("sections.techTooltips.labels.hoverMe")}</Button>
             </TechTooltip>
 
-            <TechTooltip content="Info variant tooltip" variant="info">
-              <Button variant="outline">Info</Button>
+            <TechTooltip content={t("sections.techTooltips.content.info")} variant="info">
+              <Button variant="outline">{t("sections.techTooltips.labels.info")}</Button>
             </TechTooltip>
 
-            <TechTooltip content="Success! Everything is working" variant="success">
-              <Button variant="outline">Success</Button>
+            <TechTooltip content={t("sections.techTooltips.content.success")} variant="success">
+              <Button variant="outline">{t("sections.techTooltips.labels.success")}</Button>
             </TechTooltip>
 
-            <TechTooltip content="Warning: Check your configuration" variant="warning">
-              <Button variant="outline">Warning</Button>
+            <TechTooltip content={t("sections.techTooltips.content.warning")} variant="warning">
+              <Button variant="outline">{t("sections.techTooltips.labels.warning")}</Button>
             </TechTooltip>
 
-            <TechTooltip content="Error: Connection failed" variant="error">
-              <Button variant="outline">Error</Button>
+            <TechTooltip content={t("sections.techTooltips.content.error")} variant="error">
+              <Button variant="outline">{t("sections.techTooltips.labels.error")}</Button>
             </TechTooltip>
           </div>
 
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <span>Status:</span>
-              <TechInfoBadge content="This service is running normally" variant="success" />
+              <span>{t("sections.techTooltips.labels.status")}</span>
+              <TechInfoBadge content={t("sections.techTooltips.content.serviceStatus")} variant="success" />
             </div>
             <div className="flex items-center gap-2">
-              <TechLabel tooltip="This field is required for API access" required>
-                API Key
+              <TechLabel tooltip={t("sections.techTooltips.content.apiKeyTooltip")} required>
+                {t("sections.techTooltips.labels.apiKey")}
               </TechLabel>
             </div>
           </div>
@@ -504,15 +559,11 @@ export default function TechComponentsPage() {
 
           <div className="rounded-lg bg-muted p-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-medium text-muted-foreground">Usage</span>
-              <CopyButton code={`<TechTooltip content="Tooltip text" variant="info">
-  <Button>Hover me</Button>
-</TechTooltip>
-
-<TechInfoBadge content="Status message" variant="success" />`} />
+              <span className="text-xs font-medium text-muted-foreground">{t("usage")}</span>
+              <CopyButton code="<TechTooltip content='Info' variant='info' />" />
             </div>
             <code className="text-xs font-mono text-foreground/80 block whitespace-pre">
-              {`<TechTooltip content="Tooltip text" variant="info">
+              {`<TechTooltip content="..." variant="info">
   <Button>Hover me</Button>
 </TechTooltip>`}
             </code>
@@ -521,58 +572,60 @@ export default function TechComponentsPage() {
       </Section>
 
       {/* Tech Skeletons */}
-      <Section title="Tech Skeletons" description="Loading states with shimmer effects" delay={0.45}>
+      <Section 
+        title={t("sections.techSkeletons.title")} 
+        description={t("sections.techSkeletons.description")} 
+        delay={0.45}
+      >
         <div className="space-y-6">
           <div className="flex items-center gap-4 mb-6">
             <Button onClick={() => setShowSkeleton(!showSkeleton)}>
-              {showSkeleton ? "Hide" : "Show"} Skeletons
+              {showSkeleton ? t("sections.techSkeletons.hide") : t("sections.techSkeletons.show")}
             </Button>
           </div>
 
           {showSkeleton && (
             <div className="space-y-8">
               <div>
-                <h3 className="text-sm font-medium mb-4">Card Skeleton</h3>
+                <h3 className="text-sm font-medium mb-4">{t("sections.techSkeletons.types.card")}</h3>
                 <TechSkeleton variant="card" className="max-w-sm" />
               </div>
 
               <div>
-                <h3 className="text-sm font-medium mb-4">Avatar Skeleton</h3>
+                <h3 className="text-sm font-medium mb-4">{t("sections.techSkeletons.types.avatar")}</h3>
                 <TechSkeleton variant="avatar" />
               </div>
 
               <div>
-                <h3 className="text-sm font-medium mb-4">Text Skeleton</h3>
+                <h3 className="text-sm font-medium mb-4">{t("sections.techSkeletons.types.text")}</h3>
                 <TechSkeleton variant="text" className="max-w-md" />
               </div>
 
               <div>
-                <h3 className="text-sm font-medium mb-4">Table Skeleton</h3>
+                <h3 className="text-sm font-medium mb-4">{t("sections.techSkeletons.types.table")}</h3>
                 <TechSkeleton variant="table" />
               </div>
 
               <div>
-                <h3 className="text-sm font-medium mb-4">Code Skeleton</h3>
+                <h3 className="text-sm font-medium mb-4">{t("sections.techSkeletons.types.code")}</h3>
                 <TechCodeSkeleton lines={8} />
               </div>
 
               <div>
-                <h3 className="text-sm font-medium mb-4">Skeleton Grid</h3>
+                <h3 className="text-sm font-medium mb-4">{t("sections.techSkeletons.types.grid")}</h3>
                 <TechSkeletonGrid variant="card" count={4} columns={4} />
               </div>
             </div>
           )}
 
           {!showSkeleton && (
-            <p className="text-muted-foreground">Click &quot;Show Skeletons&quot; to see loading states</p>
+            <p className="text-muted-foreground">{t("sections.techSkeletons.prompt")}</p>
           )}
 
           <div className="rounded-lg bg-muted p-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-medium text-muted-foreground">Usage</span>
-              <CopyButton code={`<TechSkeleton variant="card" className="max-w-sm" />
-<TechCodeSkeleton lines={8} />
-<TechSkeletonGrid variant="card" count={4} columns={4} />`} />
+              <span className="text-xs font-medium text-muted-foreground">{t("usage")}</span>
+              <CopyButton code="<TechSkeleton variant='card' />" />
             </div>
             <code className="text-xs font-mono text-foreground/80 block whitespace-pre">
               {`<TechSkeleton variant="card" className="max-w-sm" />
@@ -583,34 +636,38 @@ export default function TechComponentsPage() {
       </Section>
 
       {/* Glow Card Examples */}
-      <Section title="Glow Card Variants" description="Cards with customizable glow effects" delay={0.5}>
+      <Section 
+        title={t("sections.glowCards.title")} 
+        description={t("sections.glowCards.description")} 
+        delay={0.5}
+      >
         <div className="grid gap-6 md:grid-cols-3">
           <GlowCard>
             <div className="flex items-center gap-3">
-              <Zap className="h-6 w-6 text-primary" />
+              <Zap className="h-6 w-6 text-primary" aria-hidden="true" />
               <div>
-                <h3 className="font-semibold">Medium Glow</h3>
-                <p className="text-sm text-muted-foreground">Default intensity</p>
+                <h3 className="font-semibold">{t("sections.glowCards.variants.medium.title")}</h3>
+                <p className="text-sm text-muted-foreground">{t("sections.glowCards.variants.medium.description")}</p>
               </div>
             </div>
           </GlowCard>
 
           <GlowCard glowIntensity="high" animated>
             <div className="flex items-center gap-3">
-              <Shield className="h-6 w-6 text-primary" />
+              <Shield className="h-6 w-6 text-primary" aria-hidden="true" />
               <div>
-                <h3 className="font-semibold">High Intensity</h3>
-                <p className="text-sm text-muted-foreground">With animation</p>
+                <h3 className="font-semibold">{t("sections.glowCards.variants.high.title")}</h3>
+                <p className="text-sm text-muted-foreground">{t("sections.glowCards.variants.high.description")}</p>
               </div>
             </div>
           </GlowCard>
 
           <GlowCard glowColor="rgba(34, 197, 94, 0.3)" glowIntensity="medium">
             <div className="flex items-center gap-3">
-              <Check className="h-6 w-6 text-green-500" />
+              <Check className="h-6 w-6 text-green-500" aria-hidden="true" />
               <div>
-                <h3 className="font-semibold">Custom Color</h3>
-                <p className="text-sm text-muted-foreground">Green glow</p>
+                <h3 className="font-semibold">{t("sections.glowCards.variants.custom.title")}</h3>
+                <p className="text-sm text-muted-foreground">{t("sections.glowCards.variants.custom.description")}</p>
               </div>
             </div>
           </GlowCard>
@@ -621,7 +678,7 @@ export default function TechComponentsPage() {
       <FadeIn delay={0.55}>
         <footer className="border-t border-border pt-8 text-center text-sm text-muted-foreground">
           <p>
-            Tech Noir Design System — Next.js 16, Tailwind CSS v4, shadcn/ui
+            {tDS("footer")}
           </p>
         </footer>
       </FadeIn>
