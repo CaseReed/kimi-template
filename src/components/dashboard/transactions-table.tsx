@@ -15,6 +15,7 @@ import {
   TechPagination,
   TechStatusBadge,
 } from "@/components/design-system";
+import { TransactionDetailModal } from "./transaction-detail-modal";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -26,7 +27,14 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
-import { RefreshCw, Download, Filter, Search } from "lucide-react";
+import { RefreshCw, Download, Filter, Search, X, Check, FileDown } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -111,6 +119,12 @@ export function TransactionsTable() {
   const [sortColumn, setSortColumn] = useState<string>("date");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [statusFilters, setStatusFilters] = useState<Transaction["status"][]>([]);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isExportOpen, setIsExportOpen] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   const [, startOptimisticUpdate] = useTransition();
   
   const queryClient = useQueryClient();
@@ -190,13 +204,105 @@ export function TransactionsTable() {
     tableRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, []);
 
-  // Filter transactions based on search
-  const filteredTransactions = searchQuery
-    ? optimisticTransactions.filter(t => 
-        t.customer.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        t.email.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : optimisticTransactions;
+  // Filter transactions based on search and status
+  const filteredTransactions = optimisticTransactions.filter(t => {
+    const matchesSearch = !searchQuery || 
+      t.customer.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      t.email.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    const matchesStatus = statusFilters.length === 0 || statusFilters.includes(t.status);
+    
+    return matchesSearch && matchesStatus;
+  });
+
+  // Export helper function
+  const downloadCSV = useCallback((transactions: Transaction[], filename: string) => {
+    if (transactions.length === 0) return;
+    
+    const headers = ["ID", "Customer", "Email", "Amount (EUR)", "Status", "Date"];
+    
+    const rows = transactions.map(t => [
+      t.id,
+      t.customer,
+      t.email,
+      t.amount.toFixed(2),
+      t.status,
+      new Date(t.date).toLocaleDateString(currentLocale === "fr" ? "fr-FR" : "en-US"),
+    ]);
+    
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(",")),
+    ].join("\n");
+    
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    
+    link.setAttribute("href", url);
+    link.setAttribute("download", filename);
+    link.style.visibility = "hidden";
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }, [currentLocale]);
+
+  // Export current page
+  const handleExportCurrent = useCallback(() => {
+    setIsExporting(true);
+    setIsExportOpen(false);
+    
+    downloadCSV(filteredTransactions, `transactions_page_${currentPage}_${new Date().toISOString().split("T")[0]}.csv`);
+    
+    setTimeout(() => setIsExporting(false), 1000);
+  }, [filteredTransactions, currentPage, downloadCSV]);
+
+  // Generate complete dataset for demo export
+  const generateAllTransactions = useCallback((): Transaction[] => {
+    const allTransactions: Transaction[] = [];
+    const statuses: Transaction["status"][] = ["completed", "pending", "failed"];
+    const firstNames = ["Marie", "Jean", "Pierre", "Sophie", "Lucas", "Emma", "Hugo", "Léa", "Louis", "Chloé", "Thomas", "Camille", "Nicolas", "Julie", "Alexandre", "Manon", "Théo", "Sarah", "Antoine", "Laura"];
+    const lastNames = ["Dupont", "Martin", "Bernard", "Petit", "Robert", "Richard", "Durand", "Leroy", "Moreau", "Simon", "Laurent", "Lefebvre", "Michel", "Garcia", "Roux", "Bonnet", "André", "François", "Mercier", "Lefevre"];
+    
+    // Generate 47 transactions (simulating all pages)
+    for (let i = 1; i <= 47; i++) {
+      const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+      const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+      const status = statuses[Math.floor(Math.random() * statuses.length)];
+      const amount = Math.floor(Math.random() * 500) + 50;
+      
+      // Generate dates spread over last 30 days
+      const date = new Date();
+      date.setDate(date.getDate() - Math.floor(Math.random() * 30));
+      
+      allTransactions.push({
+        id: String(i),
+        customer: `${firstName} ${lastName}`,
+        email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@email.com`,
+        amount,
+        status,
+        date: date.toISOString(),
+        avatar: undefined,
+      });
+    }
+    
+    return allTransactions;
+  }, []);
+
+  // Export all transactions
+  const handleExportAll = useCallback(() => {
+    setIsExporting(true);
+    setIsExportOpen(false);
+    
+    // For demo: generate complete dataset
+    // In a real app, this would fetch all transactions from the API
+    const allTransactions = generateAllTransactions();
+    
+    downloadCSV(allTransactions, `transactions_all_${new Date().toISOString().split("T")[0]}.csv`);
+    
+    setTimeout(() => setIsExporting(false), 1000);
+  }, [generateAllTransactions, downloadCSV]);
 
   const totalPages = data?.totalPages ?? 1;
 
@@ -269,14 +375,128 @@ export function TransactionsTable() {
               <CardDescription>{t("description")}</CardDescription>
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm">
-                <Filter className="h-4 w-4 mr-1.5" />
-                Filter
-              </Button>
-              <Button variant="outline" size="sm">
-                <Download className="h-4 w-4 mr-1.5" />
-                Export
-              </Button>
+              <Popover open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" size="sm" className="relative">
+                    <Filter className="h-4 w-4 mr-1.5" />
+                    Filter
+                    {statusFilters.length > 0 && (
+                      <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-primary text-[10px] font-medium text-primary-foreground flex items-center justify-center">
+                        {statusFilters.length}
+                      </span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-56 p-4" align="end">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-semibold text-sm">Filter by Status</h4>
+                      {statusFilters.length > 0 && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-auto py-1 px-2 text-xs"
+                          onClick={() => setStatusFilters([])}
+                        >
+                          <X className="h-3 w-3 mr-1" />
+                          Clear
+                        </Button>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      {[
+                        { value: "completed", label: "Completed", color: "text-green-500" },
+                        { value: "pending", label: "Pending", color: "text-amber-500" },
+                        { value: "failed", label: "Failed", color: "text-red-500" },
+                      ].map((status) => (
+                        <div key={status.value} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`filter-${status.value}`}
+                            checked={statusFilters.includes(status.value as Transaction["status"])}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setStatusFilters([...statusFilters, status.value as Transaction["status"]]);
+                              } else {
+                                setStatusFilters(statusFilters.filter(s => s !== status.value));
+                              }
+                            }}
+                          />
+                          <Label
+                            htmlFor={`filter-${status.value}`}
+                            className="flex items-center gap-2 text-sm cursor-pointer"
+                          >
+                            <span className={`w-2 h-2 rounded-full ${status.color.replace("text-", "bg-")}`} />
+                            {status.label}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="pt-2 border-t border-border">
+                      <Button
+                        size="sm"
+                        className="w-full"
+                        onClick={() => setIsFilterOpen(false)}
+                      >
+                        <Check className="h-3.5 w-3.5 mr-1.5" />
+                        Apply Filters
+                      </Button>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+              <Popover open={isExportOpen} onOpenChange={setIsExportOpen}>
+                <PopoverTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    disabled={isExporting || filteredTransactions.length === 0}
+                  >
+                    {isExporting ? (
+                      <RefreshCw className="h-4 w-4 mr-1.5 animate-spin" />
+                    ) : (
+                      <FileDown className="h-4 w-4 mr-1.5" />
+                    )}
+                    Export
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-56 p-3" align="end">
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-sm text-foreground mb-3">Export Options</h4>
+                    
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full justify-start text-left"
+                      onClick={handleExportCurrent}
+                      disabled={isExporting}
+                    >
+                      <FileDown className="h-4 w-4 mr-2 text-muted-foreground" />
+                      <div className="flex flex-col items-start">
+                        <span className="text-sm">Current Page</span>
+                        <span className="text-xs text-muted-foreground">
+                          {filteredTransactions.length} transactions
+                        </span>
+                      </div>
+                    </Button>
+                    
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full justify-start text-left"
+                      onClick={handleExportAll}
+                      disabled={isExporting}
+                    >
+                      <FileDown className="h-4 w-4 mr-2 text-primary" />
+                      <div className="flex flex-col items-start">
+                        <span className="text-sm font-medium">Export All</span>
+                        <span className="text-xs text-muted-foreground">
+                          All 47+ transactions
+                        </span>
+                      </div>
+                    </Button>
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
         </CardHeader>
@@ -328,7 +548,10 @@ export function TransactionsTable() {
                     },
                     {
                       label: t("buttonLabels.view") || "View Details",
-                      onClick: (row) => console.log("View:", row.id),
+                      onClick: (row) => {
+                        setSelectedTransaction(row);
+                        setIsModalOpen(true);
+                      },
                     },
                   ]}
                 />
@@ -346,6 +569,17 @@ export function TransactionsTable() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Transaction Detail Modal */}
+      <TransactionDetailModal
+        transaction={selectedTransaction}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedTransaction(null);
+        }}
+        locale={currentLocale}
+      />
     </FadeIn>
   );
 }
