@@ -101,7 +101,7 @@ interface StatCardProps {
 }
 
 function StatCard({ config, data, vsLastMonth }: StatCardProps) {
-  const t = useTranslations("dashboard.stats");
+  const t = useTranslations("dashboard");
   const value = data[config.key];
   const change = data[config.changeKey];
   const isPositive = typeof change === 'number' && change >= 0;
@@ -114,7 +114,7 @@ function StatCard({ config, data, vsLastMonth }: StatCardProps) {
     <Card className="group border-border bg-card hover:border-primary/30 transition-colors duration-300">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
         <CardTitle className="text-sm font-medium text-muted-foreground">
-          {config.translationKey}
+          {t(config.translationKey)}
         </CardTitle>
         <div className={`
           rounded-md p-2 transition-all duration-300
@@ -174,11 +174,13 @@ export function StatsGrid() {
     staleTime: 60 * 1000,
   });
 
+  // Static config with translation keys (not translated values)
+  // Translation happens inside StatCard component
   const statCardsConfig: StatCardConfig[] = [
     {
       key: "revenue",
       changeKey: "revenueChange",
-      translationKey: t("stats.revenue"),
+      translationKey: "stats.revenue",
       icon: DollarSign,
       prefix: "€",
       decimals: true,
@@ -186,13 +188,13 @@ export function StatsGrid() {
     {
       key: "users",
       changeKey: "usersChange",
-      translationKey: t("stats.users"),
+      translationKey: "stats.users",
       icon: Users,
     },
     {
       key: "conversion",
       changeKey: "conversionChange",
-      translationKey: t("stats.conversion"),
+      translationKey: "stats.conversion",
       icon: MousePointerClick,
       suffix: "%",
       decimals: true,
@@ -200,7 +202,7 @@ export function StatsGrid() {
     {
       key: "activeSessions",
       changeKey: "sessionsChange",
-      translationKey: t("stats.sessions"),
+      translationKey: "stats.sessions",
       icon: Activity,
     },
   ];
@@ -221,7 +223,7 @@ export function StatsGrid() {
         {statCardsConfig.map((config) => (
           <StatCardError
             key={String(config.key)}
-            title={config.translationKey}
+            title={t(config.translationKey)}
             icon={config.icon}
             onRetry={() => refetch()}
             retryLabel={t("stats.retry")}
