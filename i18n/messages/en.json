@@ -117,7 +117,16 @@
     "social": {
       "github": "GitHub",
       "google": "Google",
-      "divider": "Or continue with"
+      "divider": "Or continue with",
+      "note": "Note: Google OAuth requires app publication. Use email login below for testing."
+    },
+    "testCredentials": {
+      "title": "Test Account",
+      "description": "Use these credentials to explore the template:",
+      "email": "Email",
+      "password": "Password",
+      "copy": "Copy",
+      "copied": "Copied!"
     },
     "errors": {
       "generic": "An unexpected error occurred",

@@ -75,15 +75,15 @@ export const auth = betterAuth({
     },
   },
 
-  // Rate limiting
+  // Rate limiting (relaxed for development)
   rateLimit: {
     enabled: true,
     window: 60, // 1 minute window
-    max: 5,     // 5 requests per window
+    max: 100,   // 100 requests per window (dev mode)
     customRules: {
       "/sign-in/email": {
-        window: 300, // 5 minutes
-        max: 3,      // 3 attempts max
+        window: 60,  // 1 minute
+        max: 20,     // 20 attempts (dev mode)
       },
     },
   },

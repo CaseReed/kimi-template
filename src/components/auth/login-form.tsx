@@ -16,11 +16,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Github, Chrome, Loader2, ArrowLeft } from "lucide-react";
+import { Github, Chrome, Loader2, ArrowLeft, Copy, Check, User } from "lucide-react";
 import Link from "next/link";
 import { FadeIn } from "@/components/animations/fade-in";
 import { AnimatedLogo } from "@/components/animations";
 import { GradientText } from "@/components/animations";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 // Validation schema
 const loginSchema = z.object({
@@ -32,12 +33,17 @@ interface LoginFormProps {
   locale: string;
 }
 
+// Test credentials - Must match scripts/seed-admin.ts defaults
+const TEST_EMAIL = "admin@example.com";
+const TEST_PASSWORD = "admin123456";
+
 export function LoginForm({ locale }: LoginFormProps) {
   const t = useTranslations("auth");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(TEST_EMAIL);
+  const [password, setPassword] = useState(TEST_PASSWORD);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,6 +87,21 @@ export function LoginForm({ locale }: LoginFormProps) {
       setError(t("errors.failedSocial", { provider }));
       setIsLoading(false);
     }
+  };
+
+  const handleCopy = async (text: string, field: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedField(field);
+      setTimeout(() => setCopiedField(null), 2000);
+    } catch {
+      // Fallback: silently fail
+    }
+  };
+
+  const handleFillCredentials = () => {
+    setEmail(TEST_EMAIL);
+    setPassword(TEST_PASSWORD);
   };
 
   const errorId = "login-form-error";
@@ -138,6 +159,62 @@ export function LoginForm({ locale }: LoginFormProps) {
             </span>
           </div>
         </div>
+
+        {/* Test Credentials Alert */}
+        <Alert className="border-amber-200 bg-amber-50 dark:border-amber-900 dark:bg-amber-950/30">
+          <User className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+          <AlertTitle className="text-amber-800 dark:text-amber-200">
+            {t("testCredentials.title")}
+          </AlertTitle>
+          <AlertDescription className="text-amber-700 dark:text-amber-300/80">
+            <p className="mb-2">{t("testCredentials.description")}</p>
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between gap-2 rounded bg-amber-100/50 dark:bg-amber-900/20 px-2 py-1">
+                <code className="text-xs font-mono">{TEST_EMAIL}</code>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleCopy(TEST_EMAIL, "email")}
+                  className="h-6 px-2 text-xs text-amber-700 hover:text-amber-900 hover:bg-amber-200/50 dark:text-amber-300 dark:hover:text-amber-100 dark:hover:bg-amber-800/50"
+                >
+                  {copiedField === "email" ? (
+                    <Check className="h-3 w-3 mr-1" />
+                  ) : (
+                    <Copy className="h-3 w-3 mr-1" />
+                  )}
+                  {copiedField === "email" ? t("testCredentials.copied") : t("testCredentials.copy")}
+                </Button>
+              </div>
+              <div className="flex items-center justify-between gap-2 rounded bg-amber-100/50 dark:bg-amber-900/20 px-2 py-1">
+                <code className="text-xs font-mono">{TEST_PASSWORD}</code>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleCopy(TEST_PASSWORD, "password")}
+                  className="h-6 px-2 text-xs text-amber-700 hover:text-amber-900 hover:bg-amber-200/50 dark:text-amber-300 dark:hover:text-amber-100 dark:hover:bg-amber-800/50"
+                >
+                  {copiedField === "password" ? (
+                    <Check className="h-3 w-3 mr-1" />
+                  ) : (
+                    <Copy className="h-3 w-3 mr-1" />
+                  )}
+                  {copiedField === "password" ? t("testCredentials.copied") : t("testCredentials.copy")}
+                </Button>
+              </div>
+            </div>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleFillCredentials}
+              className="mt-3 w-full text-xs border-amber-300 bg-amber-100/50 hover:bg-amber-200/50 dark:border-amber-800 dark:bg-amber-900/20 dark:hover:bg-amber-800/30"
+            >
+              {t("login.submit")}
+            </Button>
+          </AlertDescription>
+        </Alert>
 
         {/* Email/Password Form */}
         <form 

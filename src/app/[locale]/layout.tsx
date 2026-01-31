@@ -34,7 +34,7 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  // Ensure that the incoming `locale` is valid
+  // Ensure that the incoming `locale" is valid
   const { locale } = await params;
   if (!routing.locales.includes(locale as "en" | "fr")) {
     notFound();
@@ -71,7 +71,7 @@ export default async function LocaleLayout({
             </QueryProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
-        <Analytics />
+        {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
     </html>
   );

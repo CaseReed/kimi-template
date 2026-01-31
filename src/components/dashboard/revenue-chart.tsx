@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useLocale, useTranslations } from "next-intl";
 import {
@@ -32,6 +32,12 @@ import { queryKeys } from "@/lib/query-keys";
 export function RevenueChart() {
   const t = useTranslations("dashboard.charts.revenue");
   const locale = useLocale();
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  
   const { data, isLoading, error } = useQuery({
     queryKey: queryKeys.dashboard.revenue(),
     queryFn: fetchRevenue,
@@ -119,8 +125,8 @@ export function RevenueChart() {
               <CardDescription>{t("description")}</CardDescription>
             </div>
             
-            {/* Trend indicator */}
-            {hasData && (
+            {/* Trend indicator - only render after client hydration to avoid mismatch */}
+            {mounted && hasData && (
               <div className={`
                 flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium
                 ${isPositiveTrend 
