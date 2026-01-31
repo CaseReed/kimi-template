@@ -30,7 +30,7 @@ export function CardHover({ children, className = "", style }: CardHoverProps) {
         stiffness: 300,
         damping: 20,
       }}
-      className={`h-full rounded-xl overflow-hidden transition-shadow duration-300 hover:shadow-xl ${className}`}
+      className={`h-full rounded-lg transition-shadow duration-300 hover:shadow-xl ${className}`}
       style={style}
     >
       {children}
